@@ -268,7 +268,7 @@ CourseBuddy/
 
 **1. Clone the repository**
 ```bash
-git clone https://github.com/your-username/CourseBuddy.git
+git clone https://github.com/rashedutm/CourseBuddy.git
 cd CourseBuddy
 ```
 
