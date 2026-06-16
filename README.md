@@ -327,7 +327,7 @@ Backend runs at `http://localhost:3000`
 
 | Branch | Owner | Purpose |
 |---|---|---|
-| `main` | All | Stable final version — merged by Rashed only |
+| `main` | Rashed | Stable final version — merged by Rashed only |
 | `rashed` | Rashed | Pattern Generation & Clash Detection Subsystem |
 | `tarin` | Tarin | User Management Subsystem |
 | `yousra` | Yousra | Handbook & Timetable Management Subsystem |
