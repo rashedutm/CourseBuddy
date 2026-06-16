@@ -337,7 +337,7 @@ Backend runs at `http://localhost:3000`
 
 ```bash
 # Step 1 — Clone the repo (first time only)
-git clone https://github.com/your-username/CourseBuddy.git
+git clone https://github.com/rashedutm/CourseBuddy.git
 cd CourseBuddy
 
 # Step 2 — Switch to your own branch
