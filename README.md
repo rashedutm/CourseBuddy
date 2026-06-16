@@ -313,22 +313,41 @@ Backend runs at `http://localhost:3000`
 
 ## 🤝 GitHub Collaboration Rules
 
-1. Never touch another teammate's folder without agreement
-2. Always pull before starting work each day — `git pull origin main`
-3. Tarin manages `App.jsx` — inform Tarin of your route paths
+1. Always work on your own branch only — never push directly to `main`
+2. Always pull before starting work each day — `git pull origin your-branch-name`
+3. Never touch another teammate's folder without agreement
 4. Never push the `.env` file — it is in `.gitignore`
 5. Each person writes their own database tables in `schema.sql` and informs the team before merging
 6. Use clear commit messages — example: `feat: add UC005 generate patterns page`
+7. Inform Rashed when your branch is ready to be merged into `main`
 
 ---
 
 ## 📌 Branch Strategy
 
-| Branch | Purpose |
-|---|---|
-| `main` | Stable working version only |
-| `dev` | Integration branch — merge here first |
-| `feat/tarin-auth` | Tarin's feature branch |
-| `feat/yousra-admin` | Yousra's feature branch |
-| `feat/rashed-patterns` | Rashed's feature branch |
-| `feat/shahtaj-registration` | Shahtaj's feature branch |
+| Branch | Owner | Purpose |
+|---|---|---|
+| `main` | All | Stable final version — merged by Rashed only |
+| `rashed` | Rashed | Pattern Generation & Clash Detection Subsystem |
+| `tarin` | Tarin | User Management Subsystem |
+| `yousra` | Yousra | Handbook & Timetable Management Subsystem |
+| `zimly` | Zimly | Student Registration Subsystem |
+
+**How to work with your branch:**
+
+```bash
+# Step 1 — Clone the repo (first time only)
+git clone https://github.com/your-username/CourseBuddy.git
+cd CourseBuddy
+
+# Step 2 — Switch to your own branch
+git checkout your-branch-name
+
+# Step 3 — Pull latest changes before starting work
+git pull origin your-branch-name
+
+# Step 4 — After finishing your work, push to your branch
+git add .
+git commit -m "your commit message here"
+git push origin your-branch-name
+```
