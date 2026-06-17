@@ -1,4 +1,4 @@
-# CourseBuddy (CB)
+# CourseBuddy
 
 CourseBuddy is a web-based course registration assistant system developed for Universiti Teknologi Malaysia (UTM). The system helps students automatically generate clash-free course section patterns based on their selected courses, intake, and semester. Faculty administrators can manage handbook and timetable data digitally through structured Excel file uploads.
 
