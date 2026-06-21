@@ -2,8 +2,58 @@ const express = require('express')
 const router = express.Router()
 const courseController = require('../controllers/courseController')
 
-router.get('/intakes', courseController.getIntakes)
+// ============================================
+// UC001 — Course Selection Routes
+// ============================================
+router.get('/sessions', courseController.getAcademicSessions)
+router.get('/intakes', courseController.getIntakesBySession)
 router.get('/semesters', courseController.getSemesters)
 router.get('/handbook', courseController.checkHandbook)
+
+// ============================================
+// UC002 — Available Courses Routes
+// ============================================
+router.get('/courses/available', courseController.getAvailableCourses)
+router.get('/courses/free-electives', courseController.getAvailableFreeElectives)
+
+// ============================================
+// UC003 — Prerequisite Route
+// ============================================
+router.get('/courses/prerequisites', courseController.getPrerequisiteInfo)
+
+// ============================================
+// UC004 — Course Selection Route
+// ============================================
+router.post('/courses/select', courseController.saveSelectedCourses)
+
+// ============================================
+// UC005 — Pattern Generation Route
+// ============================================
+router.post('/patterns/generate', courseController.generatePatterns)
+
+// ============================================
+// UC007 — Pattern Selection Route
+// ============================================
+router.post('/patterns/select', courseController.saveSelectedPattern)
+
+// ============================================
+// UC009 — Lecturer Routes
+// ============================================
+router.get('/lecturers', courseController.getLecturersForCourses)
+
+// ============================================
+// UC010 — Filtered Patterns Route
+// ============================================
+router.post('/preferences/filter', courseController.getFilteredPatterns)
+
+// ============================================
+// UC012 — Reset Preferences Route
+// ============================================
+router.post('/preferences/reset', courseController.resetLecturerPreferences)
+
+// ============================================
+// Helper — Student Info Route
+// ============================================
+router.get('/student/info', courseController.getStudentInfo)
 
 module.exports = router
