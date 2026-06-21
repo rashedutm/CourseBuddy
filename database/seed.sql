@@ -361,6 +361,209 @@ INSERT INTO lecturer (lecturerID, lecturerName, email, facultyID) VALUES
 ('LEC-007', 'Dr. Johana', 'Johana@utm.my', 'FC');
 
 -- ============================================
+-- INTAKE
+-- 2024/2025 - 2 (March intake)
+-- ============================================
+
+INSERT INTO intake (intakeID, intakeName, intakeMonth, academicSession, intakeNumber, intakeYear) VALUES
+('IN-2024-2', 'March 2025', 'March', '2024/2025', 2, 2025);
+
+-- ============================================
+-- SEMESTER
+-- 8 semesters for March 2025 intake
+-- ============================================
+
+INSERT INTO semester (semesterID, intakeID, semesterNumber, semesterName) VALUES
+('SEM-2024-2-1', 'IN-2024-2', 1, 'Year 1 Semester 1'),
+('SEM-2024-2-2', 'IN-2024-2', 2, 'Year 1 Semester 2'),
+('SEM-2024-2-3', 'IN-2024-2', 3, 'Year 2 Semester 1'),
+('SEM-2024-2-4', 'IN-2024-2', 4, 'Year 2 Semester 2'),
+('SEM-2024-2-5', 'IN-2024-2', 5, 'Year 3 Semester 1'),
+('SEM-2024-2-6', 'IN-2024-2', 6, 'Year 3 Semester 2'),
+('SEM-2024-2-7', 'IN-2024-2', 7, 'Year 4 Semester 1'),
+('SEM-2024-2-8', 'IN-2024-2', 8, 'Year 4 Semester 2');
+
+-- ============================================
+-- NEW COURSES FOR MARCH INTAKE
+-- Only courses not already in the course table
+-- Most courses are shared with October intake
+-- New ones specific to March intake structure
+-- ============================================
+
+INSERT INTO course (courseCode, courseName, creditHours, ownerFacultyID, hasPrerequisite) VALUES
+('SECB2103', 'Bioinformatics I', 3, 'FC', FALSE),
+('SECP2753', 'Data Mining', 3, 'FC', FALSE),
+('SECP3213', 'Business Intelligence', 3, 'FC', FALSE),
+('SECB3203', 'Programming for Bioinformatics', 3, 'FC', FALSE);
+
+-- ============================================
+-- NEW PREREQUISITES FOR MARCH INTAKE
+-- Only new ones not already in prerequisite table
+-- ============================================
+
+INSERT INTO prerequisite (prerequisiteID, courseCode, prerequisiteCourseCode, isMandatory) VALUES
+('PR021', 'SCSR1033', 'SCSR1013', TRUE),
+('PR022', 'SCSE4214', 'SCSE3242', TRUE);
+
+-- ============================================
+-- HANDBOOK SLOTS — MARCH INTAKE
+-- SCSEH 2024/2025 - 2 (March)
+-- Note: Same programme but different structure
+-- compared to October intake
+-- ============================================
+
+-- SEMESTER 1 SLOTS (March)
+INSERT INTO handbook_slot (slotID, programmeID, intakeID, semesterNumber, slotType, slotLabel, pickCount, codePattern) VALUES
+('HS-M-1-1', 'SCSEH', 'IN-2024-2', 1, 'fixed', 'Fundamental Programming Concept', 1, NULL),
+('HS-M-1-2', 'SCSEH', 'IN-2024-2', 1, 'fixed', 'Probability and Statistical Data Analysis', 1, NULL),
+('HS-M-1-3', 'SCSEH', 'IN-2024-2', 1, 'fixed', 'Digital Logic', 1, NULL),
+('HS-M-1-4', 'SCSEH', 'IN-2024-2', 1, 'fixed', 'Network Communications', 1, NULL),
+('HS-M-1-5', 'SCSEH', 'IN-2024-2', 1, 'fixed', 'Software Engineering Principles', 1, NULL),
+('HS-M-1-6', 'SCSEH', 'IN-2024-2', 1, 'fixed', 'Malaysia Language for Communication 2', 1, NULL);
+
+-- SEMESTER 2 SLOTS (March)
+INSERT INTO handbook_slot (slotID, programmeID, intakeID, semesterNumber, slotType, slotLabel, pickCount, codePattern) VALUES
+('HS-M-2-1', 'SCSEH', 'IN-2024-2', 2, 'fixed', 'Computer Organisation and Architecture', 1, NULL),
+('HS-M-2-2', 'SCSEH', 'IN-2024-2', 2, 'fixed', 'Mathematics for Software Engineer', 1, NULL),
+('HS-M-2-3', 'SCSEH', 'IN-2024-2', 2, 'fixed', 'Advanced Programming', 1, NULL),
+('HS-M-2-4', 'SCSEH', 'IN-2024-2', 2, 'fixed', 'Database Engineering', 1, NULL),
+('HS-M-2-5', 'SCSEH', 'IN-2024-2', 2, 'fixed', 'Integrity and Anti-Corruption', 1, NULL),
+('HS-M-2-6', 'SCSEH', 'IN-2024-2', 2, 'free_elective', 'Free Elective I', 1, 'Sxxxxxx3');
+
+-- SEMESTER 3 SLOTS (March)
+INSERT INTO handbook_slot (slotID, programmeID, intakeID, semesterNumber, slotType, slotLabel, pickCount, codePattern) VALUES
+('HS-M-3-1', 'SCSEH', 'IN-2024-2', 3, 'fixed', 'Cross-Platform Application Development', 1, NULL),
+('HS-M-3-2', 'SCSEH', 'IN-2024-2', 3, 'fixed', 'Software Design and Architecture', 1, NULL),
+('HS-M-3-3', 'SCSEH', 'IN-2024-2', 3, 'fixed', 'Professional Communication Skills 1', 1, NULL),
+('HS-M-3-4', 'SCSEH', 'IN-2024-2', 3, 'fixed', 'Philosophy and Current Issues', 1, NULL),
+('HS-M-3-5', 'SCSEH', 'IN-2024-2', 3, 'free_elective', 'Service Learning and Community Engagement', 1, 'ULRF2xx2'),
+('HS-M-3-6', 'SCSEH', 'IN-2024-2', 3, 'elective_group', 'Choose 1 from Elective Group', 1, NULL);
+
+-- SEMESTER 4 SLOTS (March)
+INSERT INTO handbook_slot (slotID, programmeID, intakeID, semesterNumber, slotType, slotLabel, pickCount, codePattern) VALUES
+('HS-M-4-1', 'SCSEH', 'IN-2024-2', 4, 'fixed', 'Software Process and Project Management', 1, NULL),
+('HS-M-4-2', 'SCSEH', 'IN-2024-2', 4, 'fixed', 'Software Requirements Engineering', 1, NULL),
+('HS-M-4-3', 'SCSEH', 'IN-2024-2', 4, 'fixed', 'Application Development Project I', 1, NULL),
+('HS-M-4-4', 'SCSEH', 'IN-2024-2', 4, 'fixed', 'Data Structure and Algorithm', 1, NULL),
+('HS-M-4-5', 'SCSEH', 'IN-2024-2', 4, 'fixed', 'Operating System', 1, NULL),
+('HS-M-4-6', 'SCSEH', 'IN-2024-2', 4, 'fixed', 'Human Computer Interaction', 1, NULL);
+
+-- SEMESTER 5 SLOTS (March)
+INSERT INTO handbook_slot (slotID, programmeID, intakeID, semesterNumber, slotType, slotLabel, pickCount, codePattern) VALUES
+('HS-M-5-1', 'SCSEH', 'IN-2024-2', 5, 'fixed', 'Secure Software Programming', 1, NULL),
+('HS-M-5-2', 'SCSEH', 'IN-2024-2', 5, 'fixed', 'Software Quality and Testing', 1, NULL),
+('HS-M-5-3', 'SCSEH', 'IN-2024-2', 5, 'fixed', 'Professional Practice in Software Engineering', 1, NULL),
+('HS-M-5-4', 'SCSEH', 'IN-2024-2', 5, 'fixed', 'Professional Communication Skills', 1, NULL),
+('HS-M-5-5', 'SCSEH', 'IN-2024-2', 5, 'fixed', 'Entrepreneurship and Innovation', 1, NULL),
+('HS-M-5-6', 'SCSEH', 'IN-2024-2', 5, 'elective_group', 'Foreign Language Elective', 1, NULL);
+
+-- SEMESTER 6 SLOTS (March)
+INSERT INTO handbook_slot (slotID, programmeID, intakeID, semesterNumber, slotType, slotLabel, pickCount, codePattern) VALUES
+('HS-M-6-1', 'SCSEH', 'IN-2024-2', 6, 'fixed', 'Application Development Project II', 1, NULL),
+('HS-M-6-2', 'SCSEH', 'IN-2024-2', 6, 'fixed', 'Software Engineering Project I', 1, NULL),
+('HS-M-6-3', 'SCSEH', 'IN-2024-2', 6, 'free_elective', 'Free Elective II', 1, 'Sxxxxxx3'),
+('HS-M-6-4', 'SCSEH', 'IN-2024-2', 6, 'elective_group', 'Choose 3 from Core Elective Group', 3, NULL);
+
+-- SEMESTER 7 SLOTS (March)
+INSERT INTO handbook_slot (slotID, programmeID, intakeID, semesterNumber, slotType, slotLabel, pickCount, codePattern) VALUES
+('HS-M-7-1', 'SCSEH', 'IN-2024-2', 7, 'fixed', 'Software Engineering Project II', 1, NULL),
+('HS-M-7-2', 'SCSEH', 'IN-2024-2', 7, 'free_elective', 'Free Elective III', 1, 'Sxxxxxx3'),
+('HS-M-7-3', 'SCSEH', 'IN-2024-2', 7, 'free_elective', 'Free Elective IV', 1, 'Sxxxxxx3'),
+('HS-M-7-4', 'SCSEH', 'IN-2024-2', 7, 'elective_group', 'Choose 2 from Final Elective Group', 2, NULL);
+
+-- SEMESTER 8 SLOTS (March)
+INSERT INTO handbook_slot (slotID, programmeID, intakeID, semesterNumber, slotType, slotLabel, pickCount, codePattern) VALUES
+('HS-M-8-1', 'SCSEH', 'IN-2024-2', 8, 'fixed', 'Industrial Training', 1, NULL),
+('HS-M-8-2', 'SCSEH', 'IN-2024-2', 8, 'fixed', 'Industrial Training Report', 1, NULL);
+
+-- ============================================
+-- HANDBOOK SLOT COURSES — MARCH INTAKE
+-- ============================================
+
+-- Semester 1 fixed courses (March)
+INSERT INTO handbook_slot_course (slotCourseID, slotID, courseCode) VALUES
+('HSC-M-1-1', 'HS-M-1-1', 'SCSE1013'),
+('HSC-M-1-2', 'HS-M-1-2', 'SCST1223'),
+('HSC-M-1-3', 'HS-M-1-3', 'SCSR1013'),
+('HSC-M-1-4', 'HS-M-1-4', 'SCSR2213'),
+('HSC-M-1-5', 'HS-M-1-5', 'SCSE1203'),
+('HSC-M-1-6', 'HS-M-1-6', 'UHLM1012');
+
+-- Semester 2 fixed courses (March)
+INSERT INTO handbook_slot_course (slotCourseID, slotID, courseCode) VALUES
+('HSC-M-2-1', 'HS-M-2-1', 'SCSR1033'),
+('HSC-M-2-2', 'HS-M-2-2', 'SCST1123'),
+('HSC-M-2-3', 'HS-M-2-3', 'SCSE1224'),
+('HSC-M-2-4', 'HS-M-2-4', 'SCST1143'),
+('HSC-M-2-5', 'HS-M-2-5', 'ULRS1032');
+
+-- Semester 3 fixed courses (March)
+INSERT INTO handbook_slot_course (slotCourseID, slotID, courseCode) VALUES
+('HSC-M-3-1', 'HS-M-3-1', 'SCSM2223'),
+('HSC-M-3-2', 'HS-M-3-2', 'SCSE2233'),
+('HSC-M-3-3', 'HS-M-3-3', 'UHLB2122'),
+('HSC-M-3-4', 'HS-M-3-4', 'ULRS1022');
+
+-- Semester 3 elective group (March - choose 1 from 3)
+INSERT INTO handbook_slot_course (slotCourseID, slotID, courseCode) VALUES
+('HSC-M-3-5', 'HS-M-3-6', 'SECB2103'),
+('HSC-M-3-6', 'HS-M-3-6', 'SECP2753'),
+('HSC-M-3-7', 'HS-M-3-6', 'SECP3213');
+
+-- Semester 4 fixed courses (March)
+INSERT INTO handbook_slot_course (slotCourseID, slotID, courseCode) VALUES
+('HSC-M-4-1', 'HS-M-4-1', 'SCSE2133'),
+('HSC-M-4-2', 'HS-M-4-2', 'SCSE2123'),
+('HSC-M-4-3', 'HS-M-4-3', 'SCSE2243'),
+('HSC-M-4-4', 'HS-M-4-4', 'SCSE2103'),
+('HSC-M-4-5', 'HS-M-4-5', 'SCSR2043'),
+('HSC-M-4-6', 'HS-M-4-6', 'SCSM2113');
+
+-- Semester 5 fixed courses (March)
+INSERT INTO handbook_slot_course (slotCourseID, slotID, courseCode) VALUES
+('HSC-M-5-1', 'HS-M-5-1', 'SCSR3133'),
+('HSC-M-5-2', 'HS-M-5-2', 'SCSE3213'),
+('HSC-M-5-3', 'HS-M-5-3', 'SCSE3233'),
+('HSC-M-5-4', 'HS-M-5-4', 'UHLB3132'),
+('HSC-M-5-5', 'HS-M-5-5', 'ULRS3032');
+
+-- Semester 5 foreign language elective (March)
+INSERT INTO handbook_slot_course (slotCourseID, slotID, courseCode) VALUES
+('HSC-M-5-6', 'HS-M-5-6', 'UHLA1122'),
+('HSC-M-5-7', 'HS-M-5-6', 'UHLM1122'),
+('HSC-M-5-8', 'HS-M-5-6', 'UHLF1122'),
+('HSC-M-5-9', 'HS-M-5-6', 'UHLJ1122');
+
+-- Semester 6 fixed courses (March)
+INSERT INTO handbook_slot_course (slotCourseID, slotID, courseCode) VALUES
+('HSC-M-6-1', 'HS-M-6-1', 'SCSE3223'),
+('HSC-M-6-2', 'HS-M-6-2', 'SCSE3242');
+
+-- Semester 6 core elective group (March - choose 3 from 6)
+INSERT INTO handbook_slot_course (slotCourseID, slotID, courseCode) VALUES
+('HSC-M-6-3', 'HS-M-6-4', 'SCST3223'),
+('HSC-M-6-4', 'HS-M-6-4', 'SCSE3143'),
+('HSC-M-6-5', 'HS-M-6-4', 'SCSR3113'),
+('HSC-M-6-6', 'HS-M-6-4', 'SCSE3103'),
+('HSC-M-6-7', 'HS-M-6-4', 'SCSE3203'),
+('HSC-M-6-8', 'HS-M-6-4', 'SCSM3113');
+
+-- Semester 7 fixed course (March)
+INSERT INTO handbook_slot_course (slotCourseID, slotID, courseCode) VALUES
+('HSC-M-7-1', 'HS-M-7-1', 'SCSE4214');
+
+-- Semester 7 elective group (March - choose 2 from 6)
+INSERT INTO handbook_slot_course (slotCourseID, slotID, courseCode) VALUES
+('HSC-M-7-2', 'HS-M-7-4', 'SCSR4453'),
+('HSC-M-7-3', 'HS-M-7-4', 'SCSR4973'),
+('HSC-M-7-4', 'HS-M-7-4', 'SECB3133'),
+('HSC-M-7-5', 'HS-M-7-4', 'SECB3203');
+
+-- Semester 8 fixed courses (March)
+INSERT INTO handbook_slot_course (slotCourseID, slotID, courseCode) VALUES
+('HSC-M-8-1', 'HS-M-8-1', 'SCSE4108'),
+('HSC-M-8-2', 'HS-M-8-2', 'SCSE4114');
+-- ============================================
 -- SECTIONS (TIMETABLE)
 -- Sample timetable for Semester 1
 -- Academic Year: 2024/2025-1
