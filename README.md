@@ -186,7 +186,7 @@ CourseBuddy/
       <a href="frontend/src/pages/courses/GeneratePatterns.jsx">GeneratePatterns.jsx</a><br>
       <a href="frontend/src/pages/courses/ViewPatterns.jsx">ViewPatterns.jsx</a><br>
       <a href="frontend/src/pages/courses/SelectPattern.jsx">SelectPattern.jsx</a><br>
-      <a href="frontend/src/pages/courses/courses.css">PatternDetails.jsx</a>
+      <a href="frontend/src/pages/courses/courses.css">courses.css</a>
     </td>
     <td>
       <a href="backend/controllers/patternController.js">patternController.js</a><br>
