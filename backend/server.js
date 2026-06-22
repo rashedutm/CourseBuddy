@@ -10,6 +10,10 @@ app.use(express.json())
 const courseRoutes = require('./routes/courseRoutes')
 app.use('/api', courseRoutes)
 
+// Handbook routes 
+const handbookRoutes = require('./routes/handbookRoutes')
+app.use('/api', handbookRoutes)
+
 app.get('/', (req, res) => {
     res.send('CourseBuddy backend is running')
 })
