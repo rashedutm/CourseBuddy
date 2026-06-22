@@ -778,3 +778,75 @@ INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerN
 ('SEC-MN2-17', 'UHLC1122', '17', NULL, NULL, 'Fri', '16:00:00', '18:00:00', '4pm-6pm', 'D06-BK7', 'FC', 3, 'October', '2025/2026-1'),
 ('SEC-MN2-18', 'UHLC1122', '18', NULL, NULL, 'Tue', '09:00:00', '11:00:00', '9am-11am', 'D06-BK13', 'FC', 3, 'October', '2025/2026-1'),
 ('SEC-MN2-19', 'UHLC1122', '19', NULL, NULL, 'Tue', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK13', 'FC', 3, 'October', '2025/2026-1');
+
+
+
+
+-- ============================================
+-- TIMETABLE — SEMESTER 4
+-- Session: 2024/2025-2, March Intake
+-- Source: SCSEH Semester 4 March Intake Timetable
+-- Courses: SCSE2243, SCSE2133, SCSE2123,
+--          SCSE2103, SCSR2043, SCSM2113
+-- ============================================
+
+-- New lecturers from this timetable
+INSERT IGNORE INTO lecturer (lecturerID, lecturerName, email, facultyID) VALUES
+('LEC-016', 'Assoc. Prof. Dr. Mohd. Yazid bin Idris', 'yazid@utm.my', 'FC'),
+('LEC-017', 'Dr. Adila Firdaus binti Arbain', 'adilafirdaus@utm.my', 'FC'),
+('LEC-018', 'Assoc. Prof. Dr. Mohd Adham bin Isa', 'mohdadham@utm.my', 'FC'),
+('LEC-019', 'Prof. Ts. Dr. Wan Mohd Nasir bin Wan Kadir', 'wnasir@utm.my', 'FC'),
+('LEC-020', 'Assoc. Prof. Ts. Dr. Rohayanti binti Hassan', 'rohayanti@utm.my', 'FC'),
+('LEC-021', 'Assoc. Prof. Dr. Radziah binti Mohamad', 'radziahm@utm.my', 'FC'),
+('LEC-022', 'Dr. Shahliza binti Abd. Halim', 'shahliza@utm.my', 'FC'),
+('LEC-023', 'Dr. Noraini binti Ibrahim', 'noraini_ib@utm.my', 'FC'),
+('LEC-024', 'Ts. Dr. Johanna binti Ahmad', 'johanna@utm.my', 'FC'),
+('LEC-025', 'Ms. Lizawati binti Mi Yusuf', 'lizawati@utm.my', 'FC'),
+('LEC-026', 'Dr. Mohd Kufaisal bin Mohd Sidik', 'kufaisal@utm.my', 'FC'),
+('LEC-027', 'Dr. Zanariah binti Zainudin', 'farkhana@utm.my', 'FC'),
+('LEC-028', 'Dr. Sarina binti Sulaiman', 'sarina@utm.my', 'FC'),
+('LEC-029', 'Dr. Layla Rasheed Abdallah Hasan', 'layla.hasan@utm.my', 'FC'),
+('LEC-030', 'Prof. Ts. Dr. Nor Azman bin Ismail', 'azman@utm.my', 'FC');
+
+-- SCSE2243 Application Development Project I
+-- Wed 10am-1pm
+INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerName, day, timeStart, timeEnd, timeSlot, venue, facultyID, semesterNumber, intakeMonth, academicYear) VALUES
+('SEC-M4-001', 'SCSE2243', '01', 'LEC-016', 'Assoc. Prof. Dr. Mohd. Yazid bin Idris', 'Wed', '10:00:00', '13:00:00', '10am-1pm', 'MPK10', 'FC', 4, 'March', '2024/2025-2');
+
+-- SCSE2133 Software Process and Project Management
+-- Tue 10am-1pm Online
+INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerName, day, timeStart, timeEnd, timeSlot, venue, facultyID, semesterNumber, intakeMonth, academicYear) VALUES
+('SEC-M4-002', 'SCSE2133', '01', 'LEC-017', 'Dr. Adila Firdaus binti Arbain', 'Tue', '10:00:00', '13:00:00', '10am-1pm', 'Online', 'FC', 4, 'March', '2024/2025-2'),
+('SEC-M4-003', 'SCSE2133', '02', 'LEC-018', 'Assoc. Prof. Dr. Mohd Adham bin Isa', 'Tue', '10:00:00', '13:00:00', '10am-1pm', 'Online', 'FC', 4, 'March', '2024/2025-2'),
+('SEC-M4-004', 'SCSE2133', '03', 'LEC-019', 'Prof. Ts. Dr. Wan Mohd Nasir bin Wan Kadir', 'Tue', '10:00:00', '13:00:00', '10am-1pm', 'Online', 'FC', 4, 'March', '2024/2025-2'),
+('SEC-M4-005', 'SCSE2133', '04', 'LEC-020', 'Assoc. Prof. Ts. Dr. Rohayanti binti Hassan', 'Tue', '10:00:00', '13:00:00', '10am-1pm', 'Online', 'FC', 4, 'March', '2024/2025-2'),
+('SEC-M4-006', 'SCSE2133', '05', 'LEC-017', 'Dr. Adila Firdaus binti Arbain', 'Tue', '10:00:00', '13:00:00', '10am-1pm', 'Online', 'FC', 4, 'March', '2024/2025-2');
+
+-- SCSE2123 Software Requirements Engineering
+-- Mon 2pm-5pm
+INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerName, day, timeStart, timeEnd, timeSlot, venue, facultyID, semesterNumber, intakeMonth, academicYear) VALUES
+('SEC-M4-007', 'SCSE2123', '01', 'LEC-021', 'Assoc. Prof. Dr. Radziah binti Mohamad', 'Mon', '14:00:00', '17:00:00', '2pm-5pm', 'BK1', 'FC', 4, 'March', '2024/2025-2'),
+('SEC-M4-008', 'SCSE2123', '02', 'LEC-022', 'Dr. Shahliza binti Abd. Halim', 'Mon', '14:00:00', '17:00:00', '2pm-5pm', 'BK3', 'FC', 4, 'March', '2024/2025-2'),
+('SEC-M4-009', 'SCSE2123', '05', 'LEC-023', 'Dr. Noraini binti Ibrahim', 'Mon', '14:00:00', '17:00:00', '2pm-5pm', 'BK7', 'FC', 4, 'March', '2024/2025-2');
+
+-- SCSE2103 Data Structure and Algorithm
+-- Wed 2pm-4pm + Fri 10am-12pm (2 sessions)
+-- Storing main session (Wed) as primary
+INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerName, day, timeStart, timeEnd, timeSlot, venue, facultyID, semesterNumber, intakeMonth, academicYear) VALUES
+('SEC-M4-010', 'SCSE2103', '05', 'LEC-024', 'Ts. Dr. Johanna binti Ahmad', 'Wed', '14:00:00', '16:00:00', '2pm-4pm', 'MPK1', 'FC', 4, 'March', '2024/2025-2');
+
+-- SCSR2043 Operating Systems
+-- Mon 11am-1pm + Thu 10am-11am Online tutorial
+-- Storing main session (Mon) as primary
+INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerName, day, timeStart, timeEnd, timeSlot, venue, facultyID, semesterNumber, intakeMonth, academicYear) VALUES
+('SEC-M4-011', 'SCSR2043', '01', 'LEC-025', 'Ms. Lizawati binti Mi Yusuf', 'Mon', '11:00:00', '13:00:00', '11am-1pm', 'BK1', 'FC', 4, 'March', '2024/2025-2'),
+('SEC-M4-012', 'SCSR2043', '02', 'LEC-026', 'Dr. Mohd Kufaisal bin Mohd Sidik', 'Mon', '11:00:00', '13:00:00', '11am-1pm', 'BK2', 'FC', 4, 'March', '2024/2025-2'),
+('SEC-M4-013', 'SCSR2043', '05', 'LEC-027', 'Dr. Zanariah binti Zainudin', 'Mon', '11:00:00', '13:00:00', '11am-1pm', 'BK3', 'FC', 4, 'March', '2024/2025-2');
+
+-- SCSM2113 Human Computer Interaction Fundamentals
+-- Thu 2pm-4pm Online + Fri 9am-10am tutorial
+-- Storing main session (Thu) as primary
+INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerName, day, timeStart, timeEnd, timeSlot, venue, facultyID, semesterNumber, intakeMonth, academicYear) VALUES
+('SEC-M4-014', 'SCSM2113', '03', 'LEC-028', 'Dr. Sarina binti Sulaiman', 'Thu', '14:00:00', '16:00:00', '2pm-4pm', 'Online', 'FC', 4, 'March', '2024/2025-2'),
+('SEC-M4-015', 'SCSM2113', '04', 'LEC-029', 'Dr. Layla Rasheed Abdallah Hasan', 'Thu', '14:00:00', '16:00:00', '2pm-4pm', 'Online', 'FC', 4, 'March', '2024/2025-2'),
+('SEC-M4-016', 'SCSM2113', '05', 'LEC-030', 'Prof. Ts. Dr. Nor Azman bin Ismail', 'Thu', '14:00:00', '16:00:00', '2pm-4pm', 'Online', 'FC', 4, 'March', '2024/2025-2');
