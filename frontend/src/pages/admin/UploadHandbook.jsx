@@ -127,6 +127,105 @@ const handleUpload = ()
 }
 
 
- 
+  
+// Inline styles so that no separate CSS file needed
+// Colour palette: red maroon + off-white + gray
+// Consistent across all Handbook Management pages
+
+const styles = {
+  page: {
+    minHeight: "100vh",
+    backgroundColor: "#ffffff",
+    display: "flex",
+    justifyContent: "center",
+    padding: "48px 24px",
+    fontFamily: "'Segoe UI', Arial, sans-serif",
+    fontSize: "16px",
+  },
+  card: {
+    backgroundColor: "#ffffff",
+    borderRadius: "0.625rem",
+    padding: "40px",
+    width: "100%",
+    maxWidth: "520px",
+    boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+    border: "1px solid rgba(0, 0, 0, 0.1)",
+  },
+  eyebrow: {
+    fontSize: "13px",
+    fontWeight: "500",
+    color: "#717182",
+    letterSpacing: "0.04em",
+    textTransform: "uppercase",
+    margin: "0 0 8px 0",
+  },
+  title: {
+    fontSize: "1.5rem",
+    fontWeight: "500",
+    color: "#030213",
+    lineHeight: "1.5",
+    margin: "0 0 10px 0",
+  },
+  subtitle: {
+    fontSize: "15px",
+    color: "#717182",
+    lineHeight: "1.5",
+    margin: "0 0 28px 0",
+  },
+  formGroup: {
+    marginBottom: "22px",
+  },
+  label: {
+    display: "block",
+    fontSize: "1rem",
+    fontWeight: "500",
+    color: "#030213",
+    lineHeight: "1.5",
+    marginBottom: "8px",
+  },
+  select: {
+    width: "100%",
+    padding: "10px 12px",
+    fontSize: "1rem",
+    fontWeight: "400",
+    lineHeight: "1.5",
+    borderRadius: "calc(0.625rem - 2px)",
+    border: "1px solid rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#f3f3f5",
+    color: "#030213",
+  },
+  fileInput: {
+    width: "100%",
+    fontSize: "1rem",
+    fontWeight: "400",
+    color: "#030213",
+  },
+  fileName: {
+    fontSize: "14px",
+    color: "#717182",
+    margin: "8px 0 0 0",
+  },
+  button: {
+    width: "100%",
+    padding: "12px 0",
+    backgroundColor: "#030213",
+    color: "#ffffff",
+    border: "none",
+    borderRadius: "calc(0.625rem - 2px)",
+    fontSize: "1rem",
+    fontWeight: "500",
+    lineHeight: "1.5",
+    cursor: "pointer",
+  },
+  status: {
+    marginTop: "18px",
+    fontSize: "14px",
+    color: "#030213",
+    backgroundColor: "#ececf0",
+    padding: "12px 14px",
+    borderRadius: "calc(0.625rem - 2px)",
+    border: "1px solid rgba(0, 0, 0, 0.1)",
+  },
+};
 export default UploadHandbook;
 
