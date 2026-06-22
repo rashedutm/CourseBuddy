@@ -44,6 +44,33 @@ function ViewHandbookData() {
           </select>
         </div>
         
-
-    );
+        <table style={styles.table}>
+          <thead>
+            <tr>
+              <th style={styles.th}>Course Code</th>
+              <th style={styles.th}>Course Name</th>
+              <th style={styles.th}>Credit Hours</th>
+              <th style={styles.th}>Prerequisite</th>
+            </tr>
+          </thead>
+          <tbody>
+            {dummyHandbookData.map((course, index) => (
+              <tr key={course.courseCode} style={index % 2 === 0 ? styles.rowEven : styles.rowOdd}>
+                <td style={styles.td}>{course.courseCode}</td>
+                <td style={styles.td}>{course.courseName}</td>
+                <td style={styles.td}>{course.creditHours}</td>
+                <td style={styles.td}>{course.prerequisite}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+ 
+        <p style={styles.footnote}>
+          Showing {dummyHandbookData.length} course entries for the {intake}{" "}
+          intake handbook.
+        </p>
+      </div>
+    </div>
+  );
 }
+
