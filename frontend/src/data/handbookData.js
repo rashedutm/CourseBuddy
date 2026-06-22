@@ -736,13 +736,9 @@ export const handbookData = {
 };
 
 // ============================================
-// HELPER FUNCTIONS
+// HELPER FUNCTIONS - NAMED EXPORTS
 // ============================================
 
-/**
- * Get all available intake years from the data
- * @returns {number[]} Array of years sorted descending (latest first)
- */
 export const getAvailableYears = () => {
   const years = new Set();
   Object.keys(handbookData).forEach(key => {
@@ -754,11 +750,6 @@ export const getAvailableYears = () => {
   return Array.from(years).sort((a, b) => b - a);
 };
 
-/**
- * Get available months for a specific year
- * @param {number} year - The intake year
- * @returns {string[]} Array of month names
- */
 export const getAvailableMonths = (year) => {
   const months = new Set();
   Object.keys(handbookData).forEach(key => {
@@ -770,34 +761,16 @@ export const getAvailableMonths = (year) => {
   return Array.from(months);
 };
 
-/**
- * Get full intake data for a specific year and month
- * @param {number} year - The intake year
- * @param {string} month - The intake month (e.g., "October", "March")
- * @returns {Object|null} The intake data object or null if not found
- */
 export const getIntakeData = (year, month) => {
   const key = `${year}-${month}`;
   return handbookData[key] || null;
 };
 
-/**
- * Get all courses for a specific intake
- * @param {number} year - The intake year
- * @param {string} month - The intake month
- * @returns {Array} Array of courses or empty array
- */
 export const getCoursesByIntake = (year, month) => {
   const data = getIntakeData(year, month);
   return data ? data.courses : [];
 };
 
-/**
- * Get unique semesters for a specific intake
- * @param {number} year - The intake year
- * @param {string} month - The intake month
- * @returns {number[]} Array of semester numbers sorted ascending
- */
 export const getSemestersByIntake = (year, month) => {
   const courses = getCoursesByIntake(year, month);
   const semesters = new Set();
@@ -807,12 +780,6 @@ export const getSemestersByIntake = (year, month) => {
   return Array.from(semesters).sort((a, b) => a - b);
 };
 
-/**
- * Get courses grouped by semester for a specific intake
- * @param {number} year - The intake year
- * @param {string} month - The intake month
- * @returns {Object} Object with semester numbers as keys and arrays of courses as values
- */
 export const getCoursesGroupedBySemester = (year, month) => {
   const courses = getCoursesByIntake(year, month);
   const grouped = {};

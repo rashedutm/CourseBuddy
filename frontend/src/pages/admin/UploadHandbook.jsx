@@ -1,11 +1,15 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { uploadHandbook } from "../../services/handbookService";
+import "./admin.css";
 
 // UC031: Upload Handbook
 // Lets an admin pick an intake + upload an Excel
 // handbook file.
 
 function UploadHandbook() {
-    const [programme, setProgramme] = useState("SCSEH"); // Fixed: SCSEH not SECSEH
+    const navigate = useNavigate();
+    const [programme, setProgramme] = useState("SCSEH");
     const [intake, setIntake] = useState("October");
     const [semesterNumber, setSemesterNumber] = useState("1");
 
@@ -14,6 +18,7 @@ function UploadHandbook() {
 
     // Holds the success or error message shown after upload
     const [statusMessage, setStatusMessage] = useState("");
+    const [loading, setLoading] = useState(false);
 
     // Runs when the admin picks a file from their computer
     const handleFileChange = (event) => {
@@ -23,36 +28,55 @@ function UploadHandbook() {
     };
 
     // Runs when the admin clicks "Upload Handbook"
-    const handleUpload = () => {
+    const handleUpload = async () => {
         if (!selectedFile) {
             setStatusMessage("Please choose an Excel file before uploading.");
             return;
         }
 
-        // Since there is no proper backend yet, we simulate a successful upload
-        // FIXED: Used backticks (`) instead of single quotes (') and fixed intakee → intake
-        setStatusMessage(
-            `${selectedFile.name} uploaded successfully for ${programme}, ${intake} intake, Semester ${semesterNumber}.`
-        );
-        setSelectedFile(null);
+        setLoading(true);
+        setStatusMessage("");
+
+        try {
+            const formData = new FormData();
+            formData.append("file", selectedFile);
+            formData.append("programmeID", programme);
+            formData.append("intakeID", `${intake}-2024`);
+            formData.append("semesterNumber", semesterNumber);
+            formData.append("uploadedBy", "admin");
+
+            await uploadHandbook(formData);
+            setStatusMessage(
+                `${selectedFile.name} uploaded successfully for ${programme}, ${intake} intake, Semester ${semesterNumber}.`
+            );
+            setSelectedFile(null);
+            
+            // Redirect to view handbook page after 1.5 seconds
+            setTimeout(() => {
+                navigate('/admin/handbook/view');
+            }, 1500);
+        } catch (error) {
+            setStatusMessage(error.message || "Failed to upload handbook. Please try again.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
-        <div style={styles.page}>
-            <div style={styles.card}>
-                <p style={styles.eyebrow}>Handbook Management</p>
-                <h1 style={styles.title}>Upload Handbook</h1>
-                <p style={styles.subtitle}>
+        <div className="admin-page">
+            <div className="admin-card">
+                <p className="admin-badge">Handbook Management</p>
+                <h1 className="admin-header" style={{marginBottom: '8px'}}>Upload Handbook</h1>
+                <p style={{color: '#888', fontSize: '14px', marginBottom: '24px'}}>
                     Upload the semester handbook in Excel format. Select the correct
                     programme, intake, and semester before uploading so the data is
                     stored accurately.
                 </p>
 
                 {/* Programme dropdown — maps to programmeID in handbook_slot */}
-                <div style={styles.formGroup}>
-                    <label style={styles.label}>Programme</label>
+                <div className="admin-form-group">
+                    <label>Programme</label>
                     <select
-                        style={styles.select}
                         value={programme}
                         onChange={(e) => setProgramme(e.target.value)}
                     >
@@ -65,10 +89,9 @@ function UploadHandbook() {
                 </div>
 
                 {/* Intake dropdown — maps to intakeID in handbook_slot */}
-                <div style={styles.formGroup}>
-                    <label style={styles.label}>Intake</label>
+                <div className="admin-form-group">
+                    <label>Intake</label>
                     <select
-                        style={styles.select}
                         value={intake}
                         onChange={(e) => setIntake(e.target.value)}
                     >
@@ -78,10 +101,9 @@ function UploadHandbook() {
                 </div>
 
                 {/* Semester dropdown — maps to semesterNumber in handbook_slot */}
-                <div style={styles.formGroup}>
-                    <label style={styles.label}>Semester Number</label>
+                <div className="admin-form-group">
+                    <label>Semester Number</label>
                     <select
-                        style={styles.select}
                         value={semesterNumber}
                         onChange={(e) => setSemesterNumber(e.target.value)}
                     >
@@ -94,32 +116,59 @@ function UploadHandbook() {
                 </div>
 
                 {/* File picker — fileName saved in handbook_upload_log */}
-                <div style={styles.formGroup}>
-                    <label style={styles.label}>Handbook File (.xlsx)</label>
+                <div className="admin-form-group">
+                    <label>Handbook File (.xlsx)</label>
                     <input
                         type="file"
                         accept=".xlsx,.xls"
                         onChange={handleFileChange}
-                        style={styles.fileInput}
                     />
                     {selectedFile && (
-                        <p style={styles.fileName}>Selected: {selectedFile.name}</p>
+                        <p style={{fontSize: '14px', color: '#6b7280', marginTop: '8px'}}>
+                            Selected: {selectedFile.name}
+                        </p>
                     )}
                 </div>
 
-                <button style={styles.button} onClick={handleUpload}>
-                    Upload Handbook
+                <button 
+                    className="admin-btn"
+                    style={{opacity: loading || !selectedFile ? 0.5 : 1}}
+                    onClick={handleUpload}
+                    disabled={loading || !selectedFile}
+                >
+                    {loading ? "Uploading..." : "Upload Handbook"}
                 </button>
 
                 {/* Status message shown after upload attempt */}
                 {statusMessage && (
-                    <p style={styles.status}>{statusMessage}</p>
+                    <p className={`admin-status ${statusMessage.includes('successfully') ? 'success' : 'error'}`}>
+                        {statusMessage}
+                    </p>
                 )}
+
+                {/* Navigation buttons */}
+                <div style={{marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #e5e7eb'}}>
+                    <p style={{fontSize: '14px', color: '#6b7280', marginBottom: '12px'}}>Related Actions:</p>
+                    <div style={{display: 'flex', gap: '12px'}}>
+                        <button 
+                            className="admin-btn-outline"
+                            style={{flex: 1, padding: '12px', borderRadius: '10px', border: '1px solid #8b0000', background: '#fff', color: '#8b0000', cursor: 'pointer'}}
+                            onClick={() => navigate('/admin/handbook/view')}
+                        >
+                            View Handbook Data
+                        </button>
+                        <button 
+                            className="admin-btn-outline"
+                            style={{flex: 1, padding: '12px', borderRadius: '10px', border: '1px solid #8b0000', background: '#fff', color: '#8b0000', cursor: 'pointer'}}
+                            onClick={() => navigate('/admin/handbook/delete')}
+                        >
+                            Delete Handbook
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     );
 }
-
-
 
 export default UploadHandbook;

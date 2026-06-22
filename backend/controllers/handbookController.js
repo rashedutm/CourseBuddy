@@ -1,155 +1,164 @@
 // Handbook Controller - Handles all handbook-related operations
+// UC031: Upload Handbook
 // UC032: View Handbook Data
+// UC033: Delete Handbook
 
 const db = require('../config/db');
+const handbookService = require('../services/handbookService');
 
 // Get handbook data by intake year and month
 // GET /api/handbook?year=2024&month=October
-exports.getHandbookData = (req, res) => {
-    const { year, month } = req.query;
+exports.getHandbookData = async (req, res) => {
+    try {
+        const { year, month } = req.query;
 
-    // Validate input
-    if (!year || !month) {
-        return res.status(400).json({
-            success: false,
-            message: 'Please provide both year and month parameters'
-        });
-    }
-
-    // Step 1: Find the intakeID for the given year and month
-    const intakeQuery = `
-        SELECT intakeID, intakeName, academicSession 
-        FROM intake 
-        WHERE intakeYear = ? AND intakeMonth = ?
-        ORDER BY intakeYear DESC 
-        LIMIT 1
-    `;
-
-    db.query(intakeQuery, [year, month], (err, intakeResult) => {
-        if (err) {
-            console.error('Database error:', err);
-            return res.status(500).json({
+        if (!year || !month) {
+            return res.status(400).json({
                 success: false,
-                message: 'Failed to fetch intake data',
-                error: err.message
+                message: 'Please provide both year and month parameters'
             });
         }
 
-        if (intakeResult.length === 0) {
+        const data = await handbookService.getHandbookData(year, month);
+
+        if (!data) {
             return res.status(404).json({
                 success: false,
-                message: `No intake found for ${month} ${year}`
+                message: `No handbook data found for ${month} ${year}`
             });
         }
 
-        const intakeID = intakeResult[0].intakeID;
-        const intakeName = intakeResult[0].intakeName;
-        const academicSession = intakeResult[0].academicSession;
-
-        // Step 2: Get all courses for this intake from the handbook
-        const courseQuery = `
-            SELECT 
-                c.courseCode,
-                c.courseName,
-                c.creditHours,
-                hs.semesterNumber,
-                GROUP_CONCAT(DISTINCT p.prerequisiteCourseCode ORDER BY p.prerequisiteCourseCode SEPARATOR ', ') as prerequisites
-            FROM handbook_slot hs
-            JOIN handbook_slot_course hsc ON hs.slotID = hsc.slotID
-            JOIN course c ON hsc.courseCode = c.courseCode
-            LEFT JOIN prerequisite p ON c.courseCode = p.courseCode
-            WHERE hs.intakeID = ?
-            GROUP BY c.courseCode, hs.semesterNumber
-            ORDER BY hs.semesterNumber, c.courseCode
-        `;
-
-        db.query(courseQuery, [intakeID], (err, courses) => {
-            if (err) {
-                console.error('Database error:', err);
-                return res.status(500).json({
-                    success: false,
-                    message: 'Failed to fetch course data',
-                    error: err.message
-                });
-            }
-
-            // Step 3: Send response
-            res.json({
-                success: true,
-                data: {
-                    intakeID: intakeID,
-                    intakeName: intakeName,
-                    academicSession: academicSession,
-                    totalCourses: courses.length,
-                    courses: courses
-                }
-            });
+        res.json({
+            success: true,
+            data: data
         });
-    });
+    } catch (err) {
+        console.error('Database error:', err);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch handbook data',
+            error: err.message
+        });
+    }
 };
 
 // Get all available intake years (for dropdown filter)
 // GET /api/handbook/years
-exports.getAvailableYears = (req, res) => {
-    const query = `
-        SELECT DISTINCT intakeYear 
-        FROM intake 
-        ORDER BY intakeYear DESC
-    `;
-
-    db.query(query, (err, results) => {
-        if (err) {
-            console.error('Database error:', err);
-            return res.status(500).json({
-                success: false,
-                message: 'Failed to fetch available years',
-                error: err.message
-            });
-        }
-
-        const years = results.map(row => row.intakeYear);
-
+exports.getAvailableYears = async (req, res) => {
+    try {
+        const years = await handbookService.getAvailableYears();
         res.json({
             success: true,
             data: years
         });
-    });
+    } catch (err) {
+        console.error('Database error:', err);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch available years',
+            error: err.message
+        });
+    }
 };
 
 // Get available months for a specific year
 // GET /api/handbook/months?year=2024
-exports.getAvailableMonths = (req, res) => {
-    const { year } = req.query;
+exports.getAvailableMonths = async (req, res) => {
+    try {
+        const { year } = req.query;
 
-    if (!year) {
-        return res.status(400).json({
-            success: false,
-            message: 'Year parameter is required'
-        });
-    }
-
-    const query = `
-        SELECT DISTINCT intakeMonth 
-        FROM intake 
-        WHERE intakeYear = ?
-        ORDER BY intakeMonth
-    `;
-
-    db.query(query, [year], (err, results) => {
-        if (err) {
-            console.error('Database error:', err);
-            return res.status(500).json({
+        if (!year) {
+            return res.status(400).json({
                 success: false,
-                message: 'Failed to fetch available months',
-                error: err.message
+                message: 'Year parameter is required'
             });
         }
 
-        const months = results.map(row => row.intakeMonth);
-
+        const months = await handbookService.getAvailableMonths(year);
         res.json({
             success: true,
             data: months
         });
-    });
+    } catch (err) {
+        console.error('Database error:', err);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch available months',
+            error: err.message
+        });
+    }
+};
+
+// Delete handbook data for a specific intake
+// DELETE /api/handbook/delete?year=2024&month=October
+exports.deleteHandbook = async (req, res) => {
+    try {
+        const { year, month } = req.query;
+
+        if (!year || !month) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please provide both year and month parameters'
+            });
+        }
+
+        const result = await handbookService.deleteHandbook(year, month);
+
+        if (!result.deleted) {
+            return res.status(404).json({
+                success: false,
+                message: result.message
+            });
+        }
+
+        res.json({
+            success: true,
+            message: result.message,
+            affectedRows: result.affectedRows
+        });
+    } catch (err) {
+        console.error('Database error:', err);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to delete handbook',
+            error: err.message
+        });
+    }
+};
+
+// Upload handbook from Excel file
+// POST /api/handbook/upload
+exports.uploadHandbook = async (req, res) => {
+    try {
+        const { programmeID, intakeID, semesterNumber, uploadedBy } = req.body;
+        const fileName = req.file ? req.file.originalname : 'unknown';
+
+        if (!programmeID || !intakeID || !semesterNumber) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please provide programmeID, intakeID, and semesterNumber'
+            });
+        }
+
+        const result = await handbookService.uploadHandbook(
+            programmeID, 
+            intakeID, 
+            semesterNumber, 
+            fileName, 
+            uploadedBy
+        );
+
+        res.json({
+            success: true,
+            message: 'Handbook uploaded successfully',
+            data: result
+        });
+    } catch (err) {
+        console.error('Upload error:', err);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to upload handbook',
+            error: err.message
+        });
+    }
 };

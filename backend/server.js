@@ -14,6 +14,14 @@ app.use('/api', courseRoutes)
 const handbookRoutes = require('./routes/handbookRoutes')
 app.use('/api', handbookRoutes)
 
+// Timetable routes
+const timetableRoutes = require('./routes/timetableRoutes')
+app.use('/api', timetableRoutes)
+
+// Course Section routes
+const courseSectionRoutes = require('./routes/courseSectionRoutes')
+app.use('/api', courseSectionRoutes)
+
 app.get('/', (req, res) => {
     res.send('CourseBuddy backend is running')
 })
