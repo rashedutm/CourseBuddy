@@ -1,0 +1,827 @@
+// ============================================
+// CourseBuddy - Handbook Data
+// Real UTM Data from SCSEH Programme
+// Based on seed.sql - October 2024 & March 2025 Intakes
+// ============================================
+
+export const handbookData = {
+  // ============================================
+  // OCTOBER 2024 INTAKE (IN-2024-1)
+  // ============================================
+  "2024-October": {
+    intakeID: "IN-2024-1",
+    intakeName: "October 2024",
+    academicSession: "2024/2025",
+    courses: [
+      // ---------- SEMESTER 1 ----------
+      {
+        courseCode: "SCSE1013",
+        courseName: "Fundamental Programming Concept",
+        creditHours: 3,
+        semesterNumber: 1,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCST1123",
+        courseName: "Mathematics for Software Engineer",
+        creditHours: 3,
+        semesterNumber: 1,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSR1013",
+        courseName: "Digital Logic",
+        creditHours: 3,
+        semesterNumber: 1,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCST1143",
+        courseName: "Database Engineering",
+        creditHours: 3,
+        semesterNumber: 1,
+        prerequisites: null
+      },
+      {
+        courseCode: "ULRS1032",
+        courseName: "Integrity and Anti-Corruption",
+        creditHours: 2,
+        semesterNumber: 1,
+        prerequisites: null
+      },
+
+      // ---------- SEMESTER 2 ----------
+      {
+        courseCode: "SCSE1203",
+        courseName: "Software Engineering Principles",
+        creditHours: 3,
+        semesterNumber: 2,
+        prerequisites: "SCSE1013"
+      },
+      {
+        courseCode: "SCSR1033",
+        courseName: "Computer Organization and Architecture",
+        creditHours: 3,
+        semesterNumber: 2,
+        prerequisites: "SCSE1013"
+      },
+      {
+        courseCode: "SCST1223",
+        courseName: "Probability and Statistical Data Analysis",
+        creditHours: 3,
+        semesterNumber: 2,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSE1224",
+        courseName: "Advanced Programming",
+        creditHours: 4,
+        semesterNumber: 2,
+        prerequisites: "SCSE1013"
+      },
+      {
+        courseCode: "SCSR2213",
+        courseName: "Network Communications",
+        creditHours: 3,
+        semesterNumber: 2,
+        prerequisites: null
+      },
+      {
+        courseCode: "UHLM1012",
+        courseName: "Malaysia Language for Communication 2",
+        creditHours: 2,
+        semesterNumber: 2,
+        prerequisites: null
+      },
+
+      // ---------- SEMESTER 3 ----------
+      {
+        courseCode: "SCSE2133",
+        courseName: "Software Process and Project Management",
+        creditHours: 3,
+        semesterNumber: 3,
+        prerequisites: "SCSE1203"
+      },
+      {
+        courseCode: "SCSE2123",
+        courseName: "Software Requirements Engineering",
+        creditHours: 3,
+        semesterNumber: 3,
+        prerequisites: "SCSE1203"
+      },
+      {
+        courseCode: "SCSE2103",
+        courseName: "Data Structure and Algorithm",
+        creditHours: 3,
+        semesterNumber: 3,
+        prerequisites: "SCSE1013"
+      },
+      {
+        courseCode: "SCSR2043",
+        courseName: "Operating Systems",
+        creditHours: 3,
+        semesterNumber: 3,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSM2113",
+        courseName: "Human Computer Interaction Fundamentals",
+        creditHours: 3,
+        semesterNumber: 3,
+        prerequisites: "SCSE1203"
+      },
+
+      // ---------- SEMESTER 4 ----------
+      {
+        courseCode: "SCSM2223",
+        courseName: "Cross-Platform Application Development",
+        creditHours: 3,
+        semesterNumber: 4,
+        prerequisites: "SCST1143"
+      },
+      {
+        courseCode: "SCSE2233",
+        courseName: "Software Design and Architecture",
+        creditHours: 3,
+        semesterNumber: 4,
+        prerequisites: "SCSE1203"
+      },
+      {
+        courseCode: "SCSE2243",
+        courseName: "Application Development Project I",
+        creditHours: 3,
+        semesterNumber: 4,
+        prerequisites: "SCSE1203, SCSE2123"
+      },
+      {
+        courseCode: "UHLB2122",
+        courseName: "Professional Communication Skills 1",
+        creditHours: 2,
+        semesterNumber: 4,
+        prerequisites: null
+      },
+      {
+        courseCode: "ULRS1022",
+        courseName: "Philosophy and Current Issues",
+        creditHours: 2,
+        semesterNumber: 4,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSB2103",
+        courseName: "Bioinformatics I",
+        creditHours: 3,
+        semesterNumber: 4,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSP2753",
+        courseName: "Data Mining",
+        creditHours: 3,
+        semesterNumber: 4,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSP3213",
+        courseName: "Business Intelligence",
+        creditHours: 3,
+        semesterNumber: 4,
+        prerequisites: null
+      },
+
+      // ---------- SEMESTER 5 ----------
+      {
+        courseCode: "UHLB3132",
+        courseName: "Professional Communication Skills",
+        creditHours: 2,
+        semesterNumber: 5,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCST3223",
+        courseName: "Data Analytic Programming",
+        creditHours: 3,
+        semesterNumber: 5,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSE3143",
+        courseName: "Ubiquitous Computing",
+        creditHours: 3,
+        semesterNumber: 5,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSR3113",
+        courseName: "Cloud Computing",
+        creditHours: 3,
+        semesterNumber: 5,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSE3103",
+        courseName: "Cognitive Computing",
+        creditHours: 3,
+        semesterNumber: 5,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSE3203",
+        courseName: "Special Topics",
+        creditHours: 3,
+        semesterNumber: 5,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSM3113",
+        courseName: "Virtual and Augmented Reality Application",
+        creditHours: 3,
+        semesterNumber: 5,
+        prerequisites: null
+      },
+      // Foreign Language Electives
+      {
+        courseCode: "UHLA1122",
+        courseName: "Arabic Language",
+        creditHours: 2,
+        semesterNumber: 5,
+        prerequisites: null
+      },
+      {
+        courseCode: "UHLM1122",
+        courseName: "Mandarin Language",
+        creditHours: 2,
+        semesterNumber: 5,
+        prerequisites: null
+      },
+      {
+        courseCode: "UHLF1122",
+        courseName: "French Language",
+        creditHours: 2,
+        semesterNumber: 5,
+        prerequisites: null
+      },
+      {
+        courseCode: "UHLJ1122",
+        courseName: "Japanese Language",
+        creditHours: 2,
+        semesterNumber: 5,
+        prerequisites: null
+      },
+
+      // ---------- SEMESTER 6 ----------
+      {
+        courseCode: "SCSE3242",
+        courseName: "Software Engineering Project I",
+        creditHours: 2,
+        semesterNumber: 6,
+        prerequisites: "SCSE2243"
+      },
+      {
+        courseCode: "SCSR3133",
+        courseName: "Secure Software Programming",
+        creditHours: 3,
+        semesterNumber: 6,
+        prerequisites: "SCSR2213"
+      },
+      {
+        courseCode: "SCSE3213",
+        courseName: "Software Quality and Testing",
+        creditHours: 3,
+        semesterNumber: 6,
+        prerequisites: "SCSE2123, SCSE2233"
+      },
+      {
+        courseCode: "SCSE3223",
+        courseName: "Application Development Project II",
+        creditHours: 3,
+        semesterNumber: 6,
+        prerequisites: "SCSE2243"
+      },
+      {
+        courseCode: "SCSE3233",
+        courseName: "Professional Practice in Software Engineering",
+        creditHours: 3,
+        semesterNumber: 6,
+        prerequisites: "SCSE1203"
+      },
+      {
+        courseCode: "ULRS3032",
+        courseName: "Entrepreneurship and Innovation",
+        creditHours: 2,
+        semesterNumber: 6,
+        prerequisites: null
+      },
+
+      // ---------- SEMESTER 7 ----------
+      {
+        courseCode: "SCSE4108",
+        courseName: "Industrial Training",
+        creditHours: 8,
+        semesterNumber: 7,
+        prerequisites: "SCSE1013"
+      },
+      {
+        courseCode: "SCSE4114",
+        courseName: "Industrial Training Report",
+        creditHours: 4,
+        semesterNumber: 7,
+        prerequisites: "SCSE1013"
+      },
+
+      // ---------- SEMESTER 8 ----------
+      {
+        courseCode: "SCSE4214",
+        courseName: "Software Engineering Project II",
+        creditHours: 4,
+        semesterNumber: 8,
+        prerequisites: "SCSE3242"
+      },
+      {
+        courseCode: "SCSR4453",
+        courseName: "Network Security",
+        creditHours: 3,
+        semesterNumber: 8,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSR4973",
+        courseName: "Computer Network and Security Special Topics",
+        creditHours: 3,
+        semesterNumber: 8,
+        prerequisites: null
+      },
+      {
+        courseCode: "SECB3133",
+        courseName: "Computational Biology I",
+        creditHours: 3,
+        semesterNumber: 8,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSB3203",
+        courseName: "Programming for Bioinformatics",
+        creditHours: 3,
+        semesterNumber: 8,
+        prerequisites: null
+      }
+    ]
+  },
+
+  // ============================================
+  // MARCH 2025 INTAKE (IN-2024-2)
+  // ============================================
+  "2025-March": {
+    intakeID: "IN-2024-2",
+    intakeName: "March 2025",
+    academicSession: "2024/2025",
+    courses: [
+      // ---------- SEMESTER 1 (March) ----------
+      {
+        courseCode: "SCSE1013",
+        courseName: "Fundamental Programming Concept",
+        creditHours: 3,
+        semesterNumber: 1,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCST1223",
+        courseName: "Probability and Statistical Data Analysis",
+        creditHours: 3,
+        semesterNumber: 1,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSR1013",
+        courseName: "Digital Logic",
+        creditHours: 3,
+        semesterNumber: 1,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSR2213",
+        courseName: "Network Communications",
+        creditHours: 3,
+        semesterNumber: 1,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSE1203",
+        courseName: "Software Engineering Principles",
+        creditHours: 3,
+        semesterNumber: 1,
+        prerequisites: "SCSE1013"
+      },
+      {
+        courseCode: "UHLM1012",
+        courseName: "Malaysia Language for Communication 2",
+        creditHours: 2,
+        semesterNumber: 1,
+        prerequisites: null
+      },
+
+      // ---------- SEMESTER 2 (March) ----------
+      {
+        courseCode: "SCSR1033",
+        courseName: "Computer Organization and Architecture",
+        creditHours: 3,
+        semesterNumber: 2,
+        prerequisites: "SCSR1013"
+      },
+      {
+        courseCode: "SCST1123",
+        courseName: "Mathematics for Software Engineer",
+        creditHours: 3,
+        semesterNumber: 2,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSE1224",
+        courseName: "Advanced Programming",
+        creditHours: 4,
+        semesterNumber: 2,
+        prerequisites: "SCSE1013"
+      },
+      {
+        courseCode: "SCST1143",
+        courseName: "Database Engineering",
+        creditHours: 3,
+        semesterNumber: 2,
+        prerequisites: null
+      },
+      {
+        courseCode: "ULRS1032",
+        courseName: "Integrity and Anti-Corruption",
+        creditHours: 2,
+        semesterNumber: 2,
+        prerequisites: null
+      },
+
+      // ---------- SEMESTER 3 (March) ----------
+      {
+        courseCode: "SCSM2223",
+        courseName: "Cross-Platform Application Development",
+        creditHours: 3,
+        semesterNumber: 3,
+        prerequisites: "SCST1143"
+      },
+      {
+        courseCode: "SCSE2233",
+        courseName: "Software Design and Architecture",
+        creditHours: 3,
+        semesterNumber: 3,
+        prerequisites: "SCSE1203"
+      },
+      {
+        courseCode: "UHLB2122",
+        courseName: "Professional Communication Skills 1",
+        creditHours: 2,
+        semesterNumber: 3,
+        prerequisites: null
+      },
+      {
+        courseCode: "ULRS1022",
+        courseName: "Philosophy and Current Issues",
+        creditHours: 2,
+        semesterNumber: 3,
+        prerequisites: null
+      },
+      // Elective Group (choose 1)
+      {
+        courseCode: "SECB2103",
+        courseName: "Bioinformatics I",
+        creditHours: 3,
+        semesterNumber: 3,
+        prerequisites: null
+      },
+      {
+        courseCode: "SECP2753",
+        courseName: "Data Mining",
+        creditHours: 3,
+        semesterNumber: 3,
+        prerequisites: null
+      },
+      {
+        courseCode: "SECP3213",
+        courseName: "Business Intelligence",
+        creditHours: 3,
+        semesterNumber: 3,
+        prerequisites: null
+      },
+
+      // ---------- SEMESTER 4 (March) ----------
+      {
+        courseCode: "SCSE2133",
+        courseName: "Software Process and Project Management",
+        creditHours: 3,
+        semesterNumber: 4,
+        prerequisites: "SCSE1203"
+      },
+      {
+        courseCode: "SCSE2123",
+        courseName: "Software Requirements Engineering",
+        creditHours: 3,
+        semesterNumber: 4,
+        prerequisites: "SCSE1203"
+      },
+      {
+        courseCode: "SCSE2243",
+        courseName: "Application Development Project I",
+        creditHours: 3,
+        semesterNumber: 4,
+        prerequisites: "SCSE1203, SCSE2123"
+      },
+      {
+        courseCode: "SCSE2103",
+        courseName: "Data Structure and Algorithm",
+        creditHours: 3,
+        semesterNumber: 4,
+        prerequisites: "SCSE1013"
+      },
+      {
+        courseCode: "SCSR2043",
+        courseName: "Operating Systems",
+        creditHours: 3,
+        semesterNumber: 4,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSM2113",
+        courseName: "Human Computer Interaction Fundamentals",
+        creditHours: 3,
+        semesterNumber: 4,
+        prerequisites: "SCSE1203"
+      },
+
+      // ---------- SEMESTER 5 (March) ----------
+      {
+        courseCode: "SCSR3133",
+        courseName: "Secure Software Programming",
+        creditHours: 3,
+        semesterNumber: 5,
+        prerequisites: "SCSR2213"
+      },
+      {
+        courseCode: "SCSE3213",
+        courseName: "Software Quality and Testing",
+        creditHours: 3,
+        semesterNumber: 5,
+        prerequisites: "SCSE2123, SCSE2233"
+      },
+      {
+        courseCode: "SCSE3233",
+        courseName: "Professional Practice in Software Engineering",
+        creditHours: 3,
+        semesterNumber: 5,
+        prerequisites: "SCSE1203"
+      },
+      {
+        courseCode: "UHLB3132",
+        courseName: "Professional Communication Skills",
+        creditHours: 2,
+        semesterNumber: 5,
+        prerequisites: null
+      },
+      {
+        courseCode: "ULRS3032",
+        courseName: "Entrepreneurship and Innovation",
+        creditHours: 2,
+        semesterNumber: 5,
+        prerequisites: null
+      },
+      // Foreign Language Electives
+      {
+        courseCode: "UHLA1122",
+        courseName: "Arabic Language",
+        creditHours: 2,
+        semesterNumber: 5,
+        prerequisites: null
+      },
+      {
+        courseCode: "UHLM1122",
+        courseName: "Mandarin Language",
+        creditHours: 2,
+        semesterNumber: 5,
+        prerequisites: null
+      },
+      {
+        courseCode: "UHLF1122",
+        courseName: "French Language",
+        creditHours: 2,
+        semesterNumber: 5,
+        prerequisites: null
+      },
+      {
+        courseCode: "UHLJ1122",
+        courseName: "Japanese Language",
+        creditHours: 2,
+        semesterNumber: 5,
+        prerequisites: null
+      },
+
+      // ---------- SEMESTER 6 (March) ----------
+      {
+        courseCode: "SCSE3223",
+        courseName: "Application Development Project II",
+        creditHours: 3,
+        semesterNumber: 6,
+        prerequisites: "SCSE2243"
+      },
+      {
+        courseCode: "SCSE3242",
+        courseName: "Software Engineering Project I",
+        creditHours: 2,
+        semesterNumber: 6,
+        prerequisites: "SCSE2243"
+      },
+      // Core Elective Group (choose 3)
+      {
+        courseCode: "SCST3223",
+        courseName: "Data Analytic Programming",
+        creditHours: 3,
+        semesterNumber: 6,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSE3143",
+        courseName: "Ubiquitous Computing",
+        creditHours: 3,
+        semesterNumber: 6,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSR3113",
+        courseName: "Cloud Computing",
+        creditHours: 3,
+        semesterNumber: 6,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSE3103",
+        courseName: "Cognitive Computing",
+        creditHours: 3,
+        semesterNumber: 6,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSE3203",
+        courseName: "Special Topics",
+        creditHours: 3,
+        semesterNumber: 6,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSM3113",
+        courseName: "Virtual and Augmented Reality Application",
+        creditHours: 3,
+        semesterNumber: 6,
+        prerequisites: null
+      },
+
+      // ---------- SEMESTER 7 (March) ----------
+      {
+        courseCode: "SCSE4214",
+        courseName: "Software Engineering Project II",
+        creditHours: 4,
+        semesterNumber: 7,
+        prerequisites: "SCSE3242"
+      },
+      // Final Elective Group (choose 2)
+      {
+        courseCode: "SCSR4453",
+        courseName: "Network Security",
+        creditHours: 3,
+        semesterNumber: 7,
+        prerequisites: null
+      },
+      {
+        courseCode: "SCSR4973",
+        courseName: "Computer Network and Security Special Topics",
+        creditHours: 3,
+        semesterNumber: 7,
+        prerequisites: null
+      },
+      {
+        courseCode: "SECB3133",
+        courseName: "Computational Biology I",
+        creditHours: 3,
+        semesterNumber: 7,
+        prerequisites: null
+      },
+      {
+        courseCode: "SECB3203",
+        courseName: "Programming for Bioinformatics",
+        creditHours: 3,
+        semesterNumber: 7,
+        prerequisites: null
+      },
+
+      // ---------- SEMESTER 8 (March) ----------
+      {
+        courseCode: "SCSE4108",
+        courseName: "Industrial Training",
+        creditHours: 8,
+        semesterNumber: 8,
+        prerequisites: "SCSE1013"
+      },
+      {
+        courseCode: "SCSE4114",
+        courseName: "Industrial Training Report",
+        creditHours: 4,
+        semesterNumber: 8,
+        prerequisites: "SCSE1013"
+      }
+    ]
+  }
+};
+
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+
+/**
+ * Get all available intake years from the data
+ * @returns {number[]} Array of years sorted descending (latest first)
+ */
+export const getAvailableYears = () => {
+  const years = new Set();
+  Object.keys(handbookData).forEach(key => {
+    const year = parseInt(key.split('-')[0]);
+    if (!isNaN(year)) {
+      years.add(year);
+    }
+  });
+  return Array.from(years).sort((a, b) => b - a);
+};
+
+/**
+ * Get available months for a specific year
+ * @param {number} year - The intake year
+ * @returns {string[]} Array of month names
+ */
+export const getAvailableMonths = (year) => {
+  const months = new Set();
+  Object.keys(handbookData).forEach(key => {
+    const [keyYear, keyMonth] = key.split('-');
+    if (parseInt(keyYear) === year) {
+      months.add(keyMonth);
+    }
+  });
+  return Array.from(months);
+};
+
+/**
+ * Get full intake data for a specific year and month
+ * @param {number} year - The intake year
+ * @param {string} month - The intake month (e.g., "October", "March")
+ * @returns {Object|null} The intake data object or null if not found
+ */
+export const getIntakeData = (year, month) => {
+  const key = `${year}-${month}`;
+  return handbookData[key] || null;
+};
+
+/**
+ * Get all courses for a specific intake
+ * @param {number} year - The intake year
+ * @param {string} month - The intake month
+ * @returns {Array} Array of courses or empty array
+ */
+export const getCoursesByIntake = (year, month) => {
+  const data = getIntakeData(year, month);
+  return data ? data.courses : [];
+};
+
+/**
+ * Get unique semesters for a specific intake
+ * @param {number} year - The intake year
+ * @param {string} month - The intake month
+ * @returns {number[]} Array of semester numbers sorted ascending
+ */
+export const getSemestersByIntake = (year, month) => {
+  const courses = getCoursesByIntake(year, month);
+  const semesters = new Set();
+  courses.forEach(course => {
+    semesters.add(course.semesterNumber);
+  });
+  return Array.from(semesters).sort((a, b) => a - b);
+};
+
+/**
+ * Get courses grouped by semester for a specific intake
+ * @param {number} year - The intake year
+ * @param {string} month - The intake month
+ * @returns {Object} Object with semester numbers as keys and arrays of courses as values
+ */
+export const getCoursesGroupedBySemester = (year, month) => {
+  const courses = getCoursesByIntake(year, month);
+  const grouped = {};
+  courses.forEach(course => {
+    const semester = course.semesterNumber;
+    if (!grouped[semester]) {
+      grouped[semester] = [];
+    }
+    grouped[semester].push(course);
+  });
+  return grouped;
+};
