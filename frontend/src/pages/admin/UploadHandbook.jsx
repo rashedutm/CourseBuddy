@@ -30,7 +30,15 @@ const handleUpload = ()
         setStatusMessage("Please choose an Excel file before uploading.");
         return;
     }
-    
+
+    // Since there is no proper backend yet, we simulate a successful upload
+    setStatusMessage(
+        '"{selectedFile.name}" uploaded successfully for ${programme}, ${intakee} intake, Semester ${semesterNumber}.'
+    );
+    setSelectedFile(null);
+}; 
+    )
+
 
     return (
     <div>
