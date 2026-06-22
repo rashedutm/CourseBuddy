@@ -563,32 +563,218 @@ INSERT INTO handbook_slot_course (slotCourseID, slotID, courseCode) VALUES
 INSERT INTO handbook_slot_course (slotCourseID, slotID, courseCode) VALUES
 ('HSC-M-8-1', 'HS-M-8-1', 'SCSE4108'),
 ('HSC-M-8-2', 'HS-M-8-2', 'SCSE4114');
+
+
+
+
 -- ============================================
--- SECTIONS (TIMETABLE)
--- Sample timetable for Semester 1
--- Academic Year: 2024/2025-1
--- Note: Replace with real timetable data
--- when available
+-- NEW LECTURERS from real timetable
+-- Add new lecturers not in seed yet
+-- ============================================
+
+INSERT INTO lecturer (lecturerID, lecturerName, email, facultyID) VALUES
+('LEC-008', 'Prof. Ts. Dr. Dayang Norhayati binti Awang Jawawi', 'dayang@utm.my', 'FC'),
+('LEC-009', 'Dr. Muhammad Khatibsyarbini', 'khatibsyarbini@utm.my', 'FC'),
+('LEC-010', 'Dr. Nor Azizah binti Saadon', 'azizahsaadon@utm.my', 'FC'),
+('LEC-011', 'Dr. Sim Hiew Moi', 'hiewmoi@utm.my', 'FC'),
+('LEC-012', 'Dr. Norsham binti Idris', 'norsham@utm.my', 'FC'),
+('LEC-013', 'Dr. Zalmiyah binti Zakaria', 'zalmiyah@utm.my', 'FC'),
+('LEC-014', 'Mr. Norizam bin Katmon', 'rizam@utm.my', 'FC'),
+('LEC-015', 'Assoc. Prof. Dr. Hishammuddin bin Asmuni', 'hishamudin@utm.my', 'FC');
+
+-- ============================================
+-- REAL TIMETABLE — SEMESTER 5
+-- Session: 2024/2025-1, October Intake
+-- Source: SCSEH Semester 5 Timetable
+-- Courses: SCSE3143, SCSE3103, SCSE3203, UHLB3132
 -- ============================================
 
 INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerName, day, timeStart, timeEnd, timeSlot, venue, facultyID, semesterNumber, intakeMonth, academicYear) VALUES
--- SCSE1013 sections
-('SEC-001', 'SCSE1013', '01', 'LEC-001', 'Dr. Ahmad Zaki', 'Mon', '08:00:00', '10:00:00', '08:00-10:00', 'N28-1', 'FC', 1, 'October', '2024/2025-1'),
-('SEC-002', 'SCSE1013', '02', 'LEC-001', 'Dr. Ahmad Zaki', 'Mon', '10:00:00', '12:00:00', '10:00-12:00', 'N28-1', 'FC', 1, 'October', '2024/2025-1'),
-('SEC-003', 'SCSE1013', '03', 'LEC-002', 'Dr. Nurul Ain', 'Tue', '08:00:00', '10:00:00', '08:00-10:00', 'N28-2', 'FC', 1, 'October', '2024/2025-1'),
-('SEC-004', 'SCSE1013', '04', 'LEC-002', 'Dr. Nurul Ain', 'Tue', '10:00:00', '12:00:00', '10:00-12:00', 'N28-2', 'FC', 1, 'October', '2024/2025-1'),
--- SCST1123 sections
-('SEC-005', 'SCST1123', '01', 'LEC-003', 'Dr. Siti Hajar', 'Mon', '12:00:00', '14:00:00', '12:00-14:00', 'N24-1', 'FC', 1, 'October', '2024/2025-1'),
-('SEC-006', 'SCST1123', '02', 'LEC-003', 'Dr. Siti Hajar', 'Wed', '08:00:00', '10:00:00', '08:00-10:00', 'N24-1', 'FC', 1, 'October', '2024/2025-1'),
-('SEC-007', 'SCST1123', '03', 'LEC-005', 'Dr. Rashidah', 'Thu', '08:00:00', '10:00:00', '08:00-10:00', 'N24-2', 'FC', 1, 'October', '2024/2025-1'),
--- SCSR1013 sections
-('SEC-008', 'SCSR1013', '01', 'LEC-004', 'Prof. Mohd Faris', 'Tue', '12:00:00', '14:00:00', '12:00-14:00', 'N28-3', 'FC', 1, 'October', '2024/2025-1'),
-('SEC-009', 'SCSR1013', '02', 'LEC-004', 'Prof. Mohd Faris', 'Wed', '10:00:00', '12:00:00', '10:00-12:00', 'N28-3', 'FC', 1, 'October', '2024/2025-1'),
-('SEC-010', 'SCSR1013', '03', 'LEC-006', 'Dr. Hafizul', 'Thu', '10:00:00', '12:00:00', '10:00-12:00', 'N28-4', 'FC', 1, 'October', '2024/2025-1'),
--- SCST1143 sections
-('SEC-011', 'SCST1143', '01', 'LEC-005', 'Dr. Rashidah', 'Mon', '14:00:00', '16:00:00', '14:00-16:00', 'N24-3', 'FC', 1, 'October', '2024/2025-1'),
-('SEC-012', 'SCST1143', '02', 'LEC-005', 'Dr. Rashidah', 'Wed', '12:00:00', '14:00:00', '12:00-14:00', 'N24-3', 'FC', 1, 'October', '2024/2025-1'),
-('SEC-013', 'SCST1143', '03', 'LEC-007', 'Dr. Johana', 'Fri', '08:00:00', '10:00:00', '08:00-10:00', 'N24-4', 'FC', 1, 'October', '2024/2025-1'),
--- ULRS1032 sections
-('SEC-014', 'ULRS1032', '01', 'LEC-006', 'Dr. Hafizul', 'Fri', '10:00:00', '12:00:00', '10:00-12:00', 'DK1', 'FC', 1, 'October', '2024/2025-1'),
-('SEC-015', 'ULRS1032', '02', 'LEC-007', 'Dr. Johana', 'Fri', '12:00:00', '14:00:00', '12:00-14:00', 'DK1', 'FC', 1, 'October', '2024/2025-1');
+
+-- SCSE3143 Ubiquitous Computing
+('SEC-T-001', 'SCSE3143', '01', 'LEC-008', 'Prof. Ts. Dr. Dayang Norhayati binti Awang Jawawi', 'Mon', '14:00:00', '17:00:00', '2pm-5pm', 'MPK10', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-002', 'SCSE3143', '02', 'LEC-009', 'Dr. Muhammad Khatibsyarbini', 'Mon', '14:00:00', '17:00:00', '2pm-5pm', 'CCNA', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-003', 'SCSE3143', '03', 'LEC-010', 'Dr. Nor Azizah binti Saadon', 'Mon', '14:00:00', '17:00:00', '2pm-5pm', 'N28a MP2', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-004', 'SCSE3143', '04', 'LEC-008', 'Prof. Ts. Dr. Dayang Norhayati binti Awang Jawawi', 'Wed', '14:00:00', '17:00:00', '2pm-5pm', 'MKP10', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-005', 'SCSE3143', '05', 'LEC-009', 'Dr. Muhammad Khatibsyarbini', 'Wed', '14:00:00', '17:00:00', '2pm-5pm', 'CCNA', 'FC', 5, 'October', '2024/2025-1'),
+
+-- SCSE3103 Cognitive Computing
+-- Note: Has 2 sessions per week (Wed/Fri lecture + Thu tutorial online)
+('SEC-T-006', 'SCSE3103', '01', 'LEC-011', 'Dr. Sim Hiew Moi', 'Wed', '11:00:00', '13:00:00', '11am-1pm', 'N28a BT3', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-007', 'SCSE3103', '02', 'LEC-012', 'Dr. Norsham binti Idris', 'Wed', '11:00:00', '13:00:00', '11am-1pm', 'N28a BT5', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-008', 'SCSE3103', '03', 'LEC-013', 'Dr. Zalmiyah binti Zakaria', 'Wed', '11:00:00', '13:00:00', '11am-1pm', 'ALL', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-009', 'SCSE3103', '04', 'LEC-011', 'Dr. Sim Hiew Moi', 'Fri', '10:00:00', '12:00:00', '10am-12pm', 'N28a BT3', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-010', 'SCSE3103', '05', 'LEC-012', 'Dr. Norsham binti Idris', 'Fri', '10:00:00', '12:00:00', '10am-12pm', 'N28a BT5', 'FC', 5, 'October', '2024/2025-1'),
+
+-- SCSE3203 Special Topics
+('SEC-T-011', 'SCSE3203', '01', 'LEC-014', 'Mr. Norizam bin Katmon', 'Mon', '10:00:00', '13:00:00', '10am-1pm', 'MPK10', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-012', 'SCSE3203', '02', 'LEC-010', 'Dr. Nor Azizah binti Saadon', 'Mon', '10:00:00', '13:00:00', '10am-1pm', 'ISTL', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-013', 'SCSE3203', '03', 'LEC-015', 'Assoc. Prof. Dr. Hishammuddin bin Asmuni', 'Mon', '10:00:00', '13:00:00', '10am-1pm', 'CCNA', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-014', 'SCSE3203', '04', 'LEC-014', 'Mr. Norizam bin Katmon', 'Wed', '08:00:00', '11:00:00', '8am-11am', 'IDAL', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-015', 'SCSE3203', '05', 'LEC-010', 'Dr. Nor Azizah binti Saadon', 'Wed', '08:00:00', '11:00:00', '8am-11am', 'CSL', 'FC', 5, 'October', '2024/2025-1'),
+
+-- UHLB3132 Professional Communication Skills
+-- All sections are Tue 8am-10am Online
+('SEC-T-016', 'UHLB3132', '22', NULL, NULL, 'Tue', '08:00:00', '10:00:00', '8am-10am', 'Online', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-017', 'UHLB3132', '23', NULL, NULL, 'Tue', '08:00:00', '10:00:00', '8am-10am', 'Online', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-018', 'UHLB3132', '24', NULL, NULL, 'Tue', '08:00:00', '10:00:00', '8am-10am', 'Online', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-019', 'UHLB3132', '25', NULL, NULL, 'Tue', '08:00:00', '10:00:00', '8am-10am', 'Online', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-020', 'UHLB3132', '26', NULL, NULL, 'Tue', '08:00:00', '10:00:00', '8am-10am', 'Online', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-021', 'UHLB3132', '27', NULL, NULL, 'Tue', '08:00:00', '10:00:00', '8am-10am', 'Online', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-022', 'UHLB3132', '28', NULL, NULL, 'Tue', '08:00:00', '10:00:00', '8am-10am', 'Online', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-023', 'UHLB3132', '29', NULL, NULL, 'Tue', '08:00:00', '10:00:00', '8am-10am', 'Online', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-024', 'UHLB3132', '30', NULL, NULL, 'Tue', '08:00:00', '10:00:00', '8am-10am', 'Online', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-025', 'UHLB3132', '31', NULL, NULL, 'Tue', '08:00:00', '10:00:00', '8am-10am', 'Online', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-026', 'UHLB3132', '32', NULL, NULL, 'Tue', '08:00:00', '10:00:00', '8am-10am', 'Online', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-T-027', 'UHLB3132', '33', NULL, NULL, 'Tue', '08:00:00', '10:00:00', '8am-10am', 'Online', 'FC', 5, 'October', '2024/2025-1');
+
+-- ============================================
+-- FOREIGN LANGUAGE ELECTIVE TIMETABLE
+-- Applies to BOTH sessions:
+--   SESSION 2024/2025-1 (October) — Semester 5
+--   SESSION 2025/2026-1 (October) — Semester 3
+-- ============================================
+
+-- First add Korean course to course table (not in handbook yet)
+INSERT INTO course (courseCode, courseName, creditHours, ownerFacultyID, hasPrerequisite) VALUES
+('UHLK1122', 'Korean Language', 2, 'FC', FALSE),
+('UHLC1122', 'Mandarin Language 1', 2, 'FC', FALSE);
+
+-- Arabic (UHLA1122) — Session 2024/2025-1, Sem 5, October
+INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerName, day, timeStart, timeEnd, timeSlot, venue, facultyID, semesterNumber, intakeMonth, academicYear) VALUES
+('SEC-AR-01', 'UHLA1122', '01', NULL, NULL, 'Mon', '09:00:00', '11:00:00', '9am-11am', 'D06-BK6', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-AR-02', 'UHLA1122', '02', NULL, NULL, 'Mon', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK6', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-AR-03', 'UHLA1122', '03', NULL, NULL, 'Mon', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK6', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-AR-04', 'UHLA1122', '04', NULL, NULL, 'Mon', '16:00:00', '18:00:00', '4pm-6pm', 'D06-BK6', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-AR-05', 'UHLA1122', '05', NULL, NULL, 'Tue', '09:00:00', '11:00:00', '9am-11am', 'D06-BK6', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-AR-06', 'UHLA1122', '06', NULL, NULL, 'Tue', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK6', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-AR-07', 'UHLA1122', '07', NULL, NULL, 'Wed', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK6', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-AR-08', 'UHLA1122', '08', NULL, NULL, 'Wed', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK6', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-AR-09', 'UHLA1122', '09', NULL, NULL, 'Wed', '16:00:00', '18:00:00', '4pm-6pm', 'D06-BK6', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-AR-10', 'UHLA1122', '10', NULL, NULL, 'Thu', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK6', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-AR-11', 'UHLA1122', '11', NULL, NULL, 'Thu', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK6', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-AR-12', 'UHLA1122', '12', NULL, NULL, 'Thu', '16:00:00', '18:00:00', '4pm-6pm', 'D06-BK6', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-AR-13', 'UHLA1122', '13', NULL, NULL, 'Fri', '10:00:00', '12:00:00', '10am-12pm', 'D06-BK6', 'FC', 5, 'October', '2024/2025-1');
+
+-- Mandarin (UHLC1122) — Session 2024/2025-1, Sem 5, October
+-- Note: timetable has UHLC1122 not UHLM1122 for Mandarin 1
+INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerName, day, timeStart, timeEnd, timeSlot, venue, facultyID, semesterNumber, intakeMonth, academicYear) VALUES
+('SEC-MN-01', 'UHLC1122', '01', NULL, NULL, 'Mon', '09:00:00', '11:00:00', '9am-11am', 'D06-BK7', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-MN-02', 'UHLC1122', '02', NULL, NULL, 'Mon', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK7', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-MN-03', 'UHLC1122', '03', NULL, NULL, 'Mon', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK7', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-MN-04', 'UHLC1122', '04', NULL, NULL, 'Mon', '16:00:00', '18:00:00', '4pm-6pm', 'D06-BK7', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-MN-05', 'UHLC1122', '05', NULL, NULL, 'Tue', '09:00:00', '11:00:00', '9am-11am', 'D06-BK7', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-MN-06', 'UHLC1122', '06', NULL, NULL, 'Tue', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK7', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-MN-07', 'UHLC1122', '07', NULL, NULL, 'Wed', '09:00:00', '11:00:00', '9am-11am', 'D06-BK7', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-MN-08', 'UHLC1122', '08', NULL, NULL, 'Wed', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK7', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-MN-09', 'UHLC1122', '09', NULL, NULL, 'Wed', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK7', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-MN-10', 'UHLC1122', '10', NULL, NULL, 'Wed', '16:00:00', '18:00:00', '4pm-6pm', 'D06-BK7', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-MN-11', 'UHLC1122', '11', NULL, NULL, 'Thu', '09:00:00', '11:00:00', '9am-11am', 'D06-BK7', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-MN-12', 'UHLC1122', '12', NULL, NULL, 'Thu', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK7', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-MN-13', 'UHLC1122', '13', NULL, NULL, 'Thu', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK7', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-MN-14', 'UHLC1122', '14', NULL, NULL, 'Fri', '08:00:00', '10:00:00', '8am-10am', 'D06-BK7', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-MN-15', 'UHLC1122', '15', NULL, NULL, 'Fri', '10:00:00', '12:00:00', '10am-12pm', 'D06-BK7', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-MN-16', 'UHLC1122', '16', NULL, NULL, 'Fri', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK7', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-MN-17', 'UHLC1122', '17', NULL, NULL, 'Fri', '16:00:00', '18:00:00', '4pm-6pm', 'D06-BK7', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-MN-18', 'UHLC1122', '18', NULL, NULL, 'Tue', '09:00:00', '11:00:00', '9am-11am', 'D06-BK13', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-MN-19', 'UHLC1122', '19', NULL, NULL, 'Tue', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK13', 'FC', 5, 'October', '2024/2025-1');
+
+-- French (UHLF1122) — Session 2024/2025-1, Sem 5, October
+INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerName, day, timeStart, timeEnd, timeSlot, venue, facultyID, semesterNumber, intakeMonth, academicYear) VALUES
+('SEC-FR-01', 'UHLF1122', '01', NULL, NULL, 'Mon', '09:00:00', '11:00:00', '9am-11am', 'D06-BK12', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-FR-02', 'UHLF1122', '02', NULL, NULL, 'Mon', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK12', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-FR-03', 'UHLF1122', '03', NULL, NULL, 'Mon', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK12', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-FR-04', 'UHLF1122', '04', NULL, NULL, 'Tue', '09:00:00', '11:00:00', '9am-11am', 'D06-BK12', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-FR-05', 'UHLF1122', '05', NULL, NULL, 'Tue', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK12', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-FR-06', 'UHLF1122', '06', NULL, NULL, 'Wed', '09:00:00', '11:00:00', '9am-11am', 'D06-BK12', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-FR-07', 'UHLF1122', '07', NULL, NULL, 'Wed', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK12', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-FR-08', 'UHLF1122', '08', NULL, NULL, 'Wed', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK12', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-FR-09', 'UHLF1122', '09', NULL, NULL, 'Thu', '09:00:00', '11:00:00', '9am-11am', 'D06-BK12', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-FR-10', 'UHLF1122', '10', NULL, NULL, 'Thu', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK12', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-FR-11', 'UHLF1122', '11', NULL, NULL, 'Thu', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK12', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-FR-12', 'UHLF1122', '12', NULL, NULL, 'Fri', '10:00:00', '12:00:00', '10am-12pm', 'D06-BK12', 'FC', 5, 'October', '2024/2025-1');
+
+-- Korean (UHLK1122) — Session 2024/2025-1, Sem 5, October
+INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerName, day, timeStart, timeEnd, timeSlot, venue, facultyID, semesterNumber, intakeMonth, academicYear) VALUES
+('SEC-KR-01', 'UHLK1122', '01', NULL, NULL, 'Wed', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK8', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-KR-02', 'UHLK1122', '02', NULL, NULL, 'Wed', '16:00:00', '18:00:00', '4pm-6pm', 'D06-BK8', 'FC', 5, 'October', '2024/2025-1');
+
+-- Japanese (UHLJ1122) — Session 2024/2025-1, Sem 5, October
+INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerName, day, timeStart, timeEnd, timeSlot, venue, facultyID, semesterNumber, intakeMonth, academicYear) VALUES
+('SEC-JP-01', 'UHLJ1122', '01', NULL, NULL, 'Mon', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK13', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-JP-02', 'UHLJ1122', '02', NULL, NULL, 'Mon', '17:00:00', '19:00:00', '5pm-7pm', 'D06-BK13', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-JP-03', 'UHLJ1122', '03', NULL, NULL, 'Wed', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK13', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-JP-04', 'UHLJ1122', '04', NULL, NULL, 'Thu', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK13', 'FC', 5, 'October', '2024/2025-1'),
+('SEC-JP-05', 'UHLJ1122', '05', NULL, NULL, 'Thu', '17:00:00', '19:00:00', '5pm-7pm', 'D06-BK13', 'FC', 5, 'October', '2024/2025-1');
+
+-- ============================================
+-- SAME FOREIGN LANGUAGE SECTIONS FOR
+-- SESSION 2025/2026-1, October Intake, Sem 3
+-- Same timetable applies to both sessions
+-- ============================================
+
+-- Arabic (UHLA1122) — Session 2025/2026-1, Sem 3, October
+INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerName, day, timeStart, timeEnd, timeSlot, venue, facultyID, semesterNumber, intakeMonth, academicYear) VALUES
+('SEC-AR2-01', 'UHLA1122', '01', NULL, NULL, 'Mon', '09:00:00', '11:00:00', '9am-11am', 'D06-BK6', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-AR2-02', 'UHLA1122', '02', NULL, NULL, 'Mon', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK6', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-AR2-03', 'UHLA1122', '03', NULL, NULL, 'Mon', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK6', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-AR2-04', 'UHLA1122', '04', NULL, NULL, 'Mon', '16:00:00', '18:00:00', '4pm-6pm', 'D06-BK6', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-AR2-05', 'UHLA1122', '05', NULL, NULL, 'Tue', '09:00:00', '11:00:00', '9am-11am', 'D06-BK6', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-AR2-06', 'UHLA1122', '06', NULL, NULL, 'Tue', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK6', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-AR2-07', 'UHLA1122', '07', NULL, NULL, 'Wed', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK6', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-AR2-08', 'UHLA1122', '08', NULL, NULL, 'Wed', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK6', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-AR2-09', 'UHLA1122', '09', NULL, NULL, 'Wed', '16:00:00', '18:00:00', '4pm-6pm', 'D06-BK6', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-AR2-10', 'UHLA1122', '10', NULL, NULL, 'Thu', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK6', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-AR2-11', 'UHLA1122', '11', NULL, NULL, 'Thu', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK6', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-AR2-12', 'UHLA1122', '12', NULL, NULL, 'Thu', '16:00:00', '18:00:00', '4pm-6pm', 'D06-BK6', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-AR2-13', 'UHLA1122', '13', NULL, NULL, 'Fri', '10:00:00', '12:00:00', '10am-12pm', 'D06-BK6', 'FC', 3, 'October', '2025/2026-1');
+
+-- French (UHLF1122) — Session 2025/2026-1, Sem 3, October
+INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerName, day, timeStart, timeEnd, timeSlot, venue, facultyID, semesterNumber, intakeMonth, academicYear) VALUES
+('SEC-FR2-01', 'UHLF1122', '01', NULL, NULL, 'Mon', '09:00:00', '11:00:00', '9am-11am', 'D06-BK12', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-FR2-02', 'UHLF1122', '02', NULL, NULL, 'Mon', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK12', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-FR2-03', 'UHLF1122', '03', NULL, NULL, 'Mon', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK12', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-FR2-04', 'UHLF1122', '04', NULL, NULL, 'Tue', '09:00:00', '11:00:00', '9am-11am', 'D06-BK12', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-FR2-05', 'UHLF1122', '05', NULL, NULL, 'Tue', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK12', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-FR2-06', 'UHLF1122', '06', NULL, NULL, 'Wed', '09:00:00', '11:00:00', '9am-11am', 'D06-BK12', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-FR2-07', 'UHLF1122', '07', NULL, NULL, 'Wed', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK12', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-FR2-08', 'UHLF1122', '08', NULL, NULL, 'Wed', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK12', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-FR2-09', 'UHLF1122', '09', NULL, NULL, 'Thu', '09:00:00', '11:00:00', '9am-11am', 'D06-BK12', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-FR2-10', 'UHLF1122', '10', NULL, NULL, 'Thu', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK12', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-FR2-11', 'UHLF1122', '11', NULL, NULL, 'Thu', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK12', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-FR2-12', 'UHLF1122', '12', NULL, NULL, 'Fri', '10:00:00', '12:00:00', '10am-12pm', 'D06-BK12', 'FC', 3, 'October', '2025/2026-1');
+
+-- Korean (UHLK1122) — Session 2025/2026-1, Sem 3, October
+INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerName, day, timeStart, timeEnd, timeSlot, venue, facultyID, semesterNumber, intakeMonth, academicYear) VALUES
+('SEC-KR2-01', 'UHLK1122', '01', NULL, NULL, 'Wed', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK8', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-KR2-02', 'UHLK1122', '02', NULL, NULL, 'Wed', '16:00:00', '18:00:00', '4pm-6pm', 'D06-BK8', 'FC', 3, 'October', '2025/2026-1');
+
+-- Japanese (UHLJ1122) — Session 2025/2026-1, Sem 3, October
+INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerName, day, timeStart, timeEnd, timeSlot, venue, facultyID, semesterNumber, intakeMonth, academicYear) VALUES
+('SEC-JP2-01', 'UHLJ1122', '01', NULL, NULL, 'Mon', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK13', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-JP2-02', 'UHLJ1122', '02', NULL, NULL, 'Mon', '17:00:00', '19:00:00', '5pm-7pm', 'D06-BK13', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-JP2-03', 'UHLJ1122', '03', NULL, NULL, 'Wed', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK13', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-JP2-04', 'UHLJ1122', '04', NULL, NULL, 'Thu', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK13', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-JP2-05', 'UHLJ1122', '05', NULL, NULL, 'Thu', '17:00:00', '19:00:00', '5pm-7pm', 'D06-BK13', 'FC', 3, 'October', '2025/2026-1');
+
+-- Mandarin (UHLC1122) — Session 2025/2026-1, Sem 3, October
+INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerName, day, timeStart, timeEnd, timeSlot, venue, facultyID, semesterNumber, intakeMonth, academicYear) VALUES
+('SEC-MN2-01', 'UHLC1122', '01', NULL, NULL, 'Mon', '09:00:00', '11:00:00', '9am-11am', 'D06-BK7', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-MN2-02', 'UHLC1122', '02', NULL, NULL, 'Mon', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK7', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-MN2-03', 'UHLC1122', '03', NULL, NULL, 'Mon', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK7', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-MN2-04', 'UHLC1122', '04', NULL, NULL, 'Mon', '16:00:00', '18:00:00', '4pm-6pm', 'D06-BK7', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-MN2-05', 'UHLC1122', '05', NULL, NULL, 'Tue', '09:00:00', '11:00:00', '9am-11am', 'D06-BK7', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-MN2-06', 'UHLC1122', '06', NULL, NULL, 'Tue', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK7', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-MN2-07', 'UHLC1122', '07', NULL, NULL, 'Wed', '09:00:00', '11:00:00', '9am-11am', 'D06-BK7', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-MN2-08', 'UHLC1122', '08', NULL, NULL, 'Wed', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK7', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-MN2-09', 'UHLC1122', '09', NULL, NULL, 'Wed', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK7', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-MN2-10', 'UHLC1122', '10', NULL, NULL, 'Wed', '16:00:00', '18:00:00', '4pm-6pm', 'D06-BK7', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-MN2-11', 'UHLC1122', '11', NULL, NULL, 'Thu', '09:00:00', '11:00:00', '9am-11am', 'D06-BK7', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-MN2-12', 'UHLC1122', '12', NULL, NULL, 'Thu', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK7', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-MN2-13', 'UHLC1122', '13', NULL, NULL, 'Thu', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK7', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-MN2-14', 'UHLC1122', '14', NULL, NULL, 'Fri', '08:00:00', '10:00:00', '8am-10am', 'D06-BK7', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-MN2-15', 'UHLC1122', '15', NULL, NULL, 'Fri', '10:00:00', '12:00:00', '10am-12pm', 'D06-BK7', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-MN2-16', 'UHLC1122', '16', NULL, NULL, 'Fri', '14:00:00', '16:00:00', '2pm-4pm', 'D06-BK7', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-MN2-17', 'UHLC1122', '17', NULL, NULL, 'Fri', '16:00:00', '18:00:00', '4pm-6pm', 'D06-BK7', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-MN2-18', 'UHLC1122', '18', NULL, NULL, 'Tue', '09:00:00', '11:00:00', '9am-11am', 'D06-BK13', 'FC', 3, 'October', '2025/2026-1'),
+('SEC-MN2-19', 'UHLC1122', '19', NULL, NULL, 'Tue', '11:00:00', '13:00:00', '11am-1pm', 'D06-BK13', 'FC', 3, 'October', '2025/2026-1');
