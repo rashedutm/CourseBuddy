@@ -110,3 +110,10 @@ export const resetLecturerPreferences = async (studentID) => {
     if (!response.ok) throw new Error('Failed to reset preferences')
     return response.json()
 }
+
+// Get current running academic year from DB
+export const getCurrentAcademicYear = async () => {
+    const response = await fetch(`${API_BASE_URL}/current-academic-year`)
+    if (!response.ok) throw new Error('Failed to fetch current academic year')
+    return response.json()
+}

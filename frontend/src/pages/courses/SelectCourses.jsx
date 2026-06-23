@@ -110,6 +110,7 @@ function SelectCourses() {
             )}
 
             {/* Course list */}
+            <div className="courses-grid">
             {availableCourses.map(course => (
                 <div
                     key={course.courseCode}
@@ -149,6 +150,7 @@ function SelectCourses() {
                     </div>
                 </div>
             ))}
+            </div>
 
             {/* Sticky bottom panel */}
             <div className="sticky-bottom">

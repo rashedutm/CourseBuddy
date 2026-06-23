@@ -94,6 +94,7 @@ function ViewPatterns() {
             </button>
 
             {/* Pattern list */}
+            <div className="patterns-grid">
             {patterns.map((pattern, index) => {
                 const courses = pattern
                 const totalCredits = courses.reduce((sum, s) => sum + (s.creditHours || 0), 0)
@@ -131,6 +132,7 @@ function ViewPatterns() {
                     </div>
                 )
             })}
+            </div>
         </div>
     )
 }
