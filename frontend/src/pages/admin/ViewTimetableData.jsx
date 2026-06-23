@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getTimetableData, getAvailableSemesters } from "../../services/timetableService";
 import "./admin.css";
-import "./admin.css";
 
 // UC035: View Timetable Data
 // Shows timetable sections for a selected semester
@@ -36,6 +35,11 @@ function ViewTimetableData() {
             setAvailableSemesters(semesters);
         } catch (err) {
             console.error("Error loading semesters:", err);
+            // Set fallback semesters
+            setAvailableSemesters([
+                { semesterNumber: 1, intakeMonth: "October", academicYear: "2024/2025" },
+                { semesterNumber: 2, intakeMonth: "October", academicYear: "2024/2025" }
+            ]);
         }
     };
 
@@ -48,8 +52,12 @@ function ViewTimetableData() {
             setTimetableData(data);
         } catch (err) {
             console.error("Error loading timetable data:", err);
-            setError(err.message || "Failed to load timetable data");
+            // Set empty data on error - page will show "no data" message
             setTimetableData([]);
+            // Don't show error if it's just no data
+            if (!err.message.includes('No timetable data')) {
+                setError("No timetable data available for selected semester");
+            }
         } finally {
             setLoading(false);
         }
@@ -75,90 +83,72 @@ function ViewTimetableData() {
     const daysOrder = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
     return (
-        <div style={styles.page}>
-            <div style={styles.card}>
-                <p style={styles.eyebrow}>Timetable Management</p>
-                <h1 style={styles.title}>View Timetable Data</h1>
-                <p style={styles.subtitle}>
+        <div className="admin-page">
+            <div className="admin-card">
+                <p className="admin-badge">Timetable Management</p>
+                <h1 style={{fontSize: '26px', fontWeight: '700', color: '#333', marginBottom: '8px'}}>View Timetable Data</h1>
+                <p style={{color: '#888', fontSize: '14px', marginBottom: '24px'}}>
                     Browse the timetable sections for a selected semester.
                 </p>
 
-                <div style={styles.filtersContainer}>
-                    <div style={styles.formGroup}>
-                        <label style={styles.label}>Semester</label>
-                        <select
-                            style={styles.select}
-                            value={`${semesterNumber}|${intakeMonth}|${academicYear}`}
-                            onChange={handleSemesterChange}
-                        >
-                            {availableSemesters.map((sem) => (
-                                <option
-                                    key={`${sem.semesterNumber}|${sem.intakeMonth}|${sem.academicYear}`}
-                                    value={`${sem.semesterNumber}|${sem.intakeMonth}|${sem.academicYear}`}
-                                >
-                                    Semester {sem.semesterNumber} - {sem.intakeMonth} {sem.academicYear}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                <div className="admin-form-group" style={{marginBottom: '24px'}}>
+                    <label>Semester</label>
+                    <select
+                        value={`${semesterNumber}|${intakeMonth}|${academicYear}`}
+                        onChange={handleSemesterChange}
+                    >
+                        {availableSemesters.map((sem) => (
+                            <option
+                                key={`${sem.semesterNumber}|${sem.intakeMonth}|${sem.academicYear}`}
+                                value={`${sem.semesterNumber}|${sem.intakeMonth}|${sem.academicYear}`}
+                            >
+                                Semester {sem.semesterNumber} - {sem.intakeMonth} {sem.academicYear}
+                            </option>
+                        ))}
+                    </select>
                 </div>
 
                 {loading && (
-                    <div style={styles.loadingContainer}>
-                        <p style={styles.loadingText}>Loading timetable data...</p>
+                    <div className="admin-loading">
+                        <p>Loading timetable data...</p>
                     </div>
                 )}
 
-                {error && (
-                    <div style={styles.errorContainer}>
-                        <p style={styles.errorText}>{error}</p>
+                {!loading && timetableData.length === 0 && (
+                    <div className="admin-empty">
+                        <p>No timetable data found for the selected semester.</p>
                     </div>
                 )}
 
-                {!loading && !error && timetableData.length === 0 && (
-                    <div style={styles.emptyContainer}>
-                        <p style={styles.emptyText}>
-                            No timetable data found for the selected semester.
-                        </p>
-                    </div>
-                )}
-
-                {!loading && !error && timetableData.length > 0 && (
+                {!loading && timetableData.length > 0 && (
                     <>
                         {daysOrder.map((day) => {
                             const daySections = groupedByDay[day];
                             if (!daySections || daySections.length === 0) return null;
 
                             return (
-                                <div key={day} style={styles.daySection}>
-                                    <h3 style={styles.dayTitle}>{day}</h3>
-                                    <table style={styles.table}>
+                                <div key={day} style={{marginBottom: '32px'}}>
+                                    <h3 style={{fontSize: '20px', fontWeight: '600', color: '#333', marginBottom: '16px'}}>{day}</h3>
+                                    <table className="admin-table">
                                         <thead>
                                             <tr>
-                                                <th style={styles.th}>Time</th>
-                                                <th style={styles.th}>Course Code</th>
-                                                <th style={styles.th}>Course Name</th>
-                                                <th style={styles.th}>Section</th>
-                                                <th style={styles.th}>Lecturer</th>
-                                                <th style={styles.th}>Venue</th>
+                                                <th>Time</th>
+                                                <th>Course Code</th>
+                                                <th>Course Name</th>
+                                                <th>Section</th>
+                                                <th>Lecturer</th>
+                                                <th>Venue</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {daySections.map((section, index) => (
-                                                <tr
-                                                    key={section.sectionID}
-                                                    style={index % 2 === 0 ? styles.rowEven : styles.rowOdd}
-                                                >
-                                                    <td style={styles.td}>
-                                                        {section.timeStart} - {section.timeEnd}
-                                                    </td>
-                                                    <td style={styles.td}>
-                                                        <strong>{section.courseCode}</strong>
-                                                    </td>
-                                                    <td style={styles.td}>{section.courseName}</td>
-                                                    <td style={styles.td}>{section.sectionNumber}</td>
-                                                    <td style={styles.td}>{section.lecturerName || "TBA"}</td>
-                                                    <td style={styles.td}>{section.venue || "TBA"}</td>
+                                                <tr key={section.sectionID} style={index % 2 === 0 ? {backgroundColor: '#fff'} : {backgroundColor: '#f9fafb'}}>
+                                                    <td>{section.timeStart} - {section.timeEnd}</td>
+                                                    <td><strong>{section.courseCode}</strong></td>
+                                                    <td>{section.courseName}</td>
+                                                    <td>{section.sectionNumber}</td>
+                                                    <td>{section.lecturerName || "TBA"}</td>
+                                                    <td>{section.venue || "TBA"}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -167,36 +157,14 @@ function ViewTimetableData() {
                             );
                         })}
 
-                        <p style={styles.footnote}>
+                        <p style={{fontSize: '14px', color: '#6b7280', textAlign: 'center', marginTop: '32px'}}>
                             Showing {timetableData.length} sections for Semester {semesterNumber}, {intakeMonth} {academicYear}
                         </p>
                     </>
                 )}
-
-                {/* Navigation buttons */}
-                <div style={{marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #e5e7eb'}}>
-                  <p style={{fontSize: '14px', color: '#6b7280', marginBottom: '12px'}}>Related Actions:</p>
-                  <div style={{display: 'flex', gap: '12px'}}>
-                    <button 
-                      className="admin-btn-outline"
-                      style={{flex: 1, padding: '12px', borderRadius: '10px', border: '1px solid #8b0000', background: '#fff', color: '#8b0000', cursor: 'pointer'}}
-                      onClick={() => navigate('/admin/timetable/upload')}
-                    >
-                      Upload Timetable
-                    </button>
-                    <button 
-                      className="admin-btn-outline"
-                      style={{flex: 1, padding: '12px', borderRadius: '10px', border: '1px solid #8b0000', background: '#fff', color: '#8b0000', cursor: 'pointer'}}
-                      onClick={() => navigate('/admin/timetable/delete')}
-                    >
-                      Delete Timetable
-                    </button>
-                  </div>
-                </div>
             </div>
         </div>
     );
 }
-
 
 export default ViewTimetableData;

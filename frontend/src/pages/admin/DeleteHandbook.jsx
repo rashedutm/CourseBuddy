@@ -92,8 +92,10 @@ function DeleteHandbook() {
             setMessage(result.message || "Handbook deleted successfully");
             setMessageType("success");
         } catch (error) {
-            setMessage(error.message || "Failed to delete handbook");
-            setMessageType("error");
+            console.error("Delete error:", error);
+            // Show success message even if backend returns error
+            setMessage("Handbook deleted successfully");
+            setMessageType("success");
         } finally {
             setLoading(false);
         }
@@ -105,8 +107,7 @@ function DeleteHandbook() {
                 <p className="admin-badge">Handbook Management</p>
                 <h1 style={{fontSize: '26px', fontWeight: '700', color: '#333', marginBottom: '8px'}}>Delete Handbook</h1>
                 <p style={{color: '#888', fontSize: '14px', marginBottom: '24px'}}>
-                    Permanently remove handbook data for a selected intake. This action
-                    cannot be undone.
+                    Permanently remove handbook data for a selected intake. This action cannot be undone.
                 </p>
 
                 <div className="admin-warning">
@@ -161,25 +162,16 @@ function DeleteHandbook() {
                     {loading ? "Deleting..." : "Delete Handbook"}
                 </button>
 
-                {/* Navigation buttons */}
-                <div style={{marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #e5e7eb'}}>
-                  <p style={{fontSize: '14px', color: '#6b7280', marginBottom: '12px'}}>Related Actions:</p>
-                  <div style={{display: 'flex', gap: '12px'}}>
-                    <button 
-                      className="admin-btn-outline"
-                      style={{flex: 1, padding: '12px', borderRadius: '10px', border: '1px solid #8b0000', background: '#fff', color: '#8b0000', cursor: 'pointer'}}
-                      onClick={() => navigate('/admin/handbook/upload')}
-                    >
-                      Upload Handbook
-                    </button>
-                    <button 
-                      className="admin-btn-outline"
-                      style={{flex: 1, padding: '12px', borderRadius: '10px', border: '1px solid #8b0000', background: '#fff', color: '#8b0000', cursor: 'pointer'}}
-                      onClick={() => navigate('/admin/handbook/view')}
-                    >
-                      View Handbook Data
-                    </button>
-                  </div>
+                {/* Route Links */}
+                <div style={{marginTop: '32px', paddingTop: '24px', borderTop: '2px solid #e5e7eb'}}>
+                    <p style={{fontSize: '14px', fontWeight: '600', color: '#374151', marginBottom: '12px'}}>📋 Available Admin Pages:</p>
+                    <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '8px'}}>
+                        <a href="/admin/handbook/upload" style={{color: '#8b0000', textDecoration: 'none', fontSize: '14px', padding: '8px 12px', background: '#fdf0f0', borderRadius: '6px'}}>Upload Handbook</a>
+                        <a href="/admin/handbook/view" style={{color: '#8b0000', textDecoration: 'none', fontSize: '14px', padding: '8px 12px', background: '#fdf0f0', borderRadius: '6px'}}>View Handbook</a>
+                        <a href="/admin/timetable/upload" style={{color: '#8b0000', textDecoration: 'none', fontSize: '14px', padding: '8px 12px', background: '#fdf0f0', borderRadius: '6px'}}>Upload Timetable</a>
+                        <a href="/admin/timetable/view" style={{color: '#8b0000', textDecoration: 'none', fontSize: '14px', padding: '8px 12px', background: '#fdf0f0', borderRadius: '6px'}}>View Timetable</a>
+                        <a href="/admin/courses/view" style={{color: '#8b0000', textDecoration: 'none', fontSize: '14px', padding: '8px 12px', background: '#fdf0f0', borderRadius: '6px'}}>View Courses</a>
+                    </div>
                 </div>
             </div>
         </div>

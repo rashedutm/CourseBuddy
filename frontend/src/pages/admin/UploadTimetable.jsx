@@ -53,20 +53,19 @@ function UploadTimetable() {
     };
 
     return (
-        <div style={styles.page}>
-            <div style={styles.card}>
-                <p style={styles.eyebrow}>Timetable Management</p>
-                <h1 style={styles.title}>Upload Timetable</h1>
-                <p style={styles.subtitle}>
+        <div className="admin-page">
+            <div className="admin-card">
+                <p className="admin-badge">Timetable Management</p>
+                <h1 style={{fontSize: '26px', fontWeight: '700', color: '#333', marginBottom: '8px'}}>Upload Timetable</h1>
+                <p style={{color: '#888', fontSize: '14px', marginBottom: '24px'}}>
                     Upload the semester timetable in Excel format. Select the correct
                     semester, intake, and academic year before uploading.
                 </p>
 
-                <div style={styles.formGrid}>
-                    <div style={styles.formGroup}>
-                        <label style={styles.label}>Semester Number</label>
+                <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '24px'}}>
+                    <div className="admin-form-group">
+                        <label>Semester Number</label>
                         <select
-                            style={styles.select}
                             value={semesterNumber}
                             onChange={(e) => setSemesterNumber(e.target.value)}
                         >
@@ -78,10 +77,9 @@ function UploadTimetable() {
                         </select>
                     </div>
 
-                    <div style={styles.formGroup}>
-                        <label style={styles.label}>Intake Month</label>
+                    <div className="admin-form-group">
+                        <label>Intake Month</label>
                         <select
-                            style={styles.select}
                             value={intakeMonth}
                             onChange={(e) => setIntakeMonth(e.target.value)}
                         >
@@ -90,10 +88,9 @@ function UploadTimetable() {
                         </select>
                     </div>
 
-                    <div style={styles.formGroup}>
-                        <label style={styles.label}>Academic Year</label>
+                    <div className="admin-form-group">
+                        <label>Academic Year</label>
                         <select
-                            style={styles.select}
                             value={academicYear}
                             onChange={(e) => setAcademicYear(e.target.value)}
                         >
@@ -103,10 +100,9 @@ function UploadTimetable() {
                         </select>
                     </div>
 
-                    <div style={styles.formGroup}>
-                        <label style={styles.label}>Faculty</label>
+                    <div className="admin-form-group">
+                        <label>Faculty</label>
                         <select
-                            style={styles.select}
                             value={facultyID}
                             onChange={(e) => setFacultyID(e.target.value)}
                         >
@@ -115,24 +111,23 @@ function UploadTimetable() {
                     </div>
                 </div>
 
-                <div style={styles.formGroup}>
-                    <label style={styles.label}>Timetable File (.xlsx)</label>
+                <div className="admin-form-group">
+                    <label>Timetable File (.xlsx)</label>
                     <input
                         type="file"
                         accept=".xlsx,.xls"
                         onChange={handleFileChange}
-                        style={styles.fileInput}
                     />
                     {selectedFile && (
-                        <p style={styles.fileName}>Selected: {selectedFile.name}</p>
+                        <p style={{fontSize: '14px', color: '#6b7280', marginTop: '8px'}}>
+                            Selected: {selectedFile.name}
+                        </p>
                     )}
                 </div>
 
-                <button
-                    style={{
-                        ...styles.button,
-                        opacity: loading || !selectedFile ? 0.5 : 1
-                    }}
+                <button 
+                    className="admin-btn"
+                    style={{opacity: loading || !selectedFile ? 0.5 : 1}}
                     onClick={handleUpload}
                     disabled={loading || !selectedFile}
                 >
@@ -142,27 +137,6 @@ function UploadTimetable() {
                 {statusMessage && (
                     <p className="admin-status success">{statusMessage}</p>
                 )}
-
-                {/* Navigation buttons */}
-                <div style={{marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #e5e7eb'}}>
-                    <p style={{fontSize: '14px', color: '#6b7280', marginBottom: '12px'}}>Related Actions:</p>
-                    <div style={{display: 'flex', gap: '12px'}}>
-                        <button 
-                            className="admin-btn-outline"
-                            style={{flex: 1, padding: '12px', borderRadius: '10px', border: '1px solid #8b0000', background: '#fff', color: '#8b0000', cursor: 'pointer'}}
-                            onClick={() => navigate('/admin/timetable/view')}
-                        >
-                            View Timetable Data
-                        </button>
-                        <button 
-                            className="admin-btn-outline"
-                            style={{flex: 1, padding: '12px', borderRadius: '10px', border: '1px solid #8b0000', background: '#fff', color: '#8b0000', cursor: 'pointer'}}
-                            onClick={() => navigate('/admin/timetable/delete')}
-                        >
-                            Delete Timetable
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
     );

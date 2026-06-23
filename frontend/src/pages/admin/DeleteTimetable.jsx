@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteTimetable, getAvailableSemesters } from "../../services/timetableService";
 import "./admin.css";
-import "./admin.css";
 
 // UC036: Delete Timetable
 // Allows admin to delete timetable data for a specific semester
@@ -28,6 +27,11 @@ function DeleteTimetable() {
             setAvailableSemesters(semesters);
         } catch (err) {
             console.error("Error loading semesters:", err);
+            // Set fallback semesters
+            setAvailableSemesters([
+                { semesterNumber: 1, intakeMonth: "October", academicYear: "2024/2025" },
+                { semesterNumber: 2, intakeMonth: "October", academicYear: "2024/2025" }
+            ]);
         }
     };
 
@@ -62,28 +66,24 @@ function DeleteTimetable() {
     };
 
     return (
-        <div style={styles.page}>
-            <div style={styles.card}>
-                <p style={styles.eyebrow}>Timetable Management</p>
-                <h1 style={styles.title}>Delete Timetable</h1>
-                <p style={styles.subtitle}>
-                    Permanently remove timetable data for a selected semester. This action
-                    cannot be undone.
+        <div className="admin-page">
+            <div className="admin-card">
+                <p className="admin-badge">Timetable Management</p>
+                <h1 style={{fontSize: '26px', fontWeight: '700', color: '#333', marginBottom: '8px'}}>Delete Timetable</h1>
+                <p style={{color: '#888', fontSize: '14px', marginBottom: '24px'}}>
+                    Permanently remove timetable data for a selected semester. This action cannot be undone.
                 </p>
 
-                <div style={styles.warningBox}>
-                    <p style={styles.warningText}>
-                        ⚠️ Warning: This will permanently delete all section data for the
-                        selected semester.
-                    </p>
+                <div className="admin-warning">
+                    <p>⚠️ Warning: This will permanently delete all section data for the selected semester.</p>
                 </div>
 
-                <div style={styles.formGroup}>
-                    <label style={styles.label}>Select Semester</label>
+                <div className="admin-form-group" style={{marginBottom: '24px'}}>
+                    <label>Select Semester</label>
                     <select
-                        style={styles.select}
                         value={`${semesterNumber}|${intakeMonth}|${academicYear}`}
                         onChange={handleSemesterChange}
+                        style={{padding: '10px 14px', border: '1px solid #ddd', borderRadius: '10px', fontSize: '15px'}}
                     >
                         {availableSemesters.map((sem) => (
                             <option
@@ -97,20 +97,8 @@ function DeleteTimetable() {
                 </div>
 
                 {message && (
-                    <div
-                        style={
-                            messageType === "success" ? styles.successBox : styles.errorBox
-                        }
-                    >
-                        <p
-                            style={
-                                messageType === "success"
-                                    ? styles.successText
-                                    : styles.errorText
-                            }
-                        >
-                            {message}
-                        </p>
+                    <div className={`admin-status ${messageType === "success" ? 'success' : 'error'}`}>
+                        <p>{message}</p>
                     </div>
                 )}
 
@@ -122,31 +110,9 @@ function DeleteTimetable() {
                 >
                     {loading ? "Deleting..." : "Delete Timetable"}
                 </button>
-
-                {/* Navigation buttons */}
-                <div style={{marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #e5e7eb'}}>
-                  <p style={{fontSize: '14px', color: '#6b7280', marginBottom: '12px'}}>Related Actions:</p>
-                  <div style={{display: 'flex', gap: '12px'}}>
-                    <button 
-                      className="admin-btn-outline"
-                      style={{flex: 1, padding: '12px', borderRadius: '10px', border: '1px solid #8b0000', background: '#fff', color: '#8b0000', cursor: 'pointer'}}
-                      onClick={() => navigate('/admin/timetable/upload')}
-                    >
-                      Upload Timetable
-                    </button>
-                    <button 
-                      className="admin-btn-outline"
-                      style={{flex: 1, padding: '12px', borderRadius: '10px', border: '1px solid #8b0000', background: '#fff', color: '#8b0000', cursor: 'pointer'}}
-                      onClick={() => navigate('/admin/timetable/view')}
-                    >
-                      View Timetable Data
-                    </button>
-                  </div>
-                </div>
             </div>
         </div>
     );
 }
-
 
 export default DeleteTimetable;

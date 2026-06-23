@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getSectionsByCourse, updateSection } from "../../services/courseSectionService";
 import "./admin.css";
-import "./admin.css";
 
 // UC039: Edit Section Data
 // Allows admin to edit section/timetable information
@@ -100,26 +99,28 @@ function EditSectionData() {
     };
 
     return (
-        <div style={styles.page}>
-            <div style={styles.card}>
-                <p style={styles.eyebrow}>Course & Section Management</p>
-                <h1 style={styles.title}>Edit Section Data</h1>
-                <p style={styles.subtitle}>
+        <div className="admin-page">
+            <div className="admin-card">
+                <p className="admin-badge">Course & Section Management</p>
+                <h1 style={{fontSize: '26px', fontWeight: '700', color: '#333', marginBottom: '8px'}}>Edit Section Data</h1>
+                <p style={{color: '#888', fontSize: '14px', marginBottom: '24px'}}>
                     Update section information such as time, venue, and lecturer.
                 </p>
 
                 {/* Search Section */}
-                <div style={styles.searchSection}>
-                    <div style={styles.searchContainer}>
+                <div className="admin-form-group" style={{marginBottom: '24px'}}>
+                    <label>Search Course</label>
+                    <div style={{display: 'flex', gap: '12px', marginBottom: '16px'}}>
                         <input
                             type="text"
-                            style={styles.searchInput}
+                            style={{flex: 1, padding: '12px 16px', border: '1px solid #ddd', borderRadius: '12px', fontSize: '15px'}}
                             placeholder="Enter course code (e.g., SCSE1013)"
                             value={courseCode}
                             onChange={(e) => setCourseCode(e.target.value.toUpperCase())}
                         />
                         <button
-                            style={styles.searchButton}
+                            className="admin-btn"
+                            style={{width: 'auto', padding: '12px 24px'}}
                             onClick={handleCourseSearch}
                             disabled={loading}
                         >
@@ -127,11 +128,10 @@ function EditSectionData() {
                         </button>
                     </div>
 
-                    <div style={styles.filterRow}>
-                        <div style={styles.formGroup}>
-                            <label style={styles.label}>Semester</label>
+                    <div style={{display: 'flex', gap: '16px', flexWrap: 'wrap'}}>
+                        <div className="admin-form-group">
+                            <label>Semester</label>
                             <select
-                                style={styles.select}
                                 value={semesterNumber}
                                 onChange={(e) => setSemesterNumber(e.target.value)}
                             >
@@ -143,10 +143,9 @@ function EditSectionData() {
                             </select>
                         </div>
 
-                        <div style={styles.formGroup}>
-                            <label style={styles.label}>Intake</label>
+                        <div className="admin-form-group">
+                            <label>Intake</label>
                             <select
-                                style={styles.select}
                                 value={intakeMonth}
                                 onChange={(e) => setIntakeMonth(e.target.value)}
                             >
@@ -155,10 +154,9 @@ function EditSectionData() {
                             </select>
                         </div>
 
-                        <div style={styles.formGroup}>
-                            <label style={styles.label}>Academic Year</label>
+                        <div className="admin-form-group">
+                            <label>Academic Year</label>
                             <select
-                                style={styles.select}
                                 value={academicYear}
                                 onChange={(e) => setAcademicYear(e.target.value)}
                             >
@@ -171,43 +169,35 @@ function EditSectionData() {
                 </div>
 
                 {message && (
-                    <div
-                        style={
-                            messageType === "success" ? styles.successBox : styles.errorBox
-                        }
-                    >
-                        <p
-                            style={
-                                messageType === "success"
-                                    ? styles.successText
-                                    : styles.errorText
-                            }
-                        >
-                            {message}
-                        </p>
+                    <div className={`admin-status ${messageType === "success" ? 'success' : 'error'}`}>
+                        <p>{message}</p>
                     </div>
                 )}
 
                 {/* Sections List */}
                 {sections.length > 0 && (
-                    <div style={styles.sectionsList}>
-                        <h3 style={styles.sectionTitle}>Available Sections</h3>
-                        <div style={styles.sectionGrid}>
+                    <div style={{marginBottom: '24px'}}>
+                        <h3 style={{fontSize: '18px', fontWeight: '600', color: '#333', marginBottom: '16px'}}>Available Sections</h3>
+                        <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '12px'}}>
                             {sections.map((section) => (
                                 <div
                                     key={section.sectionID}
                                     style={{
-                                        ...styles.sectionCard,
-                                        borderColor: selectedSection === section.sectionID ? "#2563eb" : "#e5e7eb",
-                                        backgroundColor: selectedSection === section.sectionID ? "#eff6ff" : "#ffffff"
+                                        padding: '16px',
+                                        border: '2px solid',
+                                        borderRadius: '10px',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.2s',
+                                        borderColor: selectedSection === section.sectionID ? '#8b0000' : '#e5e7eb',
+                                        background: selectedSection === section.sectionID ? '#fffafa' : '#ffffff'
                                     }}
                                     onClick={() => handleSectionClick(section)}
                                 >
-                                    <p style={styles.sectionCode}>{section.sectionNumber}</p>
-                                    <p style={styles.sectionTime}>
+                                    <p style={{fontSize: '16px', fontWeight: '600', color: '#333', marginBottom: '8px'}}>{section.sectionNumber}</p>
+                                    <p style={{fontSize: '13px', color: '#888', margin: '4px 0'}}>
                                         {section.day} {section.timeStart}-{section.timeEnd}
                                     </p>
-                                    <p style={styles.sectionVenue}>{section.venue || "TBA"}</p>
+                                    <p style={{fontSize: '13px', color: '#888', margin: '4px 0'}}>{section.venue || "TBA"}</p>
                                 </div>
                             ))}
                         </div>
@@ -216,38 +206,36 @@ function EditSectionData() {
 
                 {/* Edit Form */}
                 {selectedSection && (
-                    <div style={styles.formContainer}>
-                        <h3 style={styles.formTitle}>Edit Section</h3>
+                    <div style={{marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #e5e7eb'}}>
+                        <h3 style={{fontSize: '18px', fontWeight: '600', color: '#333', marginBottom: '20px'}}>Edit Section</h3>
 
-                        <div style={styles.formRow}>
-                            <div style={styles.formGroup}>
-                                <label style={styles.label}>Section Number</label>
+                        <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '24px'}}>
+                            <div className="admin-form-group">
+                                <label>Section Number</label>
                                 <input
                                     type="text"
-                                    style={styles.input}
+                                    style={{padding: '10px 14px', border: '1px solid #ddd', borderRadius: '10px', fontSize: '15px'}}
                                     value={sectionNumber}
                                     onChange={(e) => setSectionNumber(e.target.value)}
                                 />
                             </div>
 
-                            <div style={styles.formGroup}>
-                                <label style={styles.label}>Lecturer Name</label>
+                            <div className="admin-form-group">
+                                <label>Lecturer Name</label>
                                 <input
                                     type="text"
-                                    style={styles.input}
+                                    style={{padding: '10px 14px', border: '1px solid #ddd', borderRadius: '10px', fontSize: '15px'}}
                                     value={lecturerName}
                                     onChange={(e) => setLecturerName(e.target.value)}
                                 />
                             </div>
-                        </div>
 
-                        <div style={styles.formRow}>
-                            <div style={styles.formGroup}>
-                                <label style={styles.label}>Day</label>
+                            <div className="admin-form-group">
+                                <label>Day</label>
                                 <select
-                                    style={styles.select}
                                     value={day}
                                     onChange={(e) => setDay(e.target.value)}
+                                    style={{padding: '10px 14px', border: '1px solid #ddd', borderRadius: '10px', fontSize: '15px'}}
                                 >
                                     {days.map((d) => (
                                         <option key={d} value={d}>
@@ -257,40 +245,40 @@ function EditSectionData() {
                                 </select>
                             </div>
 
-                            <div style={styles.formGroup}>
-                                <label style={styles.label}>Time Start</label>
+                            <div className="admin-form-group">
+                                <label>Time Start</label>
                                 <input
                                     type="time"
-                                    style={styles.input}
+                                    style={{padding: '10px 14px', border: '1px solid #ddd', borderRadius: '10px', fontSize: '15px'}}
                                     value={timeStart}
                                     onChange={(e) => setTimeStart(e.target.value)}
                                 />
                             </div>
 
-                            <div style={styles.formGroup}>
-                                <label style={styles.label}>Time End</label>
+                            <div className="admin-form-group">
+                                <label>Time End</label>
                                 <input
                                     type="time"
-                                    style={styles.input}
+                                    style={{padding: '10px 14px', border: '1px solid #ddd', borderRadius: '10px', fontSize: '15px'}}
                                     value={timeEnd}
                                     onChange={(e) => setTimeEnd(e.target.value)}
                                 />
                             </div>
-                        </div>
 
-                        <div style={styles.formGroup}>
-                            <label style={styles.label}>Venue</label>
-                            <input
-                                type="text"
-                                style={styles.input}
-                                value={venue}
-                                onChange={(e) => setVenue(e.target.value)}
-                            />
+                            <div className="admin-form-group">
+                                <label>Venue</label>
+                                <input
+                                    type="text"
+                                    style={{padding: '10px 14px', border: '1px solid #ddd', borderRadius: '10px', fontSize: '15px'}}
+                                    value={venue}
+                                    onChange={(e) => setVenue(e.target.value)}
+                                />
+                            </div>
                         </div>
 
                         <button
                             className="admin-btn"
-                            style={{opacity: loading ? 0.5 : 1}}
+                            style={{opacity: loading ? 0.5 : 1, width: 'auto', padding: '12px 24px'}}
                             onClick={handleUpdate}
                             disabled={loading}
                         >
@@ -298,38 +286,9 @@ function EditSectionData() {
                         </button>
                     </div>
                 )}
-
-                {/* Navigation buttons */}
-                <div style={{marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #e5e7eb'}}>
-                  <p style={{fontSize: '14px', color: '#6b7280', marginBottom: '12px'}}>Related Actions:</p>
-                  <div style={{display: 'flex', gap: '12px', flexWrap: 'wrap'}}>
-                    <button 
-                      className="admin-btn-outline"
-                      style={{flex: 1, padding: '12px', borderRadius: '10px', border: '1px solid #8b0000', background: '#fff', color: '#8b0000', cursor: 'pointer', minWidth: '150px'}}
-                      onClick={() => navigate('/admin/courses/view')}
-                    >
-                      View Courses
-                    </button>
-                    <button 
-                      className="admin-btn-outline"
-                      style={{flex: 1, padding: '12px', borderRadius: '10px', border: '1px solid #8b0000', background: '#fff', color: '#8b0000', cursor: 'pointer', minWidth: '150px'}}
-                      onClick={() => navigate('/admin/courses/edit-course')}
-                    >
-                      Edit Course
-                    </button>
-                    <button 
-                      className="admin-btn-outline"
-                      style={{flex: 1, padding: '12px', borderRadius: '10px', border: '1px solid #8b0000', background: '#fff', color: '#8b0000', cursor: 'pointer', minWidth: '150px'}}
-                      onClick={() => navigate('/admin/courses/delete')}
-                    >
-                      Delete Course/Section
-                    </button>
-                  </div>
-                </div>
             </div>
         </div>
     );
 }
-
 
 export default EditSectionData;
