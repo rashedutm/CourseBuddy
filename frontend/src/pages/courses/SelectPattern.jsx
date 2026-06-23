@@ -32,8 +32,7 @@ function SelectPattern() {
     const handleConfirm = async () => {
         setStatus('saving')
         try {
-            const patternID = `PAT-${studentID}-${semesterID}-${patternIndex}-${Date.now()}`
-            await saveSelectedPattern(studentID, patternID)
+            await saveSelectedPattern(studentID, semesterID, pattern)
             setStatus('saved')
         } catch (err) {
             setStatus('error')

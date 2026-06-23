@@ -41,8 +41,8 @@ export const getAvailableCourses = async (programmeID, intakeID, semesterNumber,
 }
 
 // UC002 - Get free electives
-export const getAvailableFreeElectives = async (programmeID, intakeID, semesterNumber, academicYear) => {
-    const response = await fetch(`${API_BASE_URL}/courses/free-electives?programmeID=${programmeID}&intakeID=${intakeID}&semesterNumber=${semesterNumber}&academicYear=${encodeURIComponent(academicYear)}`)
+export const getAvailableFreeElectives = async (programmeID, intakeID, semesterNumber, academicYear, studentID) => {
+    const response = await fetch(`${API_BASE_URL}/courses/free-electives?programmeID=${programmeID}&intakeID=${intakeID}&semesterNumber=${semesterNumber}&academicYear=${encodeURIComponent(academicYear)}&studentID=${studentID}`)
     if (!response.ok) throw new Error('Failed to fetch free electives')
     return response.json()
 }
@@ -77,11 +77,11 @@ export const generatePatterns = async (studentID, semesterID, academicYear) => {
 }
 
 // UC007 - Save selected pattern
-export const saveSelectedPattern = async (studentID, patternID) => {
+export const saveSelectedPattern = async (studentID, semesterID, sections) => {
     const response = await fetch(`${API_BASE_URL}/patterns/select`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ studentID, patternID })
+        body: JSON.stringify({ studentID, semesterID, sections })
     })
     if (!response.ok) throw new Error('Failed to save selected pattern')
     return response.json()

@@ -46,6 +46,7 @@ function GeneratePatterns() {
     }, [studentID, semesterID, academicYear])
 
     const handleViewPatterns = () => {
+        console.log('patterns being passed:', patterns)   // ADD THIS LINE
         navigate('/courses/patterns', {
             state: {
                 patterns,

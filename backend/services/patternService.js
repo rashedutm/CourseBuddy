@@ -171,7 +171,7 @@ exports.savePattern = (studentID, semesterID, sections) => {
         db.query(deactivateSql, [studentID], (err) => {
             if (err) return reject(err)
 
-            const patternID = `PAT-${studentID}-${semesterID}-${Date.now()}`
+            const patternID = `PAT-${Date.now()}`
             const generatedDate = new Date().toISOString().split('T')[0]
             const totalCourses = sections.length
             const totalCreditHours = sections.reduce((sum, s) => sum + (s.creditHours || 0), 0)
@@ -187,7 +187,7 @@ exports.savePattern = (studentID, semesterID, sections) => {
 
                 // Insert pattern details (one row per course section)
                 const detailValues = sections.map((s, i) => [
-                    `PD-${patternID}-${i}`,
+                    `PD-${Date.now()}-${i}`,
                     patternID,
                     s.courseCode,
                     s.sectionID
@@ -202,7 +202,7 @@ exports.savePattern = (studentID, semesterID, sections) => {
                     if (err) return reject(err)
 
                     // Insert registration history
-                    const historyID = `HIS-${studentID}-${Date.now()}`
+                    const historyID = `HIS-${Date.now()}`
                     const selectedDate = generatedDate
                     const historySql = `
                         INSERT INTO registration_history

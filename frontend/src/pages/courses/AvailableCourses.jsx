@@ -50,11 +50,13 @@ function AvailableCourses() {
 
                 // Load free elective courses
                 try {
+                    const studentID = localStorage.getItem('studentID')
                     const freeData = await getAvailableFreeElectives(
                         programmeID,
                         intakeID,
                         semesterNumber,
-                        academicYear
+                        academicYear,
+                        studentID
                     )
                     setFreeElectives(freeData)
                 } catch (err) {
