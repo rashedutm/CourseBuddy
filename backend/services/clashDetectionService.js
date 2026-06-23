@@ -48,7 +48,11 @@ const generateClashFreePatterns = (sectionsByCourse) => {
         return results
     }
 
-    return generateCombinations(0, [])
+    const allPatterns = generateCombinations(0, [])
+
+    // Shuffle and return max 20
+    const shuffled = allPatterns.sort(() => Math.random() - 0.5)
+    return shuffled.slice(0, 20)
 }
 
 module.exports = { generateClashFreePatterns, hasTimeClash }

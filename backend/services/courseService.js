@@ -124,8 +124,10 @@ exports.getAvailableCourses = (programmeID, intakeID, semesterNumber, academicYe
 //   1. Course code matches codePattern from handbook_slot
 //   2. Appears in free_elective_offering this semester
 //   3. Offered by DIFFERENT faculty than student's faculty
+// academicYear here = current running academic year
+// NOT the student's intake session year
 // ============================================
-exports.getAvailableFreeElectives = (programmeID, intakeID, semesterNumber, academicYear, studentFacultyID) => {
+exports.getAvailableFreeElectives = (programmeID, intakeID, semesterNumber, currentAcademicYear, studentFacultyID) => {
     return new Promise((resolve, reject) => {
         const sql = `
             SELECT DISTINCT
@@ -142,23 +144,19 @@ exports.getAvailableFreeElectives = (programmeID, intakeID, semesterNumber, acad
                 i.intakeMonth
             FROM handbook_slot hs
             JOIN intake i ON hs.intakeID = i.intakeID
-            JOIN free_elective_offering feo ON feo.semesterNumber = hs.semesterNumber
+            JOIN free_elective_offering feo ON feo.intakeMonth = i.intakeMonth
             JOIN course c ON feo.courseCode = c.courseCode
             WHERE hs.programmeID = ?
             AND hs.intakeID = ?
             AND hs.semesterNumber = ?
             AND hs.slotType = 'free_elective'
-            AND feo.intakeMonth = i.intakeMonth
             AND feo.academicYear = ?
             AND feo.offeringFacultyID != ?
             AND c.courseCode REGEXP REPLACE(
-                REPLACE(
-                    REPLACE(hs.codePattern, 'x', '[a-zA-Z]'),
-                'X', '[A-Z]'),
-            '?', '[0-9]')
+                hs.codePattern, 'x', '[a-zA-Z0-9]')
             ORDER BY c.courseCode
         `
-        db.query(sql, [programmeID, intakeID, semesterNumber, academicYear, studentFacultyID], (err, results) => {
+        db.query(sql, [programmeID, intakeID, semesterNumber, currentAcademicYear, studentFacultyID], (err, results) => {
             if (err) return reject(err)
             resolve(results)
         })
@@ -280,6 +278,23 @@ exports.getStudentInfo = (studentID) => {
         db.query(sql, [studentID], (err, results) => {
             if (err) return reject(err)
             resolve(results[0])
+        })
+    })
+}
+
+// Helper - Get current running academic year
+// Returns the most recent academicYear in the section table
+exports.getCurrentAcademicYear = () => {
+    return new Promise((resolve, reject) => {
+        const sql = `
+            SELECT academicYear 
+            FROM section 
+            ORDER BY academicYear DESC 
+            LIMIT 1
+        `
+        db.query(sql, (err, results) => {
+            if (err) return reject(err)
+            resolve(results[0]?.academicYear)
         })
     })
 }

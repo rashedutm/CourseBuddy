@@ -178,3 +178,13 @@ exports.getStudentInfo = async (req, res) => {
         res.status(500).json({ error: err.message })
     }
 }
+
+// GET /api/current-academic-year
+exports.getCurrentAcademicYear = async (req, res) => {
+    try {
+        const year = await courseService.getCurrentAcademicYear()
+        res.json({ academicYear: year })
+    } catch (err) {
+        res.status(500).json({ error: err.message })
+    }
+}

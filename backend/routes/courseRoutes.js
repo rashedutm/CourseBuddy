@@ -30,5 +30,6 @@ router.post('/courses/select', courseController.saveSelectedCourses)
 // Helper — Student Info Route
 // ============================================
 router.get('/student/info', courseController.getStudentInfo)
+router.get('/current-academic-year', courseController.getCurrentAcademicYear)
 
 module.exports = router

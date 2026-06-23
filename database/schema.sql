@@ -321,7 +321,6 @@ CREATE TABLE IF NOT EXISTS free_elective_offering (
     offeringID VARCHAR(20) PRIMARY KEY,
     courseCode VARCHAR(20) NOT NULL,
     offeringFacultyID VARCHAR(20) NOT NULL,
-    semesterNumber INT NOT NULL,
     intakeMonth ENUM('October', 'March') NOT NULL,
     academicYear VARCHAR(20) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,

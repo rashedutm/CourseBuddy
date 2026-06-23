@@ -2,10 +2,34 @@ const db = require('../config/db')
 const { generateClashFreePatterns } = require('./clashDetectionService')
 
 // ============================================
-// UC005 — Get all sections for selected courses
-// Used to feed clash detection algorithm
+// Helper — Get current running academic year
+// Returns the most recent academicYear in section table
+// Used for free elective and foreign language courses
 // ============================================
-exports.getSectionsByCourses = (courseCodes, semesterNumber, intakeMonth, academicYear) => {
+exports.getCurrentAcademicYear = () => {
+    return new Promise((resolve, reject) => {
+        const sql = `
+            SELECT academicYear 
+            FROM section 
+            ORDER BY academicYear DESC 
+            LIMIT 1
+        `
+        db.query(sql, (err, results) => {
+            if (err) return reject(err)
+            resolve(results[0]?.academicYear)
+        })
+    })
+}
+
+// ============================================
+// UC005 — Get all sections for selected courses
+// Uses BOTH student's academic year AND current
+// running academic year — covers regular courses
+// AND free elective / foreign language courses
+// ============================================
+exports.getSectionsByCourses = async (courseCodes, semesterNumber, intakeMonth, academicYear) => {
+    const currentAcademicYear = await exports.getCurrentAcademicYear()
+
     return new Promise((resolve, reject) => {
         const placeholders = courseCodes.map(() => '?').join(',')
         const sql = `
@@ -26,10 +50,10 @@ exports.getSectionsByCourses = (courseCodes, semesterNumber, intakeMonth, academ
             WHERE s.courseCode IN (${placeholders})
             AND s.semesterNumber = ?
             AND s.intakeMonth = ?
-            AND s.academicYear = ?
+            AND s.academicYear IN (?, ?)
             ORDER BY s.courseCode, s.sectionNumber
         `
-        db.query(sql, [...courseCodes, semesterNumber, intakeMonth, academicYear], (err, results) => {
+        db.query(sql, [...courseCodes, semesterNumber, intakeMonth, academicYear, currentAcademicYear], (err, results) => {
             if (err) return reject(err)
             resolve(results)
         })
@@ -150,6 +174,13 @@ exports.generatePatterns = async (studentID, semesterID, academicYear) => {
         sectionsByCourse[section.courseCode].push(section)
     })
 
+    // Check all selected courses have sections
+    // If any course has no sections, throw error
+    const missingCourses = courseCodes.filter(code => !sectionsByCourse[code])
+    if (missingCourses.length > 0) {
+        throw new Error(`NO_TIMETABLE_DATA`)
+    }
+
     // Run clash detection
     const patterns = generateClashFreePatterns(sectionsByCourse)
     return { patterns, studentInfo, semesterInfo }
@@ -162,7 +193,6 @@ exports.generatePatterns = async (studentID, semesterID, academicYear) => {
 // ============================================
 exports.savePattern = (studentID, semesterID, sections) => {
     return new Promise((resolve, reject) => {
-        // Deactivate previous selections
         const deactivateSql = `
             UPDATE registration_history
             SET isActive = FALSE
@@ -176,7 +206,6 @@ exports.savePattern = (studentID, semesterID, sections) => {
             const totalCourses = sections.length
             const totalCreditHours = sections.reduce((sum, s) => sum + (s.creditHours || 0), 0)
 
-            // Insert pattern header
             const patternSql = `
                 INSERT INTO pattern
                 (patternID, studentID, semesterID, totalCourses, totalCreditHours, generatedDate, isSelected)
@@ -185,7 +214,6 @@ exports.savePattern = (studentID, semesterID, sections) => {
             db.query(patternSql, [patternID, studentID, semesterID, totalCourses, totalCreditHours, generatedDate], (err) => {
                 if (err) return reject(err)
 
-                // Insert pattern details (one row per course section)
                 const detailValues = sections.map((s, i) => [
                     `PD-${Date.now()}-${i}`,
                     patternID,
@@ -201,7 +229,6 @@ exports.savePattern = (studentID, semesterID, sections) => {
                 db.query(detailSql, [detailValues], (err) => {
                     if (err) return reject(err)
 
-                    // Insert registration history
                     const historyID = `HIS-${Date.now()}`
                     const selectedDate = generatedDate
                     const historySql = `
