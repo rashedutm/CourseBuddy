@@ -22,18 +22,34 @@ function SelectIntakeSemester() {
     const [errorMessage, setErrorMessage] = useState('')
     const [loading, setLoading] = useState(false)
 
-    // Step 1 — Load academic sessions when page opens
+    const studentName = localStorage.getItem('studentName') || 'Student'
+
+    // Placeholder structure — always visible before real data loads
+    // These match the UTM structure: 2 intakes, 8 semesters
+    const placeholderIntakes = [
+        { intakeID: null, intakeNumber: 1, intakeMonth: 'October' },
+        { intakeID: null, intakeNumber: 2, intakeMonth: 'March' }
+    ]
+
+    const placeholderSemesters = Array.from({ length: 8 }, (_, i) => ({
+        semesterID: null,
+        semesterNumber: i + 1,
+        semesterName: `Year ${Math.ceil((i + 1) / 2)} Semester ${(i % 2) + 1}`
+    }))
+
+    // Load sessions on mount
     useEffect(() => {
         getAcademicSessions()
             .then(data => setSessions(data))
             .catch(err => setErrorMessage('Unable to load sessions: ' + err.message))
     }, [])
 
-    // Step 2 — When student selects a session, load its intakes
+    // When session selected — load real intakes
     const handleSessionSelect = async (session) => {
         setSelectedSession(session)
         setSelectedIntake(null)
         setSelectedSemester(null)
+        setIntakes([])
         setSemesters([])
         setHandbookInfo(null)
         setErrorMessage('')
@@ -45,10 +61,12 @@ function SelectIntakeSemester() {
         }
     }
 
-    // Step 3 — When student selects an intake, load its semesters
+    // When intake selected — load real semesters
     const handleIntakeSelect = async (intake) => {
+        if (!intake.intakeID) return // placeholder — not yet loaded
         setSelectedIntake(intake)
         setSelectedSemester(null)
+        setSemesters([])
         setHandbookInfo(null)
         setErrorMessage('')
         try {
@@ -59,15 +77,14 @@ function SelectIntakeSemester() {
         }
     }
 
-    // Step 4 — When student selects a semester, check handbook
+    // When semester selected — check handbook
     const handleSemesterSelect = async (semester) => {
+        if (!semester.semesterID) return // placeholder — not yet loaded
         setSelectedSemester(semester)
         setHandbookInfo(null)
         setErrorMessage('')
         setLoading(true)
 
-        // Get student's programmeID from localStorage
-        // This is set during login/profile setup
         const programmeID = localStorage.getItem('programmeID')
         if (!programmeID) {
             setErrorMessage('Programme not found. Please update your profile first.')
@@ -102,6 +119,13 @@ function SelectIntakeSemester() {
         })
     }
 
+    // Use real data if loaded, otherwise show placeholders
+        const displayIntakes = !selectedSession ? placeholderIntakes : intakes
+        const displaySemesters = !selectedIntake ? placeholderSemesters : semesters
+
+    const intakesActive = selectedSession !== null
+    const semestersActive = selectedIntake !== null
+
     return (
         <div className="container">
             <header>
@@ -110,7 +134,7 @@ function SelectIntakeSemester() {
             </header>
 
             <div className="welcome-card">
-                <h2>Welcome, {localStorage.getItem('studentName') || 'Student'}</h2>
+                <h2>Welcome, {studentName}</h2>
                 <p>Select your academic session, intake and semester to view available courses.</p>
             </div>
 
@@ -118,6 +142,9 @@ function SelectIntakeSemester() {
             <div className="section">
                 <label>Select Academic Session</label>
                 <div className="chips">
+                    {sessions.length === 0 && (
+                        <p style={{ color: '#aaa', fontSize: '14px' }}>Loading...</p>
+                    )}
                     {sessions.map(session => (
                         <button
                             key={session.academicSession}
@@ -130,50 +157,56 @@ function SelectIntakeSemester() {
                 </div>
             </div>
 
-            {/* Step 2 — Intake */}
-            {selectedSession && intakes.length > 0 && (
-                <div className="section">
-                    <label>Select Intake</label>
-                    <div className="chips">
-                        {intakes.map(intake => (
-                            <button
-                                key={intake.intakeID}
-                                className={selectedIntake?.intakeID === intake.intakeID ? 'active' : ''}
-                                onClick={() => handleIntakeSelect(intake)}
-                            >
-                                {intake.intakeNumber} — {intake.intakeMonth}
-                            </button>
-                        ))}
-                    </div>
+            {/* Step 2 — Intake — always visible, greyed until session selected */}
+            <div className="section">
+                <label>Select Intake</label>
+                <div className="chips">
+                    {displayIntakes.map((intake, index) => (
+                        <button
+                            key={intake.intakeID || index}
+                            className={selectedIntake?.intakeID === intake.intakeID && intake.intakeID ? 'active' : ''}
+                            onClick={() => intakesActive && handleIntakeSelect(intake)}
+                            style={{
+                                opacity: intakesActive ? 1 : 0.35,
+                                cursor: intakesActive ? 'pointer' : 'default',
+                                pointerEvents: intakesActive ? 'auto' : 'none'
+                            }}
+                        >
+                            {intake.intakeNumber} — {intake.intakeMonth}
+                        </button>
+                    ))}
                 </div>
-            )}
+            </div>
 
-            {/* Step 3 — Semester */}
-            {selectedIntake && semesters.length > 0 && (
-                <div className="section">
-                    <label>Select Semester</label>
-                    <div className="chips">
-                        {semesters.map(sem => (
-                            <button
-                                key={sem.semesterID}
-                                className={selectedSemester?.semesterID === sem.semesterID ? 'active' : ''}
-                                onClick={() => handleSemesterSelect(sem)}
-                            >
-                                Sem {sem.semesterNumber}
-                            </button>
-                        ))}
-                    </div>
+            {/* Step 3 — Semester — always visible, greyed until intake selected */}
+            <div className="section">
+                <label>Select Semester</label>
+                <div className="chips">
+                    {displaySemesters.map((sem, index) => (
+                        <button
+                            key={sem.semesterID || index}
+                            className={selectedSemester?.semesterID === sem.semesterID && sem.semesterID ? 'active' : ''}
+                            onClick={() => semestersActive && handleSemesterSelect(sem)}
+                            style={{
+                                opacity: semestersActive ? 1 : 0.35,
+                                cursor: semestersActive ? 'pointer' : 'default',
+                                pointerEvents: semestersActive ? 'auto' : 'none'
+                            }}
+                        >
+                            Sem {sem.semesterNumber}
+                        </button>
+                    ))}
                 </div>
-            )}
+            </div>
 
-            {/* Loading state */}
+            {/* Loading */}
             {loading && (
                 <div className="info-card">
                     <p>Checking handbook data...</p>
                 </div>
             )}
 
-            {/* Handbook info card */}
+            {/* Handbook confirmed */}
             {handbookInfo && !loading && (
                 <div className="info-card">
                     <h3>Handbook Info</h3>
@@ -192,7 +225,7 @@ function SelectIntakeSemester() {
                 </div>
             )}
 
-            {/* Error state */}
+            {/* Error */}
             {errorMessage && (
                 <div className="error-card" style={{ display: 'flex' }}>
                     <i className="fas fa-circle-exclamation"></i>
@@ -200,7 +233,7 @@ function SelectIntakeSemester() {
                 </div>
             )}
 
-            {/* Proceed button */}
+            {/* Button */}
             <button
                 className="btn primary"
                 disabled={!handbookInfo}

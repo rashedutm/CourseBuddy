@@ -9,11 +9,78 @@ body {
   background: #f4f2ef;
 }
 
+/* ============================================
+   RESPONSIVE CONTAINER
+   Mobile: 1 column, full width
+   Tablet: 2 columns
+   Desktop: 3 columns
+   ============================================ */
+
 .container {
-  max-width: 500px;
-  margin: auto;
-  padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 24px;
   padding-bottom: 120px;
+}
+
+/* Grid layout for cards */
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+@media (min-width: 640px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Course cards grid */
+.courses-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 640px) {
+  .courses-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .courses-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Pattern cards grid */
+.patterns-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 640px) {
+  .patterns-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .patterns-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 header {
@@ -523,6 +590,15 @@ header h1 {
   border: none;
 }
 
+/* On large screens buttons shouldn't be full width */
+@media (min-width: 640px) {
+  .btn {
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 .btn:last-child {
   margin-bottom: 0;
 }
@@ -568,20 +644,28 @@ header h1 {
 .sticky-bottom {
   position: fixed;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 500px;
+  left: 0;
+  right: 0;
   background: #fff;
   border-top: 1px solid #eee;
-  padding: 16px 20px;
+  padding: 16px 24px;
   box-shadow: 0 -4px 15px rgba(0,0,0,.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sticky-bottom .btn {
+  width: 100%;
+  max-width: 600px;
 }
 
 .summary-row {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   margin-bottom: 14px;
+  width: 100%;
+  max-width: 600px;
 }
 
 .summary-item {
@@ -866,7 +950,7 @@ header h1 {
   border-radius: 20px 20px 0 0;
   padding: 28px 20px;
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
 }
 
 .modal h2 {
@@ -936,4 +1020,41 @@ header h1 {
 
 .current-pref-card h3 i {
   color: #8b0000;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 639px) {
+  .container {
+    padding: 16px;
+    padding-bottom: 120px;
+  }
+
+  header h1 {
+    font-size: 22px;
+  }
+
+  .sticky-bottom {
+    padding: 12px 16px;
+  }
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding: 24px 32px;
+    padding-bottom: 120px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding: 32px 48px;
+    padding-bottom: 120px;
+  }
+
+  header h1 {
+    font-size: 30px;
+  }
 }
