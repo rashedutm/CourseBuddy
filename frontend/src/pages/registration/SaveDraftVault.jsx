@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { getActivePattern } from '../../services/courseService'
+import { MOCK_ACTIVE_PATTERN, MOCK_SAVED_DRAFT } from './_mockData' // TEMP MOCK - REMOVE WHEN INTEGRATING WITH RASHED
 import '../courses/courses.css'
 import './registration.css'
 
@@ -8,9 +9,11 @@ function SaveDraftVault() {
     const navigate = useNavigate()
     const location = useLocation()
 
+    // TEMP MOCK - REMOVE WHEN INTEGRATING WITH RASHED
+    // Real default: selectedPattern (no default — arrives via location.state).
     const {
-        selectedPattern,
-        patternIndex,
+        selectedPattern = MOCK_ACTIVE_PATTERN,
+        patternIndex = 0,
         patterns,
         totalPatterns,
         studentID,
@@ -21,7 +24,9 @@ function SaveDraftVault() {
         intakeID
     } = location.state || {}
 
-    const [savedDraft, setSavedDraft] = useState(null)
+    // TEMP MOCK - REMOVE WHEN INTEGRATING WITH RASHED
+    // Real default: useState(null) — savedDraft is populated by the API effect below.
+    const [savedDraft, setSavedDraft] = useState(MOCK_SAVED_DRAFT)
     const [loading, setLoading] = useState(!!studentID)
 
     useEffect(() => {

@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import RegistrationStepper from './RegistrationStepper'
+import { MOCK_REGISTRATION_STATE } from './_mockData' // TEMP MOCK - REMOVE WHEN INTEGRATING WITH RASHED
 import '../courses/courses.css'
 import './registration.css'
 
@@ -8,10 +9,12 @@ function ViewComparePatterns() {
     const navigate = useNavigate()
     const location = useLocation()
 
+    // TEMP MOCK - REMOVE WHEN INTEGRATING WITH RASHED
+    // Real defaults: patternA = [], patternB = [] (they arrive via location.state).
     const {
-        patternA = [],
+        patternA = MOCK_REGISTRATION_STATE.patterns[0],
         patternIndexA = 0,
-        patternB = [],
+        patternB = MOCK_REGISTRATION_STATE.patterns[1],
         patternIndexB = 1,
         patterns,
         totalPatterns,

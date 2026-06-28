@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { getActivePattern } from '../../services/courseService'
+import { MOCK_ACTIVE_PATTERN } from './_mockData' // TEMP MOCK - REMOVE WHEN INTEGRATING WITH RASHED
 import '../courses/courses.css'
 import './registration.css'
 
@@ -22,7 +23,9 @@ function SimulateCourseDrop() {
         totalPatterns
     } = location.state || {}
 
-    const [pattern, setPattern] = useState(passedPattern || [])
+    // TEMP MOCK - REMOVE WHEN INTEGRATING WITH RASHED
+    // Real default: useState(passedPattern || [])
+    const [pattern, setPattern] = useState(passedPattern || MOCK_ACTIVE_PATTERN)
     const [loading, setLoading] = useState(!passedPattern && !!studentID)
     const [droppingCode, setDroppingCode] = useState(null)
     const [showConfirm, setShowConfirm] = useState(false)

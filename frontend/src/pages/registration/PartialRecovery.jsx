@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { getActivePattern } from '../../services/courseService'
+import { MOCK_ACTIVE_PATTERN } from './_mockData' // TEMP MOCK - REMOVE WHEN INTEGRATING WITH RASHED
 import '../courses/courses.css'
 import './registration.css'
 
@@ -22,7 +23,9 @@ function PartialRecovery() {
         totalPatterns
     } = location.state || {}
 
-    const [pattern, setPattern] = useState(passedPattern || [])
+    // TEMP MOCK - REMOVE WHEN INTEGRATING WITH RASHED
+    // Real default: useState(passedPattern || [])
+    const [pattern, setPattern] = useState(passedPattern || MOCK_ACTIVE_PATTERN)
     const [loading, setLoading] = useState(!passedPattern && !!studentID)
     const [courseStatus, setCourseStatus] = useState({})
     const [recoveryPlan, setRecoveryPlan] = useState({})
@@ -38,7 +41,12 @@ function PartialRecovery() {
             setCourseStatus(buildStatus(passedPattern))
             return
         }
-        if (!studentID) return
+        if (!studentID) {
+            // TEMP MOCK - REMOVE WHEN INTEGRATING WITH RASHED
+            // Real behaviour: just `return` (no studentID = nothing to load).
+            setCourseStatus(buildStatus(MOCK_ACTIVE_PATTERN))
+            return
+        }
         getActivePattern(studentID)
             .then(data => {
                 const arr = Array.isArray(data) ? data : []

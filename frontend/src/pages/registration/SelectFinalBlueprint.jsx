@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import RegistrationStepper from './RegistrationStepper'
 import { saveSelectedPattern } from '../../services/courseService'
+import { MOCK_ACTIVE_PATTERN } from './_mockData' // TEMP MOCK - REMOVE WHEN INTEGRATING WITH RASHED
 import '../courses/courses.css'
 import './registration.css'
 
@@ -117,8 +118,10 @@ function SelectFinalBlueprint() {
     const navigate = useNavigate()
     const location = useLocation()
 
+    // TEMP MOCK - REMOVE WHEN INTEGRATING WITH RASHED
+    // Real default: selectedPattern = [] (it arrives via location.state).
     const {
-        selectedPattern = [],
+        selectedPattern = MOCK_ACTIVE_PATTERN,
         patternIndex = 0,
         patterns,
         totalPatterns,

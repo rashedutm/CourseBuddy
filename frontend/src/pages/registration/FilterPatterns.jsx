@@ -1,6 +1,8 @@
 import React, { useState, useMemo } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import RegistrationStepper from './RegistrationStepper'
+import MiniTimetableGrid from './MiniTimetableGrid'
+import { MOCK_REGISTRATION_STATE } from './_mockData' // TEMP MOCK - REMOVE WHEN INTEGRATING WITH RASHED
 import '../courses/courses.css'
 import './registration.css'
 
@@ -8,15 +10,18 @@ function FilterPatterns() {
     const navigate = useNavigate()
     const location = useLocation()
 
+    // TEMP MOCK - REMOVE WHEN INTEGRATING WITH RASHED
+    // Real defaults should be: patterns = [], totalPatterns = 0, and the
+    // rest left undefined (they arrive via location.state from the generator).
     const {
-        patterns = [],
-        totalPatterns = 0,
-        studentID,
-        semesterID,
-        semesterNumber,
-        intakeMonth,
-        academicSession,
-        intakeID
+        patterns = MOCK_REGISTRATION_STATE.patterns,
+        totalPatterns = MOCK_REGISTRATION_STATE.totalPatterns,
+        studentID = MOCK_REGISTRATION_STATE.studentID,
+        semesterID = MOCK_REGISTRATION_STATE.semesterID,
+        semesterNumber = MOCK_REGISTRATION_STATE.semesterNumber,
+        intakeMonth = MOCK_REGISTRATION_STATE.intakeMonth,
+        academicSession = MOCK_REGISTRATION_STATE.academicSession,
+        intakeID = MOCK_REGISTRATION_STATE.intakeID
     } = location.state || {}
 
     const [activeFilter, setActiveFilter] = useState('All')
@@ -144,6 +149,8 @@ function FilterPatterns() {
                                 <span className="pattern-number">Pattern {originalIndex + 1}</span>
                                 <span className="clash-free-badge">Clash Free</span>
                             </div>
+
+                            <MiniTimetableGrid pattern={pattern} />
 
                             {pattern.map((s, i) => (
                                 <div key={i} className="section-row">

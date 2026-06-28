@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import RegistrationStepper from './RegistrationStepper'
+import { MOCK_ACTIVE_PATTERN } from './_mockData' // TEMP MOCK - REMOVE WHEN INTEGRATING WITH RASHED
 import '../courses/courses.css'
 import './registration.css'
 
@@ -8,8 +9,10 @@ function ReportRegistration() {
     const navigate = useNavigate()
     const location = useLocation()
 
+    // TEMP MOCK - REMOVE WHEN INTEGRATING WITH RASHED
+    // Real default: selectedPattern = [] (it arrives via location.state).
     const {
-        selectedPattern = [],
+        selectedPattern = MOCK_ACTIVE_PATTERN,
         patternIndex = 0,
         studentID,
         semesterID,
