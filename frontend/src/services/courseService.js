@@ -111,6 +111,13 @@ export const resetLecturerPreferences = async (studentID) => {
     return response.json()
 }
 
+// UC008 - Get student's active saved pattern
+export const getActivePattern = async (studentID) => {
+    const response = await fetch(`${API_BASE_URL}/patterns/active?studentID=${studentID}`)
+    if (!response.ok) throw new Error('Failed to fetch active pattern')
+    return response.json()
+}
+
 // Get current running academic year from DB
 export const getCurrentAcademicYear = async () => {
     const response = await fetch(`${API_BASE_URL}/current-academic-year`)
