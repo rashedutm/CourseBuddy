@@ -140,6 +140,83 @@
   margin-bottom: 24px;
 }
 
+/* Mini routine grid (one pattern rendered as a weekly timetable) */
+.mtg {
+  font-family: var(--reg-font);
+  background: var(--reg-cream);
+  border: 1px solid var(--reg-border);
+  border-radius: var(--reg-radius-lg);
+  padding: 8px 10px 10px;
+  margin: 4px 0 14px;
+}
+
+.mtg-times,
+.mtg-row {
+  display: grid;
+  grid-template-columns: 34px repeat(10, 1fr);
+  align-items: center;
+}
+
+.mtg-times {
+  margin-bottom: 4px;
+}
+
+.mtg-corner {
+  display: block;
+}
+
+.mtg-time {
+  font-size: 8px;
+  font-weight: 600;
+  color: var(--reg-muted);
+  text-align: center;
+}
+
+.mtg-row {
+  height: 22px;
+}
+
+.mtg-day {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--reg-body);
+}
+
+/* The track spans all 10 time columns; blocks are positioned by % within it. */
+.mtg-track {
+  grid-column: 2 / -1;
+  position: relative;
+  height: 18px;
+  background: repeating-linear-gradient(
+    to right,
+    #fff,
+    #fff calc(10% - 1px),
+    var(--reg-border) calc(10% - 1px),
+    var(--reg-border) 10%
+  );
+  border: 1px solid var(--reg-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.mtg-block {
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 7px;
+  font-weight: 700;
+  color: var(--reg-body);
+  border-radius: 3px;
+  padding: 0 2px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
 /* ============================================
    Compare grid
    ============================================ */
