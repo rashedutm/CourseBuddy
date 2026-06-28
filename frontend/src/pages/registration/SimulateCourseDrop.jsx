@@ -54,8 +54,6 @@ function SimulateCourseDrop() {
         })
     }
 
-    const navState = { patterns, totalPatterns, studentID, semesterID, semesterNumber, intakeMonth, academicSession, intakeID }
-
     return (
         <div className="container">
             <header>
