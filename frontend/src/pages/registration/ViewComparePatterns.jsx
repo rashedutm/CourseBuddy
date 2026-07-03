@@ -1,12 +1,14 @@
 import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import RegistrationStepper from './RegistrationStepper'
+import MiniTimetableGrid from './MiniTimetableGrid'
+import { useRegistrationWorkspace } from './workspace/RegistrationWorkspaceContext'
 import '../courses/courses.css'
 import './registration.css'
 
 function ViewComparePatterns() {
     const navigate = useNavigate()
     const location = useLocation()
+    const { state: workspace } = useRegistrationWorkspace()
 
     const {
         patternA = [],
@@ -15,12 +17,12 @@ function ViewComparePatterns() {
         patternIndexB = 1,
         patterns,
         totalPatterns,
-        studentID,
-        semesterID,
-        semesterNumber,
-        intakeMonth,
-        academicSession,
-        intakeID
+        studentID = workspace.meta.studentID,
+        semesterID = workspace.meta.semesterID,
+        semesterNumber = workspace.meta.semesterNumber,
+        intakeMonth = workspace.meta.intakeMonth,
+        academicSession = workspace.meta.academicSession,
+        intakeID = workspace.meta.intakeID
     } = location.state || {}
 
     const creditsA = patternA.reduce((s, p) => s + (p.creditHours || 0), 0)
@@ -31,7 +33,7 @@ function ViewComparePatterns() {
     const navState = { patterns, totalPatterns, studentID, semesterID, semesterNumber, intakeMonth, academicSession, intakeID }
 
     const selectPattern = (pattern, index) => {
-        navigate('/registration/select-final', {
+        navigate('/registration/routine', {
             state: { selectedPattern: pattern, patternIndex: index, ...navState }
         })
     }
@@ -42,10 +44,6 @@ function ViewComparePatterns() {
                 <i className="fas fa-arrow-left" onClick={() => navigate(-1)}></i>
                 <h1>Compare Patterns</h1>
             </header>
-            <p className="subtitle">{academicSession} — {intakeMonth} Intake — Sem {semesterNumber}</p>
-
-            <RegistrationStepper current={1} />
-
             <div className="info-note" style={{ marginBottom: '20px' }}>
                 <i className="fas fa-info-circle"></i>
                 <p>Compare the two patterns side by side and choose the one that fits your schedule best.</p>
@@ -58,13 +56,7 @@ function ViewComparePatterns() {
                         <span className="clash-free-badge" style={{ fontSize: '11px', padding: '4px 10px' }}>Clash Free</span>
                     </div>
 
-                    {patternA.map((s, i) => (
-                        <div key={i} className="compare-section-row">
-                            <span className="code">{s.courseCode} — S{s.sectionNumber}</span>
-                            <span className="time-info">{s.day} {s.timeStart?.slice(0, 5)}–{s.timeEnd?.slice(0, 5)}</span>
-                            <span style={{ fontSize: '11px', color: '#aaa', marginTop: '2px' }}>{s.lecturerName || 'TBA'}</span>
-                        </div>
-                    ))}
+                    <MiniTimetableGrid pattern={patternA} />
 
                     <div className="compare-stat-row">
                         <span>{creditsA} Credits</span>
@@ -87,13 +79,7 @@ function ViewComparePatterns() {
                         <span className="clash-free-badge" style={{ fontSize: '11px', padding: '4px 10px' }}>Clash Free</span>
                     </div>
 
-                    {patternB.map((s, i) => (
-                        <div key={i} className="compare-section-row">
-                            <span className="code" style={{ color: '#2980b9' }}>{s.courseCode} — S{s.sectionNumber}</span>
-                            <span className="time-info">{s.day} {s.timeStart?.slice(0, 5)}–{s.timeEnd?.slice(0, 5)}</span>
-                            <span style={{ fontSize: '11px', color: '#aaa', marginTop: '2px' }}>{s.lecturerName || 'TBA'}</span>
-                        </div>
-                    ))}
+                    <MiniTimetableGrid pattern={patternB} />
 
                     <div className="compare-stat-row">
                         <span>{creditsB} Credits</span>

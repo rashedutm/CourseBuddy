@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import RegistrationStepper from './RegistrationStepper'
+import MiniTimetableGrid from './MiniTimetableGrid'
+import { useRegistrationWorkspace, MAX_SAVED_PATTERNS } from './workspace/RegistrationWorkspaceContext'
 import '../courses/courses.css'
 import './registration.css'
 
@@ -18,6 +19,17 @@ function FilterPatterns() {
         academicSession,
         intakeID
     } = location.state || {}
+
+    const { state: workspace, setMeta, setGeneratedPatterns, setCurrentGoal, savePattern } = useRegistrationWorkspace()
+    const vaultFull = workspace.savedPatterns.length >= MAX_SAVED_PATTERNS
+
+    // Feed the workspace context once on mount so the sidebar, Custom Builder,
+    // and Recovery view can see these patterns even if the user jumps there directly.
+    useEffect(() => {
+        setMeta({ studentID, semesterID, semesterNumber, intakeMonth, academicSession, intakeID })
+        setGeneratedPatterns(patterns)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const [activeFilter, setActiveFilter] = useState('All')
     const [selectedIndices, setSelectedIndices] = useState([])
@@ -62,7 +74,8 @@ function FilterPatterns() {
     }
 
     const handleSelectDirect = (pattern, originalIndex) => {
-        navigate('/registration/select-final', {
+        setCurrentGoal(pattern, `Pattern ${originalIndex + 1}`)
+        navigate('/registration/routine', {
             state: { selectedPattern: pattern, patternIndex: originalIndex, ...navState }
         })
     }
@@ -92,10 +105,6 @@ function FilterPatterns() {
                 <i className="fas fa-arrow-left" onClick={() => navigate(-1)}></i>
                 <h1>Registration Simulation</h1>
             </header>
-            <p className="subtitle">{academicSession} — {intakeMonth} Intake — Sem {semesterNumber}</p>
-
-            <RegistrationStepper current={0} />
-
             {/* Filter chips */}
             <div className="section">
                 <label>Filter Patterns</label>
@@ -132,7 +141,6 @@ function FilterPatterns() {
                     const originalIndex = patterns.indexOf(pattern)
                     const isSelected = selectedIndices.includes(originalIndex)
                     const credits = pattern.reduce((s, p) => s + (p.creditHours || 0), 0)
-                    const days = [...new Set(pattern.map(p => p.day))]
 
                     return (
                         <div
@@ -145,19 +153,22 @@ function FilterPatterns() {
                                 <span className="clash-free-badge">Clash Free</span>
                             </div>
 
-                            {pattern.map((s, i) => (
-                                <div key={i} className="section-row">
-                                    <span className="course">{s.courseCode}</span>
-                                    <span className="section" style={{ color: '#8b0000', fontWeight: 700 }}>S{s.sectionNumber}</span>
-                                    <span className="time">{s.day?.slice(0, 3)} {s.timeStart?.slice(0, 5)}</span>
-                                </div>
-                            ))}
+                            <MiniTimetableGrid pattern={pattern} />
 
-                            <div style={{ paddingTop: '10px', fontSize: '12px', color: '#888', marginBottom: '12px' }}>
-                                {credits} Credits • {days.length} Day{days.length !== 1 ? 's' : ''}/Week
+                            <div style={{ fontSize: '12px', color: '#888', margin: '6px 0 12px' }}>
+                                {credits} Credits
                             </div>
 
                             <div style={{ display: 'flex', gap: '8px' }}>
+                                <button
+                                    className="view-btn"
+                                    style={{ flex: 'none', width: '40px', background: '#fff7e6', color: '#d97706', opacity: vaultFull ? 0.4 : 1, cursor: vaultFull ? 'not-allowed' : 'pointer' }}
+                                    title={vaultFull ? `Vault full (${MAX_SAVED_PATTERNS}/${MAX_SAVED_PATTERNS})` : 'Save to Saved Routines'}
+                                    disabled={vaultFull}
+                                    onClick={() => savePattern(`Pattern ${originalIndex + 1}`, pattern)}
+                                >
+                                    <i className="fas fa-star"></i>
+                                </button>
                                 <button
                                     className="view-btn"
                                     style={{
@@ -182,18 +193,14 @@ function FilterPatterns() {
                 })}
             </div>
 
-            <div className="sticky-bottom">
-                {selectedIndices.length === 2 && (
+            {selectedIndices.length === 2 && (
+                <div className="sticky-bottom">
                     <button className="btn primary" onClick={handleCompare}>
                         <i className="fas fa-scale-balanced"></i>
                         Compare Selected Patterns
                     </button>
-                )}
-                <button className="btn outline" onClick={() => navigate('/registration/draft', { state: navState })}>
-                    <i className="fas fa-vault"></i>
-                    View Saved Drafts
-                </button>
-            </div>
+                </div>
+            )}
         </div>
     )
 }

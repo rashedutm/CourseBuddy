@@ -1,4 +1,5 @@
 import React from 'react'
+import { sectionKey } from './workspace/scheduleUtils'
 
 /*
  * MiniTimetableGrid — renders one pattern (an array of section objects) as a
@@ -23,7 +24,15 @@ function toSlot(time) {
   return (h - START_HOUR) + (m >= 30 ? 0.5 : 0)
 }
 
-export default function MiniTimetableGrid({ pattern = [] }) {
+// Short subject tag for a block, e.g. "Ubiquitous Computing" + section 01 -> "UC S01".
+function subjectTag(s) {
+  const abbr = s.courseName
+    ? s.courseName.split(/\s+/).filter(Boolean).map((w) => w[0].toUpperCase()).join('')
+    : s.courseCode
+  return `${abbr} S${s.sectionNumber}`
+}
+
+export default function MiniTimetableGrid({ pattern = [], conflictKeys = null }) {
   // Stable colour per courseCode so the same course is one colour across rows.
   const colorMap = {}
   let ci = 0
@@ -54,14 +63,19 @@ export default function MiniTimetableGrid({ pattern = [] }) {
                 const end = toSlot(s.timeEnd) || start + 1
                 const left = (start / SLOTS) * 100
                 const width = (Math.max(end - start, 1) / SLOTS) * 100
+                const isConflict = conflictKeys?.has(sectionKey(s))
                 return (
                   <span
                     key={i}
-                    className="mtg-block"
-                    style={{ left: `${left}%`, width: `${width}%`, background: colorMap[s.courseCode] }}
-                    title={`${s.courseCode} · ${s.day} ${s.timeStart?.slice(0, 5)}–${s.timeEnd?.slice(0, 5)}`}
+                    className={`mtg-block${isConflict ? ' conflict' : ''}`}
+                    style={{
+                      left: `${left}%`,
+                      width: `${width}%`,
+                      background: isConflict ? 'transparent' : colorMap[s.courseCode],
+                    }}
+                    title={`${s.courseName || s.courseCode} · ${s.day} ${s.timeStart?.slice(0, 5)}–${s.timeEnd?.slice(0, 5)}`}
                   >
-                    {s.courseCode}
+                    <span className="mtg-block-label">{subjectTag(s)}</span>
                   </span>
                 )
               })}
