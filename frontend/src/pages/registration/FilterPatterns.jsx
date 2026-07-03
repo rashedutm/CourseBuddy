@@ -13,6 +13,7 @@ function FilterPatterns() {
         patterns = [],
         totalPatterns = 0,
         studentID,
+        programmeID,
         semesterID,
         semesterNumber,
         intakeMonth,
@@ -26,7 +27,7 @@ function FilterPatterns() {
     // Feed the workspace context once on mount so the sidebar, Custom Builder,
     // and Recovery view can see these patterns even if the user jumps there directly.
     useEffect(() => {
-        setMeta({ studentID, semesterID, semesterNumber, intakeMonth, academicSession, intakeID })
+        setMeta({ studentID, programmeID, semesterID, semesterNumber, intakeMonth, academicSession, intakeID })
         setGeneratedPatterns(patterns)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])

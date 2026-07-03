@@ -65,7 +65,10 @@ function WorkspaceSidebar() {
         <aside className="workspace-sidebar">
             <div className="workspace-brand">CourseBuddy</div>
             {meta.academicSession && (
-                <div className="workspace-meta">{meta.academicSession} — Sem {meta.semesterNumber}</div>
+                <div className="workspace-meta">
+                    {meta.programmeID && <>{meta.programmeID} • </>}
+                    {meta.academicSession} — Sem {meta.semesterNumber}
+                </div>
             )}
 
             <nav className="workspace-nav">

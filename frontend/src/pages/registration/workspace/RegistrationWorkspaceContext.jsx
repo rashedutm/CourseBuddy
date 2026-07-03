@@ -7,6 +7,7 @@ export const MAX_SAVED_PATTERNS = 5 // Draft Vault capacity (UC014 business rule
 const initialState = {
     meta: {
         studentID: null,
+        programmeID: null,
         semesterID: null,
         semesterNumber: null,
         intakeMonth: null,
