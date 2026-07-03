@@ -138,12 +138,19 @@ function SelectedRoutine() {
         const occupied = new Set(anchors.map((s) => s.courseCode))
         const clashFree = (c) => !anchors.some((a) => overlaps(a, c))
 
+        // Real default: no backlog/retake table exists yet in any subsystem's
+        // schema (checked database/schema.sql end to end) — empty until the
+        // team adds one, likely under Tarin's student-academic-history territory.
+        const retakes = []
+        const col3 = { col3: retakes, col3Title: 'Retake Courses', col3Icon: 'fa-clock-rotate-left' }
+
         if (pendingMode === 'failed') {
             const sameCourse = candidatePool.filter((c) => c.courseCode === code && sectionKey(c) !== key && clashFree(c))
             const substitutes = candidatePool.filter((c) => c.courseCode !== code && !occupied.has(c.courseCode) && clashFree(c))
             return {
                 col1: sameCourse, col1Title: 'Other Sections — Same Course', col1Icon: 'fa-rotate',
                 col2: substitutes, col2Title: 'Or Swap the Course', col2Icon: 'fa-puzzle-piece',
+                ...col3,
             }
         }
         // drop: substitutes for the freed slot
@@ -156,6 +163,7 @@ function SelectedRoutine() {
         return {
             col1: sameSlot, col1Title: 'Fills the Freed Slot', col1Icon: 'fa-bolt',
             col2: gapFillers, col2Title: 'Other Substitutes', col2Icon: 'fa-puzzle-piece',
+            ...col3,
         }
     }, [pendingSlot, pendingMode, routine, candidatePool])
 
@@ -376,6 +384,16 @@ function SelectedRoutine() {
                                 <p className="workspace-empty-note">No clash-free options found.</p>
                             ) : (
                                 recovery.col2.map((c) => <CandidateCard key={sectionKey(c)} section={c} onSelect={applyCandidate} />)
+                            )}
+                        </div>
+                        <div className="recommender-col">
+                            <div className="recommender-col-title retake">
+                                <i className={`fas ${recovery.col3Icon}`}></i> {recovery.col3Title}
+                            </div>
+                            {recovery.col3.length === 0 ? (
+                                <p className="workspace-empty-note">No backlog courses fit right now.</p>
+                            ) : (
+                                recovery.col3.map((c) => <CandidateCard key={sectionKey(c)} section={c} onSelect={applyCandidate} />)
                             )}
                         </div>
                     </div>

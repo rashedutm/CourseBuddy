@@ -728,7 +728,7 @@
 
 .recommender-columns {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 16px;
 }
 
@@ -744,6 +744,10 @@
 
 .recommender-col-title.priority {
   color: var(--reg-maroon);
+}
+
+.recommender-col-title.retake {
+  color: var(--reg-amber);
 }
 
 .recommender-card {
