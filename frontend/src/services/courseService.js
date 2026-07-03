@@ -1,4 +1,6 @@
-const API_BASE_URL = 'http://localhost:5000/api'
+// In production (Railway), frontend + backend are the same origin, so plain
+// '/api' is correct. Locally, CRA (:3000) talks to the Express dev server (:5000).
+const API_BASE_URL = process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:5000/api'
 
 // UC001 - Step 1: Get all academic sessions
 export const getAcademicSessions = async () => {
