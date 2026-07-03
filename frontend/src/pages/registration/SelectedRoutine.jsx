@@ -84,7 +84,7 @@ function DropImpactBanner({ section, impact }) {
     return (
         <div className="impact-banner safe">
             <div className="impact-banner-title"><i className="fas fa-circle-check"></i> Safe to Drop</div>
-            <p>No prerequisite conflicts — {section.courseType === 'Elective' ? 'free elective' : 'no downstream dependencies'}.</p>
+            <p>No prerequisite conflicts — no future courses require {section.courseCode} as a prerequisite.</p>
             <div className="impact-banner-load">Load {load}</div>
         </div>
     )
@@ -185,10 +185,9 @@ function SelectedRoutine() {
 
     const handleDrop = (section) => {
         if (removingKey) return
-        // Real default: no PREREQUISITES source is wired up yet (Yousra/Rashed),
-        // so prerequisite risk is unknown until that table/endpoint exists —
-        // impact still reflects real credit-load math from the current routine.
-        const impact = computeDropImpact(section, routine, {}, MIN_CREDITS)
+        // Real default: no prerequisite endpoint wired up yet (needs Rashed's
+        // `prerequisite` table via an API) — impact still reflects real credit math.
+        const impact = computeDropImpact(section, routine, [], MIN_CREDITS)
         setRemovingKey(sectionKey(section))
         setTimeout(() => {
             removeGoalSection(section.courseCode)
@@ -292,7 +291,6 @@ function SelectedRoutine() {
                                     <div className="routine-row-main">
                                         <span className="course-code">{s.courseCode}</span>
                                         <span className="routine-row-name">{s.courseName}</span>
-                                        {s.courseType === 'Core' && <span className="routine-tag core">Core</span>}
                                         {!backupMap[key] && st !== STATUS.REGISTERED && (
                                             <span className="routine-row-badge" title="No same-time or clash-free alternative found">
                                                 <i className="fas fa-triangle-exclamation"></i> No Backup

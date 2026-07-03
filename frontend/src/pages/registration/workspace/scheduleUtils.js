@@ -46,13 +46,17 @@ export function sumCredits(sections = []) {
 export const STATUS = { PLANNED: 'planned', REGISTERED: 'registered', FAILED: 'failed' }
 
 // Drop Impact Alert (SDD §6.3 / UC019): what happens if this course is dropped.
-// Reads credit math from the routine and prerequisite risk from the prereq map.
-export function computeDropImpact(section, routine, prereqs = {}, minCredits = 9) {
+// `prerequisiteRows` mirrors the real `prerequisite` table: each row means
+// row.courseCode REQUIRES row.prerequisiteCourseCode. To find what this drop
+// blocks, look for rows where THIS course is someone else's prerequisite.
+export function computeDropImpact(section, routine, prerequisiteRows = [], minCredits = 9) {
     const creditsBefore = sumCredits(routine)
     const creditsAfter = creditsBefore - (section.creditHours || 0)
     const underLoad = creditsAfter < minCredits
     // Downstream courses this one unlocks; mandatory ones are the graduation risk.
-    const dependents = prereqs[section.courseCode] || []
+    const dependents = prerequisiteRows
+        .filter((row) => row.prerequisiteCourseCode === section.courseCode)
+        .map((row) => ({ courseCode: row.courseCode, courseName: row.courseName, isMandatory: row.isMandatory }))
     const blockedMandatory = dependents.filter((d) => d.isMandatory)
     let severity = 'safe' // safe → warning → severe
     if (blockedMandatory.length > 0) severity = 'severe'

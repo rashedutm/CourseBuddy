@@ -518,20 +518,6 @@
   box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.35);
 }
 
-.routine-tag {
-  font-size: 9px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  padding: 1px 6px;
-  border-radius: var(--reg-radius-pill);
-}
-
-.routine-tag.core {
-  color: var(--reg-maroon);
-  background: rgba(139, 25, 25, 0.10);
-}
-
 .routine-row-badge {
   display: inline-flex;
   align-items: center;
