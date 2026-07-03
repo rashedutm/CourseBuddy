@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import {
     getAvailableCourses,
-    getAvailableFreeElectives
+    getAvailableFreeElectives,
+    getCurrentAcademicYear
 } from '../../services/courseService'
 import './courses.css'
 
@@ -50,11 +51,14 @@ function AvailableCourses() {
 
                 // Load free elective courses
                 try {
+                    const studentID = localStorage.getItem('studentID')
+                    const { academicYear: currentAcademicYear } = await getCurrentAcademicYear()
                     const freeData = await getAvailableFreeElectives(
                         programmeID,
                         intakeID,
                         semesterNumber,
-                        academicYear
+                        currentAcademicYear,
+                        studentID
                     )
                     setFreeElectives(freeData)
                 } catch (err) {
@@ -165,6 +169,7 @@ function AvailableCourses() {
             )}
 
             {/* Course list */}
+            <div className="courses-grid">
             {filteredCourses.map(course => (
                 <div
                     key={course.courseCode}
@@ -198,6 +203,7 @@ function AvailableCourses() {
                     </div>
                 </div>
             ))}
+            </div>
 
             {/* Proceed button */}
             {allCourses.length > 0 && (

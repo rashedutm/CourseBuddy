@@ -126,10 +126,10 @@ INSERT INTO course (courseCode, courseName, creditHours, ownerFacultyID, hasPrer
 
 -- Foreign language elective options (Sem 5)
 INSERT INTO course (courseCode, courseName, creditHours, ownerFacultyID, hasPrerequisite) VALUES
-('UHLA1122', 'Arabic Language', 2, 'FC', FALSE),
+('UHLA1122', 'Arabic Language 1', 2, 'FC', FALSE),
 ('UHLM1122', 'Mandarin Language', 2, 'FC', FALSE),
-('UHLF1122', 'French Language', 2, 'FC', FALSE),
-('UHLJ1122', 'Japanese Language', 2, 'FC', FALSE);
+('UHLF1122', 'French Language 1', 2, 'FC', FALSE),
+('UHLJ1122', 'Japanese Language 1', 2, 'FC', FALSE);
 
 -- Semester 6 courses
 INSERT INTO course (courseCode, courseName, creditHours, ownerFacultyID, hasPrerequisite) VALUES
@@ -308,9 +308,10 @@ INSERT INTO handbook_slot_course (slotCourseID, slotID, courseCode) VALUES
 -- Semester 5 foreign language elective (choose 1 from 4)
 INSERT INTO handbook_slot_course (slotCourseID, slotID, courseCode) VALUES
 ('HSC-5-2', 'HS-5-2', 'UHLA1122'),
-('HSC-5-3', 'HS-5-2', 'UHLM1122'),
-('HSC-5-4', 'HS-5-2', 'UHLF1122'),
-('HSC-5-5', 'HS-5-2', 'UHLJ1122');
+('HSC-5-3', 'HS-5-2', 'UHLF1122'),
+('HSC-5-4', 'HS-5-2', 'UHLJ1122'),
+('HSC-5-5', 'HS-5-2', 'UHLC1122'),
+('HSC-5-12', 'HS-5-2', 'UHLK1122');
 
 -- Semester 5 core elective group (choose 3 from 6)
 INSERT INTO handbook_slot_course (slotCourseID, slotID, courseCode) VALUES
@@ -850,3 +851,47 @@ INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerN
 ('SEC-M4-014', 'SCSM2113', '03', 'LEC-028', 'Dr. Sarina binti Sulaiman', 'Thu', '14:00:00', '16:00:00', '2pm-4pm', 'Online', 'FC', 4, 'March', '2024/2025-2'),
 ('SEC-M4-015', 'SCSM2113', '04', 'LEC-029', 'Dr. Layla Rasheed Abdallah Hasan', 'Thu', '14:00:00', '16:00:00', '2pm-4pm', 'Online', 'FC', 4, 'March', '2024/2025-2'),
 ('SEC-M4-016', 'SCSM2113', '05', 'LEC-030', 'Prof. Ts. Dr. Nor Azman bin Ismail', 'Thu', '14:00:00', '16:00:00', '2pm-4pm', 'Online', 'FC', 4, 'March', '2024/2025-2');
+
+-- ============================================
+-- FREE ELECTIVE DATA
+-- Faculty of Chemical Engineering (FKT)
+-- Session: 2026/2027-1
+-- Semester 1, October intake
+-- Source: JADUAL KURSUS ELEKTIF BEBAS FKT
+-- ============================================
+
+-- Step 1: Add Faculty of Chemical Engineering admin
+-- Need a user first, then admin
+INSERT INTO users (userID, fullName, matricNumber, utmEmail, passwordHash, role) VALUES
+('USR-ADM-002', 'Admin FKT', 'STAFF002', 'admin.fkt@utm.my', '$2b$10$examplehashedpasswordadmin002xx', 'admin');
+
+INSERT INTO admins (facultyID, facultyName, name, userID) VALUES
+('FKT', 'Faculty of Chemical Engineering', 'Admin FKT', 'USR-ADM-002');
+
+-- Step 2: Add the courses to global course pool
+INSERT INTO course (courseCode, courseName, creditHours, ownerFacultyID, hasPrerequisite) VALUES
+('SKTX4583', 'Surfactant and Detergent Technology', 3, 'FKT', FALSE),
+('SKTX4273', 'Beauty Product Development and Innovation', 3, 'FKT', FALSE);
+
+-- Step 3: Add lecturers (TBA as no lecturer listed in timetable)
+-- Skipping lecturer insert as none listed in file
+
+-- Step 4: Add sections to timetable
+-- SKTX4583 — 1 section, Friday 3pm-5pm
+-- SKTX4273 — 2 sections, Friday 3pm-5pm
+-- These are for Session 2026/2027-1, Semester 1, October intake
+-- Note: academicYear format matches our section table
+INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerName, day, timeStart, timeEnd, timeSlot, venue, facultyID, semesterNumber, intakeMonth, academicYear) VALUES
+('SEC-FKT-001', 'SKTX4583', '01', NULL, NULL, 'Fri', '15:00:00', '17:00:00', '3pm-5pm', NULL, 'FKT', 1, 'October', '2026/2027-1'),
+('SEC-FKT-002', 'SKTX4273', '01', NULL, NULL, 'Fri', '15:00:00', '17:00:00', '3pm-5pm', NULL, 'FKT', 1, 'October', '2026/2027-1'),
+('SEC-FKT-003', 'SKTX4273', '02', NULL, NULL, 'Fri', '15:00:00', '17:00:00', '3pm-5pm', NULL, 'FKT', 1, 'October', '2026/2027-1');
+
+-- Step 5: Add to free_elective_offering table
+-- offeringFacultyID = FKT (Chemical Engineering)
+-- Students from FC (Computing) can take these
+-- semesterNumber = 1 (this is Sem I of 2026/2027)
+-- intakeMonth = October
+-- academicYear = 2026/2027-1
+INSERT INTO free_elective_offering (offeringID, courseCode, offeringFacultyID, semesterNumber, intakeMonth, academicYear) VALUES
+('FEO-FKT-001', 'SKTX4583', 'FKT', 1, 'October', '2026/2027-1'),
+('FEO-FKT-002', 'SKTX4273', 'FKT', 1, 'October', '2026/2027-1');

@@ -86,8 +86,8 @@ function App() {
         <Route path="/courses/generate-without-pref" element={<GenerateWithoutPref />} />
         <Route path="/courses/patterns" element={<ViewPatterns />} />
         <Route path="/courses/patterns/filtered" element={<FilteredPatterns />} />
-        <Route path="/courses/patterns/:id" element={<PatternDetails />} />
         <Route path="/courses/patterns/select" element={<SelectPattern />} />
+        <Route path="/courses/patterns/:id" element={<PatternDetails />} />
         <Route path="/courses/reset-preference" element={<ResetPreference />} />
         
         {/* Registration Routes */}

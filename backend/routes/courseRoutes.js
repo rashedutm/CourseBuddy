@@ -27,33 +27,9 @@ router.get('/courses/prerequisites', courseController.getPrerequisiteInfo)
 router.post('/courses/select', courseController.saveSelectedCourses)
 
 // ============================================
-// UC005 — Pattern Generation Route
-// ============================================
-router.post('/patterns/generate', courseController.generatePatterns)
-
-// ============================================
-// UC007 — Pattern Selection Route
-// ============================================
-router.post('/patterns/select', courseController.saveSelectedPattern)
-
-// ============================================
-// UC009 — Lecturer Routes
-// ============================================
-router.get('/lecturers', courseController.getLecturersForCourses)
-
-// ============================================
-// UC010 — Filtered Patterns Route
-// ============================================
-router.post('/preferences/filter', courseController.getFilteredPatterns)
-
-// ============================================
-// UC012 — Reset Preferences Route
-// ============================================
-router.post('/preferences/reset', courseController.resetLecturerPreferences)
-
-// ============================================
 // Helper — Student Info Route
 // ============================================
 router.get('/student/info', courseController.getStudentInfo)
+router.get('/current-academic-year', courseController.getCurrentAcademicYear)
 
 module.exports = router

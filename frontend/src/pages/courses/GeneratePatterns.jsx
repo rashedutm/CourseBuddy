@@ -46,6 +46,7 @@ function GeneratePatterns() {
     }, [studentID, semesterID, academicYear])
 
     const handleViewPatterns = () => {
+        console.log('patterns being passed:', patterns)   // ADD THIS LINE
         navigate('/courses/patterns', {
             state: {
                 patterns,
@@ -59,6 +60,24 @@ function GeneratePatterns() {
             }
         })
     }
+
+    const handleRegenerate = () => {
+    setStatus('generating')
+    setPatterns([])
+    setTotalPatterns(0)
+    setErrorMessage('')
+
+    generatePatterns(studentID, semesterID, academicYear)
+        .then(data => {
+            setTotalPatterns(data.totalPatterns)
+            setPatterns(data.patterns)
+            setStatus('success')
+        })
+        .catch(err => {
+            setStatus('error')
+            setErrorMessage(err.message || 'Unable to generate patterns. Please try again.')
+        })
+}
 
     return (
         <div className="container">
@@ -113,12 +132,18 @@ function GeneratePatterns() {
                 </div>
             )}
 
-            {status === 'success' && (
-                <button className="btn primary" onClick={handleViewPatterns}>
-                    <i className="fas fa-list"></i>
-                    View Generated Patterns
-                </button>
-            )}
+                {status === 'success' && (
+                    <>
+                        <button className="btn primary" onClick={handleViewPatterns}>
+                            <i className="fas fa-list"></i>
+                            View Generated Patterns
+                        </button>
+                        <button className="btn outline" onClick={handleRegenerate}>
+                            <i className="fas fa-rotate"></i>
+                            Regenerate (Get Different Patterns)
+                        </button>
+                    </>
+                )}
 
             <button className="btn outline" onClick={() => navigate(-1)}>
                 <i className="fas fa-arrow-left"></i>
