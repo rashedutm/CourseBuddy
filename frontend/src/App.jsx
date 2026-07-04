@@ -1,21 +1,25 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './services/authContext';
+import ProtectedRoute from './components/ProtectedRoute';
+import Layout from './components/Layout';
 
 // Auth pages
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Logout from './pages/auth/Logout';
 import ResetPassword from './pages/auth/ResetPassword';
+import AccessDenied from './pages/auth/AccessDenied';
 
 // Home pages
 import Dashboard from './pages/home/Dashboard';
-import NavigationBar from './pages/home/NavigationBar';
 import AcademicAlerts from './pages/home/AcademicAlerts';
 
 // Profile pages
 import ViewProfile from './pages/profile/ViewProfile';
 import InitialAcademicSetup from './pages/profile/InitialAcademicSetup';
 import UpdateAcademicInfo from './pages/profile/UpdateAcademicInfo';
+import AcademicPlanner from './pages/profile/AcademicPlanner';
 
 // Course pages
 import SelectIntakeSemester from './pages/courses/SelectIntakeSemester';
@@ -55,64 +59,78 @@ import DeleteCourseSection from './pages/admin/DeleteCourseSection';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        {/* Default redirect to login */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        
-        {/* Auth Routes */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/logout" element={<Logout />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        
-        {/* Home Routes */}
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/navigation" element={<NavigationBar />} />
-        <Route path="/alerts" element={<AcademicAlerts />} />
-        
-        {/* Profile Routes */}
-        <Route path="/profile" element={<ViewProfile />} />
-        <Route path="/profile/initial-setup" element={<InitialAcademicSetup />} />
-        <Route path="/profile/update" element={<UpdateAcademicInfo />} />
-        
-        {/* Course Routes */}
-        <Route path="/courses/select-intake" element={<SelectIntakeSemester />} />
-        <Route path="/courses/select" element={<SelectCourses />} />
-        <Route path="/courses/prerequisites" element={<PrerequisiteInfo />} />
-        <Route path="/courses/available" element={<AvailableCourses />} />
-        <Route path="/courses/lecturer-preference" element={<SetLecturerPreference />} />
-        <Route path="/courses/generate" element={<GeneratePatterns />} />
-        <Route path="/courses/generate-without-pref" element={<GenerateWithoutPref />} />
-        <Route path="/courses/patterns" element={<ViewPatterns />} />
-        <Route path="/courses/patterns/filtered" element={<FilteredPatterns />} />
-        <Route path="/courses/patterns/select" element={<SelectPattern />} />
-        <Route path="/courses/patterns/:id" element={<PatternDetails />} />
-        <Route path="/courses/reset-preference" element={<ResetPreference />} />
-        
-        {/* Registration Routes */}
-        <Route path="/registration/filter" element={<FilterPatterns />} />
-        <Route path="/registration/compare" element={<ViewComparePatterns />} />
-        <Route path="/registration/select-final" element={<SelectFinalBlueprint />} />
-        <Route path="/registration/draft" element={<SaveDraftVault />} />
-        <Route path="/registration/report" element={<ReportRegistration />} />
-        <Route path="/registration/gap-filling" element={<GapFilling />} />
-        <Route path="/registration/partial-recovery" element={<PartialRecovery />} />
-        <Route path="/registration/simulate-drop" element={<SimulateCourseDrop />} />
-        
-        {/* Admin Routes */}
-        <Route path="/admin/handbook/upload" element={<UploadHandbook />} />
-        <Route path="/admin/handbook/view" element={<ViewHandbookData />} />
-        <Route path="/admin/handbook/delete" element={<DeleteHandbook />} />
-        <Route path="/admin/timetable/upload" element={<UploadTimetable />} />
-        <Route path="/admin/timetable/view" element={<ViewTimetableData />} />
-        <Route path="/admin/timetable/delete" element={<DeleteTimetable />} />
-        <Route path="/admin/courses/view" element={<ViewCourseSection />} />
-        <Route path="/admin/courses/edit-course" element={<EditCourseData />} />
-        <Route path="/admin/courses/edit-section" element={<EditSectionData />} />
-        <Route path="/admin/courses/delete" element={<DeleteCourseSection />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          {/* Default redirect to login */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
+
+          {/* Auth Routes (public) */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/access-denied" element={<AccessDenied />} />
+
+          {/* Everything below requires a signed-in session */}
+          <Route element={<ProtectedRoute />}>
+            {/* Shared layout — persistent nav bar above every authenticated
+                page, for every subsystem. NavigationBar reads the real
+                logged-in role itself, so this wrapper stays role-agnostic. */}
+            <Route element={<Layout />}>
+              {/* Home Routes */}
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/alerts" element={<AcademicAlerts />} />
+
+              {/* Profile Routes */}
+              <Route path="/profile" element={<ViewProfile />} />
+              <Route path="/profile/initial-setup" element={<InitialAcademicSetup />} />
+              <Route path="/profile/update" element={<UpdateAcademicInfo />} />
+
+              {/* Course + Registration Routes (student only) */}
+              <Route element={<ProtectedRoute allowedRoles={['student']} />}>
+                <Route path="/profile/planner" element={<AcademicPlanner />} />
+                <Route path="/courses/select-intake" element={<SelectIntakeSemester />} />
+                <Route path="/courses/select" element={<SelectCourses />} />
+                <Route path="/courses/prerequisites" element={<PrerequisiteInfo />} />
+                <Route path="/courses/available" element={<AvailableCourses />} />
+                <Route path="/courses/lecturer-preference" element={<SetLecturerPreference />} />
+                <Route path="/courses/generate" element={<GeneratePatterns />} />
+                <Route path="/courses/generate-without-pref" element={<GenerateWithoutPref />} />
+                <Route path="/courses/patterns" element={<ViewPatterns />} />
+                <Route path="/courses/patterns/filtered" element={<FilteredPatterns />} />
+                <Route path="/courses/patterns/select" element={<SelectPattern />} />
+                <Route path="/courses/patterns/:id" element={<PatternDetails />} />
+                <Route path="/courses/reset-preference" element={<ResetPreference />} />
+
+                <Route path="/registration/filter" element={<FilterPatterns />} />
+                <Route path="/registration/compare" element={<ViewComparePatterns />} />
+                <Route path="/registration/select-final" element={<SelectFinalBlueprint />} />
+                <Route path="/registration/draft" element={<SaveDraftVault />} />
+                <Route path="/registration/report" element={<ReportRegistration />} />
+                <Route path="/registration/gap-filling" element={<GapFilling />} />
+                <Route path="/registration/partial-recovery" element={<PartialRecovery />} />
+                <Route path="/registration/simulate-drop" element={<SimulateCourseDrop />} />
+              </Route>
+
+              {/* Admin Routes (admin only) */}
+              <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+                <Route path="/admin/handbook/upload" element={<UploadHandbook />} />
+                <Route path="/admin/handbook/view" element={<ViewHandbookData />} />
+                <Route path="/admin/handbook/delete" element={<DeleteHandbook />} />
+                <Route path="/admin/timetable/upload" element={<UploadTimetable />} />
+                <Route path="/admin/timetable/view" element={<ViewTimetableData />} />
+                <Route path="/admin/timetable/delete" element={<DeleteTimetable />} />
+                <Route path="/admin/courses/view" element={<ViewCourseSection />} />
+                <Route path="/admin/courses/edit-course" element={<EditCourseData />} />
+                <Route path="/admin/courses/edit-section" element={<EditSectionData />} />
+                <Route path="/admin/courses/delete" element={<DeleteCourseSection />} />
+              </Route>
+            </Route>
+          </Route>
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 
