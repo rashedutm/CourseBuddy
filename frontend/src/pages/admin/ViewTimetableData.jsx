@@ -18,5 +18,69 @@ function ViewTimetableData() {
         const [loading, setLoading] = useState(false);
         const [error, setError] = useState(null);
 
+        // Load available semesters on component mount
+            useEffect(() => {
+                loadAvailableSemesters();
+            }, []);
+        
+            // Load timetable data when filters change
+            useEffect(() => {
+                if (semesterNumber && intakeMonth && academicYear && facultyID) {
+                    loadTimetableData();
+                }
+            }, [semesterNumber, intakeMonth, academicYear, facultyID]);
+        
+            const loadAvailableSemesters = async () => {
+                try {
+                    const semesters = await getAvailableSemesters(facultyID);
+                    setAvailableSemesters(semesters);
+                } catch (err) {
+                    console.error("Error loading semesters:", err);
+                    // Set fallback semesters
+                    setAvailableSemesters([
+                        { semesterNumber: 1, intakeMonth: "October", academicYear: "2024/2025" },
+                        { semesterNumber: 2, intakeMonth: "October", academicYear: "2024/2025" }
+                    ]);
+                }
+            };
+        
+            const loadTimetableData = async () => {
+                setLoading(true);
+                setError(null);
+        
+                try {
+                    const data = await getTimetableData(semesterNumber, intakeMonth, academicYear, facultyID);
+                    setTimetableData(data);
+                } catch (err) {
+                    console.error("Error loading timetable data:", err);
+                    // Set empty data on error - page will show "no data" message
+                    setTimetableData([]);
+                    // Don't show error if it's just no data
+                    if (!err.message.includes('No timetable data')) {
+                        setError("No timetable data available for selected semester");
+                    }
+                } finally {
+                    setLoading(false);
+                }
+            };
+        
+            const handleSemesterChange = (e) => {
+                const value = e.target.value;
+                const [sem, month, year] = value.split("|");
+                setSemesterNumber(sem);
+                setIntakeMonth(month);
+                setAcademicYear(year);
+            };
+        
+            // Group sections by day
+            const groupedByDay = timetableData.reduce((acc, section) => {
+                if (!acc[section.day]) {
+                    acc[section.day] = [];
+                }
+                acc[section.day].push(section);
+                return acc;
+            }, {});
+        
+            const daysOrder = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
         
 }
