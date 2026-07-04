@@ -84,7 +84,71 @@ return (
                     programme, intake, and semester before uploading so the data is
                     stored accurately.
                 </p>
+{/* Programme dropdown — maps to programmeID in handbook_slot */}
+                <div className="admin-form-group">
+                    <label>Programme</label>
+                    <select
+                        value={programme}
+                        onChange={(e) => setProgramme(e.target.value)}
+                    >
+                        <option value="SCSEH">Software Engineering</option>
+                        <option value="SCSSEH">Computer Science</option>
+                        <option value="SCSDEH">Data Engineering</option>
+                        <option value="SCJAI">Artificial Intelligence</option>
+                        <option value="SCSIS">Information Systems</option>
+                    </select>
+                </div>
 
+                {/* Intake dropdown — maps to intakeID in handbook_slot */}
+                <div className="admin-form-group">
+                    <label>Intake</label>
+                    <select
+                        value={intake}
+                        onChange={(e) => setIntake(e.target.value)}
+                    >
+                        <option value="October">October Intake</option>
+                        <option value="March">March Intake</option>
+                    </select>
+                </div>
+
+                {/* Semester dropdown — maps to semesterNumber in handbook_slot */}
+                <div className="admin-form-group">
+                    <label>Semester Number</label>
+                    <select
+                        value={semesterNumber}
+                        onChange={(e) => setSemesterNumber(e.target.value)}
+                    >
+                        {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
+                            <option key={num} value={num}>
+                                Semester {num}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                {/* File picker — fileName saved in handbook_upload_log */}
+                <div className="admin-form-group">
+                    <label>Handbook File (.xlsx)</label>
+                    <input
+                        type="file"
+                        accept=".xlsx,.xls"
+                        onChange={handleFileChange}
+                    />
+                    {selectedFile && (
+                        <p style={{fontSize: '14px', color: '#6b7280', marginTop: '8px'}}>
+                            Selected: {selectedFile.name}
+                        </p>
+                    )}
+                </div>
+
+                <button 
+                    className="admin-btn"
+                    style={{opacity: loading || !selectedFile ? 0.5 : 1}}
+                    onClick={handleUpload}
+                    disabled={loading || !selectedFile}
+                >
+                    {loading ? "Uploading..." : "Upload Handbook"}
+                </button>
 )
 
   export default UploadHandbook;
