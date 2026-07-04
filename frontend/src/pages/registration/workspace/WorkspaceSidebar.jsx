@@ -23,7 +23,7 @@ function SavePatternForm({ onSave, full }) {
     if (!naming) {
         return (
             <button className="workspace-save-btn" onClick={() => setNaming(true)}>
-                <i className="fas fa-bookmark"></i> Save Current as Routine
+                <i className="fas fa-bookmark"></i> Save to Draft Vault
             </button>
         )
     }
@@ -100,10 +100,10 @@ function WorkspaceSidebar() {
             />
 
             <div className="workspace-section-title" style={{ marginTop: '20px' }}>
-                Saved Routines ({savedPatterns.length}/{MAX_SAVED_PATTERNS})
+                <i className="fas fa-box-archive"></i> Draft Vault ({savedPatterns.length}/{MAX_SAVED_PATTERNS})
             </div>
             {savedPatterns.length === 0 ? (
-                <p className="workspace-empty-note">No saved routines yet.</p>
+                <p className="workspace-empty-note">No drafts saved yet.</p>
             ) : (
                 <div className="workspace-saved-list">
                     {savedPatterns.map((p) => (

@@ -65,7 +65,7 @@ function reducer(state, action) {
             const sections = action.payload.sections || state.currentGoal.sections
             const entry = {
                 id: `sp-${Date.now()}`,
-                name: action.payload.name || `Saved Routine ${state.savedPatterns.length + 1}`,
+                name: action.payload.name || `Draft ${state.savedPatterns.length + 1}`,
                 sections,
                 credits: sumCredits(sections),
                 createdAt: new Date().toISOString(),

@@ -14,6 +14,8 @@ import { sectionKey } from './workspace/scheduleUtils'
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
 const START_HOUR = 8
 const SLOTS = 10 // 8:00 → 18:00
+const LUNCH_START_SLOT = 13 - START_HOUR // 1pm
+const LUNCH_SLOT_WIDTH = 1 // 1pm-2pm
 
 // Soft pastels from the Figma design system, cycled per course.
 const PASTELS = ['#BFDBFE', '#BBF7D0', '#FBCFE8', '#FEF08A', '#DDD6FE', '#BAE6FD', '#C7D2FE', '#FECACA']
@@ -32,7 +34,7 @@ function subjectTag(s) {
   return `${abbr} S${s.sectionNumber}`
 }
 
-export default function MiniTimetableGrid({ pattern = [], conflictKeys = null }) {
+export default function MiniTimetableGrid({ pattern = [], conflictKeys = null, onBlockClick = null, selectedKeys = null }) {
   // Stable colour per courseCode so the same course is one colour across rows.
   const colorMap = {}
   let ci = 0
@@ -58,22 +60,32 @@ export default function MiniTimetableGrid({ pattern = [], conflictKeys = null })
           <div key={day} className="mtg-row">
             <span className="mtg-day">{day}</span>
             <div className="mtg-track">
+              <span
+                className="mtg-lunch-band"
+                style={{
+                  left: `${(LUNCH_START_SLOT / SLOTS) * 100}%`,
+                  width: `${(LUNCH_SLOT_WIDTH / SLOTS) * 100}%`,
+                }}
+                title="Lunch break 1:00–2:00 PM"
+              />
               {items.map((s, i) => {
                 const start = toSlot(s.timeStart)
                 const end = toSlot(s.timeEnd) || start + 1
                 const left = (start / SLOTS) * 100
                 const width = (Math.max(end - start, 1) / SLOTS) * 100
                 const isConflict = conflictKeys?.has(sectionKey(s))
+                const isSelected = selectedKeys?.has(sectionKey(s))
                 return (
                   <span
                     key={i}
-                    className={`mtg-block${isConflict ? ' conflict' : ''}`}
+                    className={`mtg-block${isConflict ? ' conflict' : ''}${onBlockClick ? ' clickable' : ''}${isSelected ? ' selected' : ''}`}
                     style={{
                       left: `${left}%`,
                       width: `${width}%`,
                       background: isConflict ? 'transparent' : colorMap[s.courseCode],
                     }}
-                    title={`${s.courseName || s.courseCode} · ${s.day} ${s.timeStart?.slice(0, 5)}–${s.timeEnd?.slice(0, 5)}`}
+                    title={`${s.courseName || s.courseCode} · ${s.day} ${s.timeStart?.slice(0, 5)}–${s.timeEnd?.slice(0, 5)}${onBlockClick ? ' · click to add/remove from mix' : ''}`}
+                    onClick={onBlockClick ? () => onBlockClick(s) : undefined}
                   >
                     <span className="mtg-block-label">{subjectTag(s)}</span>
                   </span>

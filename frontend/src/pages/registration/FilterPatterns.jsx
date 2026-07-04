@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import MiniTimetableGrid from './MiniTimetableGrid'
 import { useRegistrationWorkspace, MAX_SAVED_PATTERNS } from './workspace/RegistrationWorkspaceContext'
+import { computeMaxGapHours } from './workspace/scheduleUtils'
 import '../courses/courses.css'
 import './registration.css'
 
@@ -33,25 +34,30 @@ function FilterPatterns() {
     }, [])
 
     const [activeFilter, setActiveFilter] = useState('All')
+    const [maxGap, setMaxGap] = useState(null) // hours; null = no gap filter applied
     const [selectedIndices, setSelectedIndices] = useState([])
 
     const FILTERS = ['All', '≤15 Credits', '16-18 Credits', '4-Day Week', '5-Day Week', 'Morning Heavy', 'Afternoon Heavy']
+    const GAP_OPTIONS = [1, 2, 3, 4, 5, 6]
 
     const filteredPatterns = useMemo(() => {
-        if (activeFilter === 'All') return patterns
         return patterns.filter(pattern => {
             const credits = pattern.reduce((s, p) => s + (p.creditHours || 0), 0)
             const days = new Set(pattern.map(p => p.day)).size
             const morningCount = pattern.filter(p => parseInt(p.timeStart?.slice(0, 2) || 0) < 12).length
-            if (activeFilter === '≤15 Credits') return credits <= 15
-            if (activeFilter === '16-18 Credits') return credits >= 16 && credits <= 18
-            if (activeFilter === '4-Day Week') return days <= 4
-            if (activeFilter === '5-Day Week') return days === 5
-            if (activeFilter === 'Morning Heavy') return morningCount > pattern.length / 2
-            if (activeFilter === 'Afternoon Heavy') return morningCount <= pattern.length / 2
+
+            if (activeFilter === '≤15 Credits' && !(credits <= 15)) return false
+            if (activeFilter === '16-18 Credits' && !(credits >= 16 && credits <= 18)) return false
+            if (activeFilter === '4-Day Week' && !(days <= 4)) return false
+            if (activeFilter === '5-Day Week' && !(days === 5)) return false
+            if (activeFilter === 'Morning Heavy' && !(morningCount > pattern.length / 2)) return false
+            if (activeFilter === 'Afternoon Heavy' && !(morningCount <= pattern.length / 2)) return false
+
+            if (maxGap != null && computeMaxGapHours(pattern) > maxGap) return false
+
             return true
         })
-    }, [patterns, activeFilter])
+    }, [patterns, activeFilter, maxGap])
 
     const toggleSelect = (originalIndex) => {
         setSelectedIndices(prev => {
@@ -122,6 +128,22 @@ function FilterPatterns() {
                 </div>
             </div>
 
+            {/* Gap-between-classes filter (excludes the 1-2pm lunch hour from the gap count) */}
+            <div className="section">
+                <label>Max Gap Between Classes <span style={{ fontWeight: 400, color: '#999' }}>(lunch 1–2pm doesn't count)</span></label>
+                <div className="filter-bar">
+                    {GAP_OPTIONS.map(hrs => (
+                        <button
+                            key={hrs}
+                            className={`filter-btn ${maxGap === hrs ? 'active' : ''}`}
+                            onClick={() => setMaxGap(prev => (prev === hrs ? null : hrs))}
+                        >
+                            ≤{hrs}h
+                        </button>
+                    ))}
+                </div>
+            </div>
+
             <div style={{ marginBottom: '16px', fontSize: '14px', color: '#888' }}>
                 Showing {filteredPatterns.length} of {totalPatterns} patterns
             </div>
@@ -163,15 +185,6 @@ function FilterPatterns() {
                             <div style={{ display: 'flex', gap: '8px' }}>
                                 <button
                                     className="view-btn"
-                                    style={{ flex: 'none', width: '40px', background: '#fff7e6', color: '#d97706', opacity: vaultFull ? 0.4 : 1, cursor: vaultFull ? 'not-allowed' : 'pointer' }}
-                                    title={vaultFull ? `Vault full (${MAX_SAVED_PATTERNS}/${MAX_SAVED_PATTERNS})` : 'Save to Saved Routines'}
-                                    disabled={vaultFull}
-                                    onClick={() => savePattern(`Pattern ${originalIndex + 1}`, pattern)}
-                                >
-                                    <i className="fas fa-star"></i>
-                                </button>
-                                <button
-                                    className="view-btn"
                                     style={{
                                         flex: 1,
                                         background: isSelected ? '#8b0000' : '#fdf0f0',
@@ -179,7 +192,16 @@ function FilterPatterns() {
                                     }}
                                     onClick={() => toggleSelect(originalIndex)}
                                 >
-                                    {isSelected ? <><i className="fas fa-check"></i> Selected</> : 'Add to Compare'}
+                                    {isSelected ? <><i className="fas fa-check"></i> Selected</> : 'Compare'}
+                                </button>
+                                <button
+                                    className="view-btn"
+                                    style={{ flex: 1, background: '#fff7e6', color: '#d97706', opacity: vaultFull ? 0.4 : 1, cursor: vaultFull ? 'not-allowed' : 'pointer' }}
+                                    title={vaultFull ? `Vault full (${MAX_SAVED_PATTERNS}/${MAX_SAVED_PATTERNS})` : 'Save to Draft Vault'}
+                                    disabled={vaultFull}
+                                    onClick={() => savePattern(`Pattern ${originalIndex + 1}`, pattern)}
+                                >
+                                    <i className="fas fa-bookmark"></i> Save to Vault
                                 </button>
                                 <button
                                     className="view-btn"

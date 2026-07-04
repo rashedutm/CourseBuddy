@@ -77,6 +77,16 @@ export default function FullTimetableGrid({ pattern, conflictKeys = null }) {
                     </React.Fragment>
                 ))}
 
+                {/* Lunch break band (1-2pm), rendered under the course blocks */}
+                <div
+                    title="Lunch break 1:00–2:00 PM"
+                    style={{
+                        gridColumn: '2 / 7',
+                        gridRow: `${timeToRow('13:00')} / ${timeToRow('14:00')}`,
+                        background: 'rgba(139, 0, 0, 0.08)',
+                    }}
+                ></div>
+
                 {/* Course blocks */}
                 {pattern.map((s, i) => {
                     const col = dayToCol(s.day)

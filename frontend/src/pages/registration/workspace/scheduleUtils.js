@@ -42,6 +42,40 @@ export function sumCredits(sections = []) {
     return sections.reduce((sum, s) => sum + (s.creditHours || 0), 0)
 }
 
+const LUNCH_START_MIN = 13 * 60 // 1:00 PM
+const LUNCH_END_MIN = 14 * 60 // 2:00 PM
+
+function overlapMinutes(aStart, aEnd, bStart, bEnd) {
+    return Math.max(0, Math.min(aEnd, bEnd) - Math.max(aStart, bStart))
+}
+
+// Largest gap between two consecutive classes on the same day, in hours.
+// Time spent inside the 1-2pm lunch hour doesn't count as "gap" — a 3-hour
+// gap that includes lunch reads as a 2-hour gap between classes.
+export function computeMaxGapHours(pattern = []) {
+    const byDay = {}
+    pattern.forEach((s) => {
+        if (!s.day) return
+        const day = s.day.slice(0, 3)
+        if (!byDay[day]) byDay[day] = []
+        byDay[day].push(s)
+    })
+
+    let maxGap = 0
+    Object.values(byDay).forEach((sections) => {
+        const sorted = [...sections].sort((a, b) => toMinutes(a.timeStart) - toMinutes(b.timeStart))
+        for (let i = 0; i < sorted.length - 1; i++) {
+            const prevEnd = toMinutes(sorted[i].timeEnd)
+            const nextStart = toMinutes(sorted[i + 1].timeStart)
+            if (prevEnd == null || nextStart == null || nextStart <= prevEnd) continue
+            const rawGap = nextStart - prevEnd
+            const lunchOverlap = overlapMinutes(prevEnd, nextStart, LUNCH_START_MIN, LUNCH_END_MIN)
+            maxGap = Math.max(maxGap, (rawGap - lunchOverlap) / 60)
+        }
+    })
+    return maxGap
+}
+
 // Registration-day status of a course in the routine (UC017 course_status).
 export const STATUS = { PLANNED: 'planned', REGISTERED: 'registered', FAILED: 'failed' }
 
