@@ -82,5 +82,89 @@ function ViewTimetableData() {
             }, {});
         
             const daysOrder = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-        
+        return (
+        <div className="admin-page">
+            <div className="admin-card">
+                <p className="admin-badge">Timetable Management</p>
+                <h1 style={{fontSize: '26px', fontWeight: '700', color: '#333', marginBottom: '8px'}}>View Timetable Data</h1>
+                <p style={{color: '#888', fontSize: '14px', marginBottom: '24px'}}>
+                    Browse the timetable sections for a selected semester.
+                </p>
+
+                <div className="admin-form-group" style={{marginBottom: '24px'}}>
+                    <label>Semester</label>
+                    <select
+                        value={`${semesterNumber}|${intakeMonth}|${academicYear}`}
+                        onChange={handleSemesterChange}
+                    >
+                        {availableSemesters.map((sem) => (
+                            <option
+                                key={`${sem.semesterNumber}|${sem.intakeMonth}|${sem.academicYear}`}
+                                value={`${sem.semesterNumber}|${sem.intakeMonth}|${sem.academicYear}`}
+                            >
+                                Semester {sem.semesterNumber} - {sem.intakeMonth} {sem.academicYear}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                {loading && (
+                    <div className="admin-loading">
+                        <p>Loading timetable data...</p>
+                    </div>
+                )}
+
+                {!loading && timetableData.length === 0 && (
+                    <div className="admin-empty">
+                        <p>No timetable data found for the selected semester.</p>
+                    </div>
+                )}
+
+                {!loading && timetableData.length > 0 && (
+                    <>
+                        {daysOrder.map((day) => {
+                            const daySections = groupedByDay[day];
+                            if (!daySections || daySections.length === 0) return null;
+
+                            return (
+                                <div key={day} style={{marginBottom: '32px'}}>
+                                    <h3 style={{fontSize: '20px', fontWeight: '600', color: '#333', marginBottom: '16px'}}>{day}</h3>
+                                    <table className="admin-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>Course Code</th>
+                                                <th>Course Name</th>
+                                                <th>Section</th>
+                                                <th>Lecturer</th>
+                                                <th>Venue</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {daySections.map((section, index) => (
+                                                <tr key={section.sectionID} style={index % 2 === 0 ? {backgroundColor: '#fff'} : {backgroundColor: '#f9fafb'}}>
+                                                    <td>{section.timeStart} - {section.timeEnd}</td>
+                                                    <td><strong>{section.courseCode}</strong></td>
+                                                    <td>{section.courseName}</td>
+                                                    <td>{section.sectionNumber}</td>
+                                                    <td>{section.lecturerName || "TBA"}</td>
+                                                    <td>{section.venue || "TBA"}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            );
+                        })}
+
+                        <p style={{fontSize: '14px', color: '#6b7280', textAlign: 'center', marginTop: '32px'}}>
+                            Showing {timetableData.length} sections for Semester {semesterNumber}, {intakeMonth} {academicYear}
+                        </p>
+                    </>
+                )}
+            </div>
+        </div>
+    );
 }
+
+export default ViewTimetableData;
