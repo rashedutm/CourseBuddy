@@ -73,7 +73,7 @@ function UploadHandbook() {
                   setLoading(false);
               }
           };
-       }
+      
 return (
   <div className="admin-page">
             <div className="admin-card">
