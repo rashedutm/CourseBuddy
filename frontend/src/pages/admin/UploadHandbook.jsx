@@ -149,6 +149,50 @@ return (
                 >
                     {loading ? "Uploading..." : "Upload Handbook"}
                 </button>
-)
+{/* Status message shown after upload attempt */}
+                {statusMessage && uploadSuccess && (
+                    <p className="admin-status success">
+                        {statusMessage}
+                    </p>
+                )}
 
-  export default UploadHandbook;
+                {/* Navigation buttons - only show after successful upload */}
+                {uploadSuccess && (
+                    <div style={{marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #e5e7eb'}}>
+                        <p style={{fontSize: '14px', color: '#6b7280', marginBottom: '12px'}}>Related Actions:</p>
+                        <div style={{display: 'flex', gap: '12px'}}>
+                            <button 
+                                className="admin-btn-outline"
+                                style={{flex: 1, padding: '12px', borderRadius: '10px', border: '1px solid #8b0000', background: '#fff', color: '#8b0000', cursor: 'pointer'}}
+                                onClick={() => navigate('/admin/handbook/view')}
+                            >
+                                View Handbook Data
+                            </button>
+                            <button 
+                                className="admin-btn-outline"
+                                style={{flex: 1, padding: '12px', borderRadius: '10px', border: '1px solid #8b0000', background: '#fff', color: '#8b0000', cursor: 'pointer'}}
+                                onClick={() => navigate('/admin/handbook/delete')}
+                            >
+                                Delete Handbook
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                {/* Route Links */}
+                <div style={{marginTop: '32px', paddingTop: '24px', borderTop: '2px solid #e5e7eb'}}>
+                    <p style={{fontSize: '14px', fontWeight: '600', color: '#374151', marginBottom: '12px'}}>📋 Available Admin Pages:</p>
+                    <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '8px'}}>
+                        <a href="/admin/handbook/view" style={{color: '#8b0000', textDecoration: 'none', fontSize: '14px', padding: '8px 12px', background: '#fdf0f0', borderRadius: '6px'}}>View Handbook</a>
+                        <a href="/admin/handbook/delete" style={{color: '#8b0000', textDecoration: 'none', fontSize: '14px', padding: '8px 12px', background: '#fdf0f0', borderRadius: '6px'}}>Delete Handbook</a>
+                        <a href="/admin/timetable/upload" style={{color: '#8b0000', textDecoration: 'none', fontSize: '14px', padding: '8px 12px', background: '#fdf0f0', borderRadius: '6px'}}>Upload Timetable</a>
+                        <a href="/admin/timetable/view" style={{color: '#8b0000', textDecoration: 'none', fontSize: '14px', padding: '8px 12px', background: '#fdf0f0', borderRadius: '6px'}}>View Timetable</a>
+                        <a href="/admin/courses/view" style={{color: '#8b0000', textDecoration: 'none', fontSize: '14px', padding: '8px 12px', background: '#fdf0f0', borderRadius: '6px'}}>View Courses</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+  }
+
+export default UploadHandbook;
