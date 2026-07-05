@@ -51,6 +51,21 @@ function ViewPatterns() {
         })
     }
 
+    const handleGoToRegistration = () => {
+        navigate('/registration/filter', {
+            state: {
+                patterns,
+                totalPatterns,
+                studentID,
+                semesterID,
+                semesterNumber,
+                intakeMonth,
+                academicSession,
+                intakeID
+            }
+        })
+    }
+
     if (!patterns || patterns.length === 0) {
         return (
             <div className="container">
@@ -88,9 +103,14 @@ function ViewPatterns() {
             </div>
 
             {/* Set lecturer preference button */}
-            <button className="btn outline" style={{ marginBottom: '20px' }} onClick={handleSetPreference}>
+            <button className="btn outline" style={{ marginBottom: '12px' }} onClick={handleSetPreference}>
                 <i className="fas fa-sliders"></i>
                 Set Lecturer Preference
+            </button>
+
+            <button className="btn primary" style={{ marginBottom: '20px' }} onClick={handleGoToRegistration}>
+                <i className="fas fa-table-cells-large"></i>
+                Go to Registration Simulation
             </button>
 
             {/* Pattern list */}

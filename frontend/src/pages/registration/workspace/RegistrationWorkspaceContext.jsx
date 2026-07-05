@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useMemo, useReducer } from
 import { sumCredits, sectionKey } from './scheduleUtils'
 
 const STORAGE_KEY = 'cb-registration-workspace-v1'
-export const MAX_SAVED_PATTERNS = Infinity // no limit on Draft Vault size
+export const MAX_SAVED_PATTERNS = 30
 export const MAX_COMPARE_PATTERNS = 6 // how many patterns the Compare page can hold at once
 
 const initialState = {
@@ -67,6 +67,7 @@ function reducer(state, action) {
             }
         }
         case 'SAVE_PATTERN': {
+            if (state.savedPatterns.length >= MAX_SAVED_PATTERNS) return state
             const sections = action.payload.sections || state.currentGoal.sections
             const entry = {
                 id: `sp-${Date.now()}`,
@@ -74,7 +75,7 @@ function reducer(state, action) {
                 sections,
                 credits: sumCredits(sections),
                 createdAt: new Date().toISOString(),
-                priority: false, // starred flag (boolean) — no ranking anymore
+                priority: false,
                 archived: false,
             }
             return { ...state, savedPatterns: [...state.savedPatterns, entry] }

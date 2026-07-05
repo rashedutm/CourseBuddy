@@ -87,6 +87,21 @@ function FilteredPatterns() {
         })
     }
 
+    const handleGoToRegistration = () => {
+        navigate('/registration/filter', {
+            state: {
+                patterns: filteredPatterns,
+                totalPatterns: filteredPatterns.length,
+                studentID,
+                semesterID,
+                semesterNumber,
+                intakeMonth,
+                academicSession,
+                intakeID
+            }
+        })
+    }
+
     return (
         <div className="container">
             <header>
@@ -161,6 +176,10 @@ function FilteredPatterns() {
                         )
                     })}
 
+                    <button className="btn primary" style={{ marginTop: '10px' }} onClick={handleGoToRegistration}>
+                        <i className="fas fa-table-cells-large"></i>
+                        Go to Registration Simulation
+                    </button>
                     <button className="btn outline" style={{ marginTop: '10px' }} onClick={handleAdjustPreferences}>
                         <i className="fas fa-sliders"></i>
                         Adjust Preferences
