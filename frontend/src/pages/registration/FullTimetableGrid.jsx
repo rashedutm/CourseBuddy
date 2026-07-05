@@ -6,6 +6,12 @@ function secLabel(s, siblingMap) {
     return siblings ? siblings.map((n) => `S${n}`).join('/') : `S${s.sectionNumber}`
 }
 
+function subjectAbbr(s) {
+    return s.courseName
+        ? s.courseName.split(/\s+/).filter(Boolean).map((w) => w[0].toUpperCase()).join('')
+        : s.courseCode
+}
+
 // Full-size weekly timetable, used wherever a single pattern needs to be
 // shown as the primary, definitive schedule (Registration Cockpit). Same
 // days-as-rows / times-as-columns orientation as MiniTimetableGrid, just
@@ -60,10 +66,11 @@ export default function FullTimetableGrid({ pattern = [], conflictKeys = null, s
                                         style={{
                                             left: `${left}%`,
                                             width: `${width}%`,
-                                            background: isConflict ? 'transparent' : courseColor(s.courseCode).solid,
+                                            background: isConflict ? 'transparent' : courseColor(s.courseCode).pastel,
                                         }}
                                         title={`${s.courseName || s.courseCode} · ${secLabel(s, siblingMap)} · ${s.day} ${s.timeStart?.slice(0, 5)}–${s.timeEnd?.slice(0, 5)} · ${s.lecturerName || 'TBA'}`}
                                     >
+                                        <span className="ftg-block-abbr">{subjectAbbr(s)}</span>
                                         <span className="ftg-block-code">{s.courseCode}</span>
                                         <span className="ftg-block-sec">{secLabel(s, siblingMap)}</span>
                                     </span>
