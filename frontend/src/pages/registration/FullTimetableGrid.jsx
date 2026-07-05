@@ -1,126 +1,78 @@
-import React, { useMemo } from 'react'
-import { sectionKey } from './workspace/scheduleUtils'
+import React from 'react'
+import { sectionKey, courseColor } from './workspace/scheduleUtils'
 
-// Full-size weekly timetable (Mon-Fri x 8am-6pm), used wherever a single
-// pattern needs to be shown as the primary, definitive schedule (Blueprint,
-// Report) rather than a compact multi-pattern preview (see MiniTimetableGrid).
-
-const COURSE_COLORS = ['#c0392b', '#2980b9', '#27ae60', '#8e44ad', '#e67e22', '#16a085', '#d63031', '#2c3e50']
-const DAY_SHORT = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
-const HOURS = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
-
-function timeToRow(timeStr) {
-    if (!timeStr) return 0
-    const h = parseInt(timeStr.slice(0, 2))
-    return h - 8 + 2
+function secLabel(s, siblingMap) {
+    const siblings = siblingMap?.get(sectionKey(s))
+    return siblings ? siblings.map((n) => `S${n}`).join('/') : `S${s.sectionNumber}`
 }
 
-function dayToCol(dayStr) {
-    if (!dayStr) return 0
-    const d = dayStr.trim().toLowerCase()
-    if (d.startsWith('mon')) return 2
-    if (d.startsWith('tue')) return 3
-    if (d.startsWith('wed')) return 4
-    if (d.startsWith('thu')) return 5
-    if (d.startsWith('fri')) return 6
-    return 0
+// Full-size weekly timetable, used wherever a single pattern needs to be
+// shown as the primary, definitive schedule (Registration Cockpit). Same
+// days-as-rows / times-as-columns orientation as MiniTimetableGrid, just
+// bigger and more legible — the whole app should read the same way.
+
+const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
+const START_HOUR = 8
+const SLOTS = 10 // 8:00 → 18:00
+const LUNCH_START_SLOT = 13 - START_HOUR
+const LUNCH_SLOT_WIDTH = 1
+
+function toSlot(time) {
+    if (!time) return 0
+    const [h, m] = time.split(':').map(Number)
+    return (h - START_HOUR) + (m >= 30 ? 0.5 : 0)
 }
 
-export default function FullTimetableGrid({ pattern, conflictKeys = null }) {
-    const courseColorMap = useMemo(() => {
-        const map = {}
-        let idx = 0
-        pattern.forEach(s => {
-            if (!map[s.courseCode]) map[s.courseCode] = COURSE_COLORS[idx++ % COURSE_COLORS.length]
-        })
-        return map
-    }, [pattern])
-
+export default function FullTimetableGrid({ pattern = [], conflictKeys = null, siblingMap = null }) {
     return (
-        <div className="timetable-wrapper">
-            <div style={{
-                display: 'grid',
-                gridTemplateColumns: '48px repeat(5, 1fr)',
-                gridTemplateRows: `36px repeat(${HOURS.length}, 56px)`,
-                borderRadius: '12px',
-                overflow: 'hidden',
-                background: '#fff',
-                boxShadow: '0 2px 8px rgba(0,0,0,.06)',
-                minWidth: '360px',
-                fontSize: '12px'
-            }}>
-                {/* Header */}
-                <div style={{ background: '#8b0000', border: '1px solid rgba(255,255,255,0.1)' }}></div>
-                {DAY_SHORT.map(d => (
-                    <div key={d} style={{
-                        background: '#8b0000', color: '#fff', fontWeight: 700,
-                        fontSize: '11px', display: 'flex', alignItems: 'center',
-                        justifyContent: 'center', border: '1px solid rgba(255,255,255,0.1)'
-                    }}>
-                        {d}
-                    </div>
+        <div className="ftg">
+            <div className="ftg-times">
+                <span className="ftg-corner" />
+                {Array.from({ length: SLOTS }, (_, i) => (
+                    <span key={i} className="ftg-time">{START_HOUR + i}:00</span>
                 ))}
-
-                {/* Time slots */}
-                {HOURS.map(h => (
-                    <React.Fragment key={h}>
-                        <div style={{
-                            background: '#fdf0f0', color: '#8b0000', fontWeight: 600,
-                            fontSize: '10px', display: 'flex', alignItems: 'center',
-                            justifyContent: 'center', border: '1px solid #f0f0f0'
-                        }}>
-                            {h}:00
-                        </div>
-                        {DAY_SHORT.map(d => (
-                            <div key={d} style={{ border: '1px solid #f5f5f5' }}></div>
-                        ))}
-                    </React.Fragment>
-                ))}
-
-                {/* Lunch break band (1-2pm), rendered under the course blocks */}
-                <div
-                    title="Lunch break 1:00–2:00 PM"
-                    style={{
-                        gridColumn: '2 / 7',
-                        gridRow: `${timeToRow('13:00')} / ${timeToRow('14:00')}`,
-                        background: 'rgba(139, 0, 0, 0.08)',
-                    }}
-                ></div>
-
-                {/* Course blocks */}
-                {pattern.map((s, i) => {
-                    const col = dayToCol(s.day)
-                    const startRow = timeToRow(s.timeStart)
-                    const endRow = timeToRow(s.timeEnd)
-                    if (!col || !startRow || !endRow || startRow >= endRow) return null
-                    const isConflict = conflictKeys?.has(sectionKey(s))
-                    return (
-                        <div
-                            key={i}
-                            style={{
-                                gridColumn: col,
-                                gridRow: `${startRow} / ${endRow}`,
-                                background: isConflict ? 'transparent' : courseColorMap[s.courseCode],
-                                border: isConflict ? '2px dashed #dc2626' : 'none',
-                                borderRadius: '6px',
-                                padding: '4px 6px',
-                                fontSize: '10px',
-                                fontWeight: 700,
-                                color: isConflict ? '#dc2626' : '#fff',
-                                overflow: 'hidden',
-                                margin: '3px',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'center',
-                                lineHeight: '1.4'
-                            }}
-                        >
-                            <div>{s.courseCode}</div>
-                            <div style={{ opacity: 0.85, fontWeight: 400 }}>S{s.sectionNumber}</div>
-                        </div>
-                    )
-                })}
             </div>
+
+            {DAYS.map((day) => {
+                const items = pattern.filter((s) => s.day && s.day.slice(0, 3) === day)
+                return (
+                    <div key={day} className="ftg-row">
+                        <span className="ftg-day">{day}</span>
+                        <div className="ftg-track">
+                            <span
+                                className="ftg-lunch-band"
+                                style={{
+                                    left: `${(LUNCH_START_SLOT / SLOTS) * 100}%`,
+                                    width: `${(LUNCH_SLOT_WIDTH / SLOTS) * 100}%`,
+                                }}
+                                title="Lunch break 1:00–2:00 PM"
+                            />
+                            {items.map((s, i) => {
+                                const start = toSlot(s.timeStart)
+                                const end = toSlot(s.timeEnd) || start + 1
+                                const left = (start / SLOTS) * 100
+                                const width = (Math.max(end - start, 1) / SLOTS) * 100
+                                const isConflict = conflictKeys?.has(sectionKey(s))
+                                return (
+                                    <span
+                                        key={i}
+                                        className={`ftg-block${isConflict ? ' conflict' : ''}`}
+                                        style={{
+                                            left: `${left}%`,
+                                            width: `${width}%`,
+                                            background: isConflict ? 'transparent' : courseColor(s.courseCode).solid,
+                                        }}
+                                        title={`${s.courseName || s.courseCode} · ${secLabel(s, siblingMap)} · ${s.day} ${s.timeStart?.slice(0, 5)}–${s.timeEnd?.slice(0, 5)} · ${s.lecturerName || 'TBA'}`}
+                                    >
+                                        <span className="ftg-block-code">{s.courseCode}</span>
+                                        <span className="ftg-block-sec">{secLabel(s, siblingMap)}</span>
+                                    </span>
+                                )
+                            })}
+                        </div>
+                    </div>
+                )
+            })}
         </div>
     )
 }

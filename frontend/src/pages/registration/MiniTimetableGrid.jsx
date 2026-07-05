@@ -1,5 +1,17 @@
 import React from 'react'
-import { sectionKey } from './workspace/scheduleUtils'
+import { sectionKey, courseColor } from './workspace/scheduleUtils'
+
+// Returns the abbreviated label for a timetable block.
+// When siblingMap is provided and this section shares its slot with others,
+// all sibling section numbers are shown (e.g. "UC S01/S02").
+function subjectTag(s, siblingMap) {
+  const abbr = s.courseName
+    ? s.courseName.split(/\s+/).filter(Boolean).map((w) => w[0].toUpperCase()).join('')
+    : s.courseCode
+  const siblings = siblingMap?.get(sectionKey(s))
+  const secLabel = siblings ? siblings.map((n) => `S${n}`).join('/') : `S${s.sectionNumber}`
+  return `${abbr} ${secLabel}`
+}
 
 /*
  * MiniTimetableGrid — renders one pattern (an array of section objects) as a
@@ -17,34 +29,13 @@ const SLOTS = 10 // 8:00 → 18:00
 const LUNCH_START_SLOT = 13 - START_HOUR // 1pm
 const LUNCH_SLOT_WIDTH = 1 // 1pm-2pm
 
-// Soft pastels from the Figma design system, cycled per course.
-const PASTELS = ['#BFDBFE', '#BBF7D0', '#FBCFE8', '#FEF08A', '#DDD6FE', '#BAE6FD', '#C7D2FE', '#FECACA']
-
 function toSlot(time) {
   if (!time) return 0
   const [h, m] = time.split(':').map(Number)
   return (h - START_HOUR) + (m >= 30 ? 0.5 : 0)
 }
 
-// Short subject tag for a block, e.g. "Ubiquitous Computing" + section 01 -> "UC S01".
-function subjectTag(s) {
-  const abbr = s.courseName
-    ? s.courseName.split(/\s+/).filter(Boolean).map((w) => w[0].toUpperCase()).join('')
-    : s.courseCode
-  return `${abbr} S${s.sectionNumber}`
-}
-
-export default function MiniTimetableGrid({ pattern = [], conflictKeys = null, onBlockClick = null, selectedKeys = null }) {
-  // Stable colour per courseCode so the same course is one colour across rows.
-  const colorMap = {}
-  let ci = 0
-  pattern.forEach((s) => {
-    if (s.courseCode && !colorMap[s.courseCode]) {
-      colorMap[s.courseCode] = PASTELS[ci % PASTELS.length]
-      ci++
-    }
-  })
-
+export default function MiniTimetableGrid({ pattern = [], conflictKeys = null, onBlockClick = null, selectedKeys = null, siblingMap = null }) {
   return (
     <div className="mtg">
       <div className="mtg-times">
@@ -82,12 +73,12 @@ export default function MiniTimetableGrid({ pattern = [], conflictKeys = null, o
                     style={{
                       left: `${left}%`,
                       width: `${width}%`,
-                      background: isConflict ? 'transparent' : colorMap[s.courseCode],
+                      background: isConflict ? 'transparent' : courseColor(s.courseCode).pastel,
                     }}
                     title={`${s.courseName || s.courseCode} · ${s.day} ${s.timeStart?.slice(0, 5)}–${s.timeEnd?.slice(0, 5)}${onBlockClick ? ' · click to add/remove from mix' : ''}`}
                     onClick={onBlockClick ? () => onBlockClick(s) : undefined}
                   >
-                    <span className="mtg-block-label">{subjectTag(s)}</span>
+                    <span className="mtg-block-label">{subjectTag(s, siblingMap)}</span>
                   </span>
                 )
               })}

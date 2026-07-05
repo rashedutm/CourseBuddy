@@ -1,70 +1,46 @@
 import React, { useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
-import { useRegistrationWorkspace, MAX_SAVED_PATTERNS } from './RegistrationWorkspaceContext'
-import { sumCredits } from './scheduleUtils'
+import { NavLink } from 'react-router-dom'
+import { useRegistrationWorkspace } from './RegistrationWorkspaceContext'
+
+const COLLAPSE_KEY = 'cb-registration-sidebar-collapsed'
 
 const NAV_ITEMS = [
     { to: '/registration/filter', icon: 'fas fa-compass', label: 'Explore' },
-    { to: '/registration/compare', icon: 'fas fa-scale-balanced', label: 'Compare' },
+    { to: '/registration/compare', icon: 'fas fa-scale-balanced', label: 'Compare & Build' },
+    { to: '/registration/vault', icon: 'fas fa-box-archive', label: 'Draft Vault' },
+    { to: '/registration/archive', icon: 'fas fa-boxes-packing', label: 'Archive' },
 ]
 
-function SavePatternForm({ onSave, full }) {
-    const [naming, setNaming] = useState(false)
-    const [name, setName] = useState('')
-
-    if (full) {
-        return (
-            <div className="workspace-vault-full">
-                <i className="fas fa-circle-exclamation"></i> Vault full ({MAX_SAVED_PATTERNS}/{MAX_SAVED_PATTERNS}) — remove one to save
-            </div>
-        )
-    }
-
-    if (!naming) {
-        return (
-            <button className="workspace-save-btn" onClick={() => setNaming(true)}>
-                <i className="fas fa-bookmark"></i> Save to Draft Vault
-            </button>
-        )
-    }
-
-    return (
-        <div className="workspace-save-form">
-            <input
-                autoFocus
-                placeholder="Routine name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && name.trim() && (onSave(name.trim()), setNaming(false), setName(''))}
-            />
-            <button
-                disabled={!name.trim()}
-                onClick={() => { onSave(name.trim()); setNaming(false); setName('') }}
-            >
-                <i className="fas fa-check"></i>
-            </button>
-            <button onClick={() => { setNaming(false); setName('') }}>
-                <i className="fas fa-xmark"></i>
-            </button>
-        </div>
-    )
-}
-
 function WorkspaceSidebar() {
-    const navigate = useNavigate()
-    const { state, savePattern, removeSavedPattern, loadSavedPattern } = useRegistrationWorkspace()
-    const { currentGoal, savedPatterns, meta } = state
-    const goalCredits = sumCredits(currentGoal.sections)
+    const { state } = useRegistrationWorkspace()
+    const { savedPatterns, meta } = state
 
-    const handleLoad = (id) => {
-        loadSavedPattern(id)
-        navigate('/registration/routine')
+    const badgeCounts = {
+        '/registration/vault': savedPatterns.filter((p) => !p.archived).length,
+        '/registration/archive': savedPatterns.filter((p) => p.archived).length,
+    }
+
+    const [collapsed, setCollapsed] = useState(() => localStorage.getItem(COLLAPSE_KEY) === 'true')
+    const toggleCollapsed = () => {
+        setCollapsed((prev) => {
+            const next = !prev
+            localStorage.setItem(COLLAPSE_KEY, String(next))
+            return next
+        })
     }
 
     return (
-        <aside className="workspace-sidebar">
-            <div className="workspace-brand">CourseBuddy</div>
-            {meta.academicSession && (
+        <aside className={`workspace-sidebar ${collapsed ? 'collapsed' : ''}`}>
+            <button
+                className="workspace-collapse-toggle"
+                title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+                onClick={toggleCollapsed}
+            >
+                <i className={`fas ${collapsed ? 'fa-angles-right' : 'fa-angles-left'}`}></i>
+            </button>
+
+            {!collapsed && <div className="workspace-brand">CourseBuddy</div>}
+            {!collapsed && meta.academicSession && (
                 <div className="workspace-meta">
                     {meta.programmeID && <>{meta.programmeID} • </>}
                     {meta.academicSession} — Sem {meta.semesterNumber}
@@ -72,58 +48,28 @@ function WorkspaceSidebar() {
             )}
 
             <nav className="workspace-nav">
-                {NAV_ITEMS.map((item) => (
-                    <NavLink
-                        key={item.to}
-                        to={item.to}
-                        className={({ isActive }) => `workspace-nav-link ${isActive ? 'active' : ''}`}
-                    >
-                        <i className={item.icon}></i>
-                        {item.label}
-                    </NavLink>
-                ))}
+                {NAV_ITEMS.map((item) => {
+                    const count = badgeCounts[item.to] || 0
+                    return (
+                        <NavLink
+                            key={item.to}
+                            to={item.to}
+                            title={collapsed ? item.label : undefined}
+                            className={({ isActive }) => `workspace-nav-link ${isActive ? 'active' : ''}`}
+                        >
+                            <i className={item.icon}></i>
+                            {!collapsed && item.label}
+                            {count > 0 && !collapsed && (
+                                <span className="workspace-nav-badge">{count}</span>
+                            )}
+                            {count > 0 && collapsed && (
+                                <span className="workspace-nav-dot"></span>
+                            )}
+                        </NavLink>
+                    )
+                })}
             </nav>
 
-            <div className="workspace-section-title">Current Routine</div>
-            <div
-                className="workspace-goal-card"
-                style={{ cursor: currentGoal.sections.length > 0 ? 'pointer' : 'default' }}
-                onClick={() => currentGoal.sections.length > 0 && navigate('/registration/routine')}
-            >
-                <div className="value">{currentGoal.sections.length}</div>
-                <div className="label">Courses</div>
-                <div className="workspace-goal-secondary">{goalCredits} Credits</div>
-            </div>
-            <SavePatternForm
-                onSave={(name) => savePattern(name, currentGoal.sections)}
-                full={savedPatterns.length >= MAX_SAVED_PATTERNS}
-            />
-
-            <div className="workspace-section-title" style={{ marginTop: '20px' }}>
-                <i className="fas fa-box-archive"></i> Draft Vault ({savedPatterns.length}/{MAX_SAVED_PATTERNS})
-            </div>
-            {savedPatterns.length === 0 ? (
-                <p className="workspace-empty-note">No drafts saved yet.</p>
-            ) : (
-                <div className="workspace-saved-list">
-                    {savedPatterns.map((p) => (
-                        <div key={p.id} className="workspace-saved-item">
-                            <div className="workspace-saved-info">
-                                <span className="name">{p.name}</span>
-                                <span className="meta">{p.sections.length} courses • {p.credits} CH</span>
-                            </div>
-                            <div className="workspace-saved-actions">
-                                <button title="Open this routine" onClick={() => handleLoad(p.id)}>
-                                    <i className="fas fa-arrow-rotate-left"></i>
-                                </button>
-                                <button title="Delete" onClick={() => removeSavedPattern(p.id)}>
-                                    <i className="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            )}
         </aside>
     )
 }

@@ -1,10 +1,58 @@
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useMemo, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import MiniTimetableGrid from './MiniTimetableGrid'
-import { useRegistrationWorkspace, MAX_SAVED_PATTERNS } from './workspace/RegistrationWorkspaceContext'
+import { useRegistrationWorkspace, MAX_COMPARE_PATTERNS } from './workspace/RegistrationWorkspaceContext'
 import { computeMaxGapHours } from './workspace/scheduleUtils'
 import '../courses/courses.css'
 import './registration.css'
+
+// A compact filter pill (Airbnb/Linear style): shows the group name until a
+// value is picked, then the value itself with a maroon accent. Clicking opens
+// a small popover with the options; clicking outside or an option closes it.
+function FilterDropdown({ groupLabel, icon, value, defaultValue, options, onSelect, footnote }) {
+    const [open, setOpen] = useState(false)
+    const ref = useRef(null)
+
+    useEffect(() => {
+        if (!open) return
+        const onDocClick = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false) }
+        document.addEventListener('mousedown', onDocClick)
+        return () => document.removeEventListener('mousedown', onDocClick)
+    }, [open])
+
+    const isActive = value !== defaultValue
+    const selectedLabel = options.find((o) => o.value === value)?.label
+
+    return (
+        <div className="filter-pill-wrap" ref={ref}>
+            <button
+                type="button"
+                className={`filter-pill ${isActive ? 'active' : ''} ${open ? 'open' : ''}`}
+                onClick={() => setOpen((o) => !o)}
+            >
+                {icon && <i className={icon}></i>}
+                <span className="filter-pill-label">{isActive ? selectedLabel : groupLabel}</span>
+                <i className="fas fa-chevron-down filter-pill-caret"></i>
+            </button>
+            {open && (
+                <div className="filter-pop">
+                    {options.map((opt) => (
+                        <button
+                            type="button"
+                            key={String(opt.value)}
+                            className={`filter-pop-option ${opt.value === value ? 'active' : ''}`}
+                            onClick={() => { onSelect(opt.value); setOpen(false) }}
+                        >
+                            <span>{opt.label}</span>
+                            {opt.value === value && <i className="fas fa-check"></i>}
+                        </button>
+                    ))}
+                    {footnote && <div className="filter-pop-footnote">{footnote}</div>}
+                </div>
+            )}
+        </div>
+    )
+}
 
 function FilterPatterns() {
     const navigate = useNavigate()
@@ -22,8 +70,7 @@ function FilterPatterns() {
         intakeID
     } = location.state || {}
 
-    const { state: workspace, setMeta, setGeneratedPatterns, setCurrentGoal, savePattern } = useRegistrationWorkspace()
-    const vaultFull = workspace.savedPatterns.length >= MAX_SAVED_PATTERNS
+    const { state: workspace, setMeta, setGeneratedPatterns, setCurrentGoal, savePattern, addToCompareSet } = useRegistrationWorkspace()
 
     // Feed the workspace context once on mount so the sidebar, Custom Builder,
     // and Recovery view can see these patterns even if the user jumps there directly.
@@ -36,6 +83,13 @@ function FilterPatterns() {
     const [activeFilter, setActiveFilter] = useState('All')
     const [maxGap, setMaxGap] = useState(null) // hours; null = no gap filter applied
     const [selectedIndices, setSelectedIndices] = useState([])
+    const MAX_COMPARE = MAX_COMPARE_PATTERNS
+
+    // If the Compare page already holds patterns, those are enough to compare
+    // against — so a single new pick here is sufficient to trigger it. Only
+    // from an empty compare set do you need 2 to have anything to line up.
+    const existingCompareCount = workspace.compareSet.length
+    const minToCompare = existingCompareCount > 0 ? 1 : 2
 
     const FILTERS = ['All', '≤15 Credits', '16-18 Credits', '4-Day Week', '5-Day Week', 'Morning Heavy', 'Afternoon Heavy']
     const GAP_OPTIONS = [1, 2, 3, 4, 5, 6]
@@ -62,28 +116,22 @@ function FilterPatterns() {
     const toggleSelect = (originalIndex) => {
         setSelectedIndices(prev => {
             if (prev.includes(originalIndex)) return prev.filter(i => i !== originalIndex)
-            if (prev.length < 2) return [...prev, originalIndex]
-            return [prev[1], originalIndex]
+            if (prev.length < MAX_COMPARE) return [...prev, originalIndex]
+            return [...prev.slice(1), originalIndex] // FIFO: drop the oldest pick once at cap
         })
     }
 
-    const navState = { patterns, totalPatterns, studentID, semesterID, semesterNumber, intakeMonth, academicSession, intakeID }
-
     const handleCompare = () => {
-        const [a, b] = selectedIndices
-        navigate('/registration/compare', {
-            state: {
-                patternA: patterns[a], patternIndexA: a,
-                patternB: patterns[b], patternIndexB: b,
-                ...navState
-            }
-        })
+        const entries = selectedIndices.map((i) => ({ pattern: patterns[i], label: `Pattern ${i + 1}` }))
+        addToCompareSet(entries)
+        setSelectedIndices([])
+        navigate('/registration/compare')
     }
 
     const handleSelectDirect = (pattern, originalIndex) => {
         setCurrentGoal(pattern, `Pattern ${originalIndex + 1}`)
         navigate('/registration/routine', {
-            state: { selectedPattern: pattern, patternIndex: originalIndex, ...navState }
+            state: { selectedPattern: pattern, patternLabel: `Pattern ${originalIndex + 1}` }
         })
     }
 
@@ -112,49 +160,50 @@ function FilterPatterns() {
                 <i className="fas fa-arrow-left" onClick={() => navigate(-1)}></i>
                 <h1>Registration Simulation</h1>
             </header>
-            {/* Filter chips */}
-            <div className="section">
-                <label>Filter Patterns</label>
-                <div className="filter-bar">
-                    {FILTERS.map(f => (
-                        <button
-                            key={f}
-                            className={`filter-btn ${activeFilter === f ? 'active' : ''}`}
-                            onClick={() => setActiveFilter(f)}
-                        >
-                            {f}
-                        </button>
-                    ))}
-                </div>
-            </div>
-
-            {/* Gap-between-classes filter (excludes the 1-2pm lunch hour from the gap count) */}
-            <div className="section">
-                <label>Max Gap Between Classes <span style={{ fontWeight: 400, color: '#999' }}>(lunch 1–2pm doesn't count)</span></label>
-                <div className="filter-bar">
-                    {GAP_OPTIONS.map(hrs => (
-                        <button
-                            key={hrs}
-                            className={`filter-btn ${maxGap === hrs ? 'active' : ''}`}
-                            onClick={() => setMaxGap(prev => (prev === hrs ? null : hrs))}
-                        >
-                            ≤{hrs}h
-                        </button>
-                    ))}
-                </div>
-            </div>
-
-            <div style={{ marginBottom: '16px', fontSize: '14px', color: '#888' }}>
-                Showing {filteredPatterns.length} of {totalPatterns} patterns
+            {/* Compact, modern filter pills — each opens a popover of options */}
+            <div className="filter-toolbar">
+                <FilterDropdown
+                    groupLabel="Filter patterns"
+                    icon="fas fa-sliders"
+                    value={activeFilter}
+                    defaultValue="All"
+                    options={FILTERS.map((f) => ({ value: f, label: f === 'All' ? 'All patterns' : f }))}
+                    onSelect={setActiveFilter}
+                />
+                <FilterDropdown
+                    groupLabel="Max gap"
+                    icon="fas fa-hourglass-half"
+                    value={maxGap}
+                    defaultValue={null}
+                    options={[{ value: null, label: 'Any gap' }, ...GAP_OPTIONS.map((h) => ({ value: h, label: `≤${h}h between classes` }))]}
+                    onSelect={setMaxGap}
+                    footnote="Lunch (1–2pm) doesn't count toward the gap."
+                />
+                {(activeFilter !== 'All' || maxGap != null) && (
+                    <button
+                        type="button"
+                        className="filter-clear-btn"
+                        onClick={() => { setActiveFilter('All'); setMaxGap(null) }}
+                    >
+                        <i className="fas fa-xmark"></i> Clear
+                    </button>
+                )}
+                <span className="filter-result-count">
+                    Showing {filteredPatterns.length} of {totalPatterns} patterns
+                </span>
             </div>
 
             {selectedIndices.length > 0 && (
                 <div className="instruction">
                     <i className="fas fa-hand-pointer"></i>
                     <span>
-                        {selectedIndices.length === 1
-                            ? 'Select one more pattern to compare, or tap "Use This" to proceed directly.'
-                            : '2 patterns selected — tap Compare below to see them side by side.'}
+                        {selectedIndices.length < minToCompare
+                            ? `Select ${minToCompare - selectedIndices.length} more pattern${minToCompare - selectedIndices.length > 1 ? 's' : ''} to compare, or tap "Sandbox" to proceed directly.`
+                            : existingCompareCount > 0
+                                ? `${selectedIndices.length} selected — tap Compare below to add ${selectedIndices.length === 1 ? 'it' : 'them'} to the ${existingCompareCount} already in Compare.`
+                                : selectedIndices.length < MAX_COMPARE
+                                    ? `${selectedIndices.length} patterns selected — tap Compare below, or pick up to ${MAX_COMPARE - selectedIndices.length} more.`
+                                    : `${MAX_COMPARE} patterns selected (max) — tap Compare below to see them side by side.`}
                     </span>
                 </div>
             )}
@@ -164,6 +213,7 @@ function FilterPatterns() {
                     const originalIndex = patterns.indexOf(pattern)
                     const isSelected = selectedIndices.includes(originalIndex)
                     const credits = pattern.reduce((s, p) => s + (p.creditHours || 0), 0)
+                    const days = [...new Set(pattern.map(p => p.day))].length
 
                     return (
                         <div
@@ -178,8 +228,10 @@ function FilterPatterns() {
 
                             <MiniTimetableGrid pattern={pattern} />
 
-                            <div style={{ fontSize: '12px', color: '#888', margin: '6px 0 12px' }}>
-                                {credits} Credits
+                            <div className="compare-stat-row">
+                                <span>{pattern.length} Courses</span>
+                                <span>{credits} CH</span>
+                                <span>{days} Days/Week</span>
                             </div>
 
                             <div style={{ display: 'flex', gap: '8px' }}>
@@ -196,19 +248,18 @@ function FilterPatterns() {
                                 </button>
                                 <button
                                     className="view-btn"
-                                    style={{ flex: 1, background: '#fff7e6', color: '#d97706', opacity: vaultFull ? 0.4 : 1, cursor: vaultFull ? 'not-allowed' : 'pointer' }}
-                                    title={vaultFull ? `Vault full (${MAX_SAVED_PATTERNS}/${MAX_SAVED_PATTERNS})` : 'Save to Draft Vault'}
-                                    disabled={vaultFull}
+                                    style={{ flex: 1, background: '#fff7e6', color: '#d97706' }}
+                                    title="Save to Draft Vault"
                                     onClick={() => savePattern(`Pattern ${originalIndex + 1}`, pattern)}
                                 >
                                     <i className="fas fa-bookmark"></i> Save to Vault
                                 </button>
                                 <button
                                     className="view-btn"
-                                    style={{ flex: 1, background: '#e8f8ee', color: '#22a559' }}
+                                    style={{ flex: 1, background: 'var(--reg-maroon)', color: '#fff' }}
                                     onClick={() => handleSelectDirect(pattern, originalIndex)}
                                 >
-                                    Use This
+                                    <i className="fas fa-lock"></i> Sandbox
                                 </button>
                             </div>
                         </div>
@@ -216,11 +267,13 @@ function FilterPatterns() {
                 })}
             </div>
 
-            {selectedIndices.length === 2 && (
+            {selectedIndices.length >= minToCompare && (
                 <div className="sticky-bottom">
                     <button className="btn primary" onClick={handleCompare}>
                         <i className="fas fa-scale-balanced"></i>
-                        Compare Selected Patterns
+                        {existingCompareCount > 0
+                            ? `Add ${selectedIndices.length} to Compare (${existingCompareCount} already there)`
+                            : `Compare ${selectedIndices.length} Selected Patterns`}
                     </button>
                 </div>
             )}

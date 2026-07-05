@@ -36,7 +36,8 @@ import RegistrationShell from './pages/registration/workspace/RegistrationShell'
 import FilterPatterns from './pages/registration/FilterPatterns';
 import ViewComparePatterns from './pages/registration/ViewComparePatterns';
 import SelectedRoutine from './pages/registration/SelectedRoutine';
-
+import DraftVault from './pages/registration/DraftVault';
+import ArchivedDrafts from './pages/registration/ArchivedDrafts';
 // Admin pages
 import UploadHandbook from './pages/admin/UploadHandbook';
 import ViewHandbookData from './pages/admin/ViewHandbookData';
@@ -92,6 +93,8 @@ function App() {
           <Route path="filter" element={<FilterPatterns />} />
           <Route path="compare" element={<ViewComparePatterns />} />
           <Route path="routine" element={<SelectedRoutine />} />
+          <Route path="vault" element={<DraftVault />} />
+          <Route path="archive" element={<ArchivedDrafts />} />
         </Route>
 
         {/* Admin Routes */}
