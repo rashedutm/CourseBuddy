@@ -1,4 +1,6 @@
-const API_BASE_URL = 'http://localhost:5000/api'
+// In production (Railway), frontend + backend are the same origin, so plain
+// '/api' is correct. Locally, CRA (:3000) talks to the Express dev server (:5000).
+const API_BASE_URL = process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:5000/api'
 
 // UC001 - Step 1: Get all academic sessions
 export const getAcademicSessions = async () => {
@@ -108,6 +110,13 @@ export const resetLecturerPreferences = async (studentID) => {
         body: JSON.stringify({ studentID })
     })
     if (!response.ok) throw new Error('Failed to reset preferences')
+    return response.json()
+}
+
+// UC008 - Get student's active saved pattern
+export const getActivePattern = async (studentID) => {
+    const response = await fetch(`${API_BASE_URL}/patterns/active?studentID=${studentID}`)
+    if (!response.ok) throw new Error('Failed to fetch active pattern')
     return response.json()
 }
 

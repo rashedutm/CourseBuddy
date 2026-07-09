@@ -18,3 +18,7 @@ npm-debug.log*
 # OS files
 .DS_Store
 Thumbs.db
+
+# Dev-only registration mock data — never commit (mirrors in-page mock markers)
+frontend/src/pages/registration/_mockData.js
+frontend/src/pages/registration/mock_registration.sql

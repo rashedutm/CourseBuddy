@@ -55,7 +55,15 @@ exports.getSectionsByCourses = async (courseCodes, semesterNumber, intakeMonth, 
         `
         db.query(sql, [...courseCodes, semesterNumber, intakeMonth, academicYear, currentAcademicYear], (err, results) => {
             if (err) return reject(err)
-            resolve(results)
+            // Tag each section with a slotGroupKey so the client can call
+            // buildSiblingMap() without re-deriving the grouping key itself.
+            // Two sections share a group when they occupy the exact same
+            // courseCode + day + timeStart + timeEnd block.
+            const annotated = results.map((s) => ({
+                ...s,
+                slotGroupKey: `${s.courseCode}|${s.day}|${s.timeStart}|${s.timeEnd}`,
+            }))
+            resolve(annotated)
         })
     })
 }

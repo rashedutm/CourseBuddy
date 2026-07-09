@@ -32,15 +32,12 @@ import SelectPattern from './pages/courses/SelectPattern';
 import ResetPreference from './pages/courses/ResetPreference';
 
 // Registration pages
+import RegistrationShell from './pages/registration/workspace/RegistrationShell';
 import FilterPatterns from './pages/registration/FilterPatterns';
 import ViewComparePatterns from './pages/registration/ViewComparePatterns';
-import SelectFinalBlueprint from './pages/registration/SelectFinalBlueprint';
-import SaveDraftVault from './pages/registration/SaveDraftVault';
-import ReportRegistration from './pages/registration/ReportRegistration';
-import GapFilling from './pages/registration/GapFilling';
-import PartialRecovery from './pages/registration/PartialRecovery';
-import SimulateCourseDrop from './pages/registration/SimulateCourseDrop';
-
+import SelectedRoutine from './pages/registration/SelectedRoutine';
+import DraftVault from './pages/registration/DraftVault';
+import ArchivedDrafts from './pages/registration/ArchivedDrafts';
 // Admin pages
 import UploadHandbook from './pages/admin/UploadHandbook';
 import ViewHandbookData from './pages/admin/ViewHandbookData';
@@ -90,16 +87,16 @@ function App() {
         <Route path="/courses/patterns/:id" element={<PatternDetails />} />
         <Route path="/courses/reset-preference" element={<ResetPreference />} />
         
-        {/* Registration Routes */}
-        <Route path="/registration/filter" element={<FilterPatterns />} />
-        <Route path="/registration/compare" element={<ViewComparePatterns />} />
-        <Route path="/registration/select-final" element={<SelectFinalBlueprint />} />
-        <Route path="/registration/draft" element={<SaveDraftVault />} />
-        <Route path="/registration/report" element={<ReportRegistration />} />
-        <Route path="/registration/gap-filling" element={<GapFilling />} />
-        <Route path="/registration/partial-recovery" element={<PartialRecovery />} />
-        <Route path="/registration/simulate-drop" element={<SimulateCourseDrop />} />
-        
+        {/* Registration Routes — nested under a persistent workspace shell so
+            Saved Routines / Current Routine survive navigation between views. */}
+        <Route path="/registration" element={<RegistrationShell />}>
+          <Route path="filter" element={<FilterPatterns />} />
+          <Route path="compare" element={<ViewComparePatterns />} />
+          <Route path="routine" element={<SelectedRoutine />} />
+          <Route path="vault" element={<DraftVault />} />
+          <Route path="archive" element={<ArchivedDrafts />} />
+        </Route>
+
         {/* Admin Routes */}
         <Route path="/admin/handbook/upload" element={<UploadHandbook />} />
         <Route path="/admin/handbook/view" element={<ViewHandbookData />} />

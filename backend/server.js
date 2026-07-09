@@ -1,6 +1,7 @@
 const express = require('express')
 require('dotenv').config()
 const cors = require('cors')
+const path = require('path')
 const db = require('./config/db')
 
 const app = express()
@@ -38,10 +39,22 @@ app.use('/api', preferenceRoutes)
 // const registrationRoutes = require('./routes/registrationRoutes')
 // app.use('/api', registrationRoutes)
 
-app.get('/', (req, res) => {
-    res.send('CourseBuddy backend is running')
-})
+// In production (Railway), one service hosts everything: the API under /api,
+// and the pre-built React app for every other route. Local dev is untouched —
+// teammates keep running the CRA dev server on :3000 against this on :5000.
+if (process.env.NODE_ENV === 'production') {
+    const frontendBuildPath = path.join(__dirname, '../frontend/build')
+    app.use(express.static(frontendBuildPath))
+    app.get(/^\/(?!api).*/, (req, res) => {
+        res.sendFile(path.join(frontendBuildPath, 'index.html'))
+    })
+} else {
+    app.get('/', (req, res) => {
+        res.send('CourseBuddy backend is running')
+    })
+}
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server running on port ${process.env.PORT}`)
+const PORT = process.env.PORT || 5000
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
 })
