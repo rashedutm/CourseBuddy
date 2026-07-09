@@ -84,6 +84,56 @@ CREATE TABLE IF NOT EXISTS academic_alert (
 );
 
 -- ============================================
+-- SUBSYSTEM 5 (Tarin) — Academic Planner
+-- Personal degree-progress tracking (per-student
+-- course completion), separate from the shared
+-- `course`/`handbook_slot` tables used for pattern
+-- generation/registration — different domain, so
+-- named with a planner_ prefix to avoid any
+-- ownership ambiguity with other subsystems' tables.
+-- ============================================
+
+-- catalogID rows are (intakeType, semesterNumber, courseCode)
+-- specific — the same real courseCode can appear at a
+-- different semesterNumber depending on intakeType.
+CREATE TABLE IF NOT EXISTS planner_course_catalog (
+    catalogID VARCHAR(20) PRIMARY KEY,
+    programmeID VARCHAR(20) NOT NULL DEFAULT 'SCSEH',
+    intakeType ENUM('October', 'March') NOT NULL,
+    semesterNumber INT NOT NULL,
+    courseCode VARCHAR(20) NOT NULL,
+    courseName VARCHAR(150) NOT NULL,
+    creditHours INT NOT NULL,
+    prerequisiteNote VARCHAR(150),
+    electiveGroup VARCHAR(100)
+);
+
+-- One row per student per real course code. Not scoped by
+-- intakeType/semester because a student only ever follows one
+-- intake track, so courseCode alone is unambiguous for them.
+CREATE TABLE IF NOT EXISTS planner_course_status (
+    statusID VARCHAR(20) PRIMARY KEY,
+    userID VARCHAR(20) NOT NULL,
+    courseCode VARCHAR(20) NOT NULL,
+    status ENUM('not_taken', 'in_progress', 'completed', 'failed', 'dropped') NOT NULL DEFAULT 'not_taken',
+    updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY uniq_user_course (userID, courseCode),
+    FOREIGN KEY (userID) REFERENCES users(userID)
+);
+
+-- Which semester a student says they're currently in. Everything up to
+-- and including this semester is editable in the Planner; later
+-- semesters stay read-only "Upcoming". Defaults to 2 (matching the
+-- feature's original Sem 1-2-only rollout) for students who haven't
+-- picked a value yet.
+CREATE TABLE IF NOT EXISTS planner_student_progress (
+    userID VARCHAR(20) PRIMARY KEY,
+    currentSemester INT NOT NULL DEFAULT 2,
+    updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (userID) REFERENCES users(userID)
+);
+
+-- ============================================
 -- SUBSYSTEM 6 (Yousra) — Admins
 -- One admin per faculty
 -- No email or password here — handled by users

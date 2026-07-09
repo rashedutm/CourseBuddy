@@ -22,10 +22,16 @@ app.use('/api', lecturerRoutes)
 app.use('/api', preferenceRoutes)
 
 // ============================================
-// Tarin — Subsystem 5 Routes (add when ready)
+// Tarin — Subsystem 5 Routes
 // ============================================
-// const authRoutes = require('./routes/authRoutes')
-// app.use('/api', authRoutes)
+const authRoutes = require('./routes/authRoutes')
+const profileRoutes = require('./routes/profileRoutes')
+const homeRoutes = require('./routes/homeRoutes')
+const plannerRoutes = require('./routes/plannerRoutes')
+app.use('/api', authRoutes)
+app.use('/api', profileRoutes)
+app.use('/api', homeRoutes)
+app.use('/api', plannerRoutes)
 
 // ============================================
 // Yousra — Subsystem 6 Routes (add when ready)
