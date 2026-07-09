@@ -90,10 +90,19 @@ header {
   margin-bottom: 10px;
 }
 
-header i {
-  color: #8b0000;
-  font-size: 22px;
+header .fa-chevron-left {
+  color: #8b0000 !important;
+  font-size: 28px !important;
   cursor: pointer;
+  background: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  transition: all 0.2s;
+}
+
+header .fa-chevron-left:hover {
+  color: #6e0000 !important;
+  transform: translateX(-5px);
 }
 
 header h1 {
@@ -334,6 +343,12 @@ header h1 {
 .course-card:hover,
 .pattern-card:hover {
   box-shadow: 0 4px 15px rgba(0,0,0,.1);
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
+
+.course-card {
+  transition: all 0.2s ease;
 }
 
 .course-card.has-prereq,
