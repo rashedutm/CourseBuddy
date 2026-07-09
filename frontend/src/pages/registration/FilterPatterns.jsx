@@ -58,25 +58,37 @@ function FilterPatterns() {
     const navigate = useNavigate()
     const location = useLocation()
 
-    const {
-        patterns = [],
-        totalPatterns = 0,
-        studentID,
-        programmeID,
-        semesterID,
-        semesterNumber,
-        intakeMonth,
-        academicSession,
-        intakeID
-    } = location.state || {}
-
     const { state: workspace, setMeta, setGeneratedPatterns, setCurrentGoal, savePattern, addToCompareSet } = useRegistrationWorkspace()
 
-    // Feed the workspace context once on mount so the sidebar, Custom Builder,
-    // and Recovery view can see these patterns even if the user jumps there directly.
+    // Patterns come in via router state on the first visit, but navigating back
+    // here from Compare/Explore drops that state. The workspace context (persisted
+    // to localStorage) is the durable source, so fall back to it whenever router
+    // state is absent — otherwise the user sees "No patterns available" for
+    // patterns that were already generated.
+    const nav = location.state || {}
+    const hasNavPatterns = Array.isArray(nav.patterns) && nav.patterns.length > 0
+
+    const patterns = hasNavPatterns ? nav.patterns : workspace.generatedPatterns
+    const totalPatterns = hasNavPatterns ? (nav.totalPatterns ?? nav.patterns.length) : patterns.length
+
+    const {
+        studentID = workspace.meta.studentID,
+        programmeID = workspace.meta.programmeID,
+        semesterID = workspace.meta.semesterID,
+        semesterNumber = workspace.meta.semesterNumber,
+        intakeMonth = workspace.meta.intakeMonth,
+        academicSession = workspace.meta.academicSession,
+        intakeID = workspace.meta.intakeID
+    } = nav
+
+    // Feed the workspace context on the first visit (when router state carries
+    // patterns) so the sidebar, Custom Builder, and Recovery view can see them
+    // even if the user jumps there directly. Guard on hasNavPatterns so a
+    // stateless back-navigation doesn't clobber the stored patterns with [].
     useEffect(() => {
+        if (!hasNavPatterns) return
         setMeta({ studentID, programmeID, semesterID, semesterNumber, intakeMonth, academicSession, intakeID })
-        setGeneratedPatterns(patterns)
+        setGeneratedPatterns(nav.patterns)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

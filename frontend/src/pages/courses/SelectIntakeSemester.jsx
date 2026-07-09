@@ -129,7 +129,20 @@ function SelectIntakeSemester() {
     return (
         <div className="container">
             <header>
-                <i className="fas fa-arrow-left" onClick={() => navigate(-1)}></i>
+                <span
+                    onClick={() => navigate(-1)}
+                    style={{
+                        fontSize: '28px',
+                        color: '#8b0000',
+                        cursor: 'pointer',
+                        fontWeight: '900',
+                        lineHeight: '1',
+                        userSelect: 'none',
+                        transition: 'all 0.2s'
+                    }}
+                >
+                    ‹
+                </span>
                 <h1>Course Selection</h1>
             </header>
 

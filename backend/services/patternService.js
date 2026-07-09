@@ -33,27 +33,43 @@ exports.getSectionsByCourses = async (courseCodes, semesterNumber, intakeMonth, 
     return new Promise((resolve, reject) => {
         const placeholders = courseCodes.map(() => '?').join(',')
         const sql = `
-            SELECT
-                s.sectionID,
-                s.courseCode,
-                s.sectionNumber,
-                s.lecturerID,
-                s.lecturerName,
-                s.day,
-                s.timeStart,
-                s.timeEnd,
-                s.venue,
-                c.courseName,
-                c.creditHours
-            FROM section s
-            JOIN course c ON s.courseCode = c.courseCode
-            WHERE s.courseCode IN (${placeholders})
-            AND s.semesterNumber = ?
-            AND s.intakeMonth = ?
-            AND s.academicYear IN (?, ?)
-            ORDER BY s.courseCode, s.sectionNumber
-        `
-        db.query(sql, [...courseCodes, semesterNumber, intakeMonth, academicYear, currentAcademicYear], (err, results) => {
+                    SELECT
+                        s.sectionID,
+                        s.courseCode,
+                        s.sectionNumber,
+                        s.lecturerID,
+                        s.lecturerName,
+                        s.day,
+                        s.timeStart,
+                        s.timeEnd,
+                        s.venue,
+                        c.courseName,
+                        c.creditHours
+                    FROM section s
+                    JOIN course c ON s.courseCode = c.courseCode
+                    WHERE s.courseCode IN (${placeholders})
+                    AND s.intakeMonth = ?
+                    AND s.academicYear IN (?, ?)
+                    AND (
+                        s.semesterNumber = ?
+                        OR s.courseCode IN (
+                            SELECT courseCode FROM free_elective_offering
+                            WHERE academicYear IN (?, ?)
+                            AND intakeMonth = ?
+                        )
+                    )
+                    ORDER BY s.courseCode, s.sectionNumber
+                `
+                db.query(sql, [
+                    ...courseCodes,
+                    intakeMonth,
+                    academicYear,
+                    currentAcademicYear,
+                    semesterNumber,
+                    academicYear,
+                    currentAcademicYear,
+                    intakeMonth
+                ], (err, results) => {
             if (err) return reject(err)
             // Tag each section with a slotGroupKey so the client can call
             // buildSiblingMap() without re-deriving the grouping key itself.

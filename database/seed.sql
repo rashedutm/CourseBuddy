@@ -129,7 +129,9 @@ INSERT INTO course (courseCode, courseName, creditHours, ownerFacultyID, hasPrer
 ('UHLA1122', 'Arabic Language 1', 2, 'FC', FALSE),
 ('UHLM1122', 'Mandarin Language', 2, 'FC', FALSE),
 ('UHLF1122', 'French Language 1', 2, 'FC', FALSE),
-('UHLJ1122', 'Japanese Language 1', 2, 'FC', FALSE);
+('UHLJ1122', 'Japanese Language 1', 2, 'FC', FALSE),
+('UHLK1122', 'Korean Language 1', 2, 'FC', FALSE),
+('UHLC1122', 'Mandarin Language 1', 2, 'FC', FALSE);
 
 -- Semester 6 courses
 INSERT INTO course (courseCode, courseName, creditHours, ownerFacultyID, hasPrerequisite) VALUES
@@ -636,11 +638,6 @@ INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerN
 --   SESSION 2025/2026-1 (October) — Semester 3
 -- ============================================
 
--- First add Korean course to course table (not in handbook yet)
-INSERT INTO course (courseCode, courseName, creditHours, ownerFacultyID, hasPrerequisite) VALUES
-('UHLK1122', 'Korean Language', 2, 'FC', FALSE),
-('UHLC1122', 'Mandarin Language 1', 2, 'FC', FALSE);
-
 -- Arabic (UHLA1122) — Session 2024/2025-1, Sem 5, October
 INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerName, day, timeStart, timeEnd, timeSlot, venue, facultyID, semesterNumber, intakeMonth, academicYear) VALUES
 ('SEC-AR-01', 'UHLA1122', '01', NULL, NULL, 'Mon', '09:00:00', '11:00:00', '9am-11am', 'D06-BK6', 'FC', 5, 'October', '2024/2025-1'),
@@ -892,6 +889,6 @@ INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerN
 -- semesterNumber = 1 (this is Sem I of 2026/2027)
 -- intakeMonth = October
 -- academicYear = 2026/2027-1
-INSERT INTO free_elective_offering (offeringID, courseCode, offeringFacultyID, semesterNumber, intakeMonth, academicYear) VALUES
-('FEO-FKT-001', 'SKTX4583', 'FKT', 1, 'October', '2026/2027-1'),
-('FEO-FKT-002', 'SKTX4273', 'FKT', 1, 'October', '2026/2027-1');
+INSERT INTO free_elective_offering (offeringID, courseCode, offeringFacultyID, intakeMonth, academicYear) VALUES
+('FEO-FKT-001', 'SKTX4583', 'FKT', 'October', '2026/2027-1'),
+('FEO-FKT-002', 'SKTX4273', 'FKT', 'October', '2026/2027-1');
