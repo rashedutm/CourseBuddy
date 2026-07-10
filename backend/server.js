@@ -34,10 +34,17 @@ app.use('/api', homeRoutes)
 app.use('/api', plannerRoutes)
 
 // ============================================
-// Yousra — Subsystem 6 Routes (add when ready)
+// Yousra — Subsystem 6 Routes (admin: handbook, timetable, course/section)
+// Mounted under /api/admin so paths like /handbook, /courses and /sections
+// don't collide with the student-facing routes above (courseRoutes already
+// defines GET /handbook and /courses/*).
 // ============================================
-// const adminRoutes = require('./routes/adminRoutes')
-// app.use('/api', adminRoutes)
+const handbookRoutes = require('./routes/handbookRoutes')
+const timetableRoutes = require('./routes/timetableRoutes')
+const courseSectionRoutes = require('./routes/courseSectionRoutes')
+app.use('/api/admin', handbookRoutes)
+app.use('/api/admin', timetableRoutes)
+app.use('/api/admin', courseSectionRoutes)
 
 // ============================================
 // Zimly — Subsystem 4 Routes (add when ready)
