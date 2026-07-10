@@ -892,3 +892,223 @@ INSERT INTO section (sectionID, courseCode, sectionNumber, lecturerID, lecturerN
 INSERT INTO free_elective_offering (offeringID, courseCode, offeringFacultyID, intakeMonth, academicYear) VALUES
 ('FEO-FKT-001', 'SKTX4583', 'FKT', 'October', '2026/2027-1'),
 ('FEO-FKT-002', 'SKTX4273', 'FKT', 'October', '2026/2027-1');
+
+-- ============================================
+-- SUBSYSTEM 5 (Tarin) — Working test admin account
+-- Unlike the other seeded users above, this one has a
+-- REAL bcrypt hash (of 'admin123'), so it can actually log in.
+-- Not linked to a faculty in the admins table — that's not
+-- required for login or the Academic Officer Dashboard to work.
+-- ============================================
+INSERT INTO users (userID, fullName, matricNumber, utmEmail, passwordHash, role) VALUES
+('USR-ADM-003', 'Admin COM', 'STAFFCOM1', 'admincom@utm.my', '$2b$10$Fu/i4PoYOwmvjku0hj5LJ.hvAC0/8UtTTXQYttmmOI7h6kKNhFHFq', 'admin');
+
+-- ============================================
+-- SUBSYSTEM 5 (Tarin) — Academic Planner Catalog
+-- Full SCSEH degree structure (both October and March
+-- intake tracks), used by the new Academic Planner
+-- feature. Separate from the `course`/`handbook_slot`
+-- tables above (personal progress tracking, not
+-- registration/pattern-generation data).
+--
+-- Placeholder slots (Free Elective, Foreign Language
+-- Elective, University Elective, PRISMS Elective) don't
+-- have one real course code in the handbook, so each is
+-- given its own stable synthetic code (FREE-ELEC-1..4,
+-- FOREIGN-LANG-ELEC, UNIV-ELEC-1, PRISMS-ELEC-1/2) so a
+-- student's status on "Free Elective II" never collides
+-- with their status on "Free Elective I", etc. Reused
+-- between October/March is safe since one student only
+-- ever follows a single intake track.
+-- ============================================
+
+-- OCTOBER INTAKE — Semester 1
+INSERT INTO planner_course_catalog (catalogID, intakeType, semesterNumber, courseCode, courseName, creditHours, prerequisiteNote, electiveGroup) VALUES
+('PC-O-1-1', 'October', 1, 'SCSE1013', 'Fundamental Programming Concept', 3, NULL, NULL),
+('PC-O-1-2', 'October', 1, 'SCST1123', 'Mathematics for Software Engineer', 3, NULL, NULL),
+('PC-O-1-3', 'October', 1, 'SCSR1013', 'Digital Logic', 3, NULL, NULL),
+('PC-O-1-4', 'October', 1, 'SCST1143', 'Database Engineering', 3, NULL, NULL),
+('PC-O-1-5', 'October', 1, 'ULRS1032', 'Integrity and Anti-Corruption', 2, NULL, NULL),
+('PC-O-1-6', 'October', 1, 'FREE-ELEC-1', 'Free Elective I', 3, NULL, 'Free Elective');
+
+-- OCTOBER INTAKE — Semester 2
+INSERT INTO planner_course_catalog (catalogID, intakeType, semesterNumber, courseCode, courseName, creditHours, prerequisiteNote, electiveGroup) VALUES
+('PC-O-2-1', 'October', 2, 'SCSE1203', 'Software Engineering Principles', 3, 'SCSE1013', NULL),
+('PC-O-2-2', 'October', 2, 'SCSR1033', 'Computer Organization and Architecture', 3, 'SCSE1013', NULL),
+('PC-O-2-3', 'October', 2, 'SCST1223', 'Probability and Statistical Data Analysis', 3, NULL, NULL),
+('PC-O-2-4', 'October', 2, 'SCSE1224', 'Advanced Programming', 4, 'SCSE1013', NULL),
+('PC-O-2-5', 'October', 2, 'SCSR2213', 'Network Communications', 3, NULL, NULL),
+('PC-O-2-6', 'October', 2, 'UHLM1012', 'Malaysia Language for Communication 2 (International students)', 2, NULL, 'Choose per student type'),
+('PC-O-2-7', 'October', 2, 'ULRS1182', 'Appreciation of Ethics and Civilizations (Malaysian students)', 2, NULL, 'Choose per student type');
+
+-- OCTOBER INTAKE — Semester 3
+INSERT INTO planner_course_catalog (catalogID, intakeType, semesterNumber, courseCode, courseName, creditHours, prerequisiteNote, electiveGroup) VALUES
+('PC-O-3-1', 'October', 3, 'SCSE2133', 'Software Process and Project Management', 3, 'SCSE1203', NULL),
+('PC-O-3-2', 'October', 3, 'SCSE2123', 'Software Requirements Engineering', 3, 'SCSE1203', NULL),
+('PC-O-3-3', 'October', 3, 'SCSE2103', 'Data Structure and Algorithm', 3, 'SCSE1013', NULL),
+('PC-O-3-4', 'October', 3, 'SCSR2043', 'Operating Systems', 3, NULL, NULL),
+('PC-O-3-5', 'October', 3, 'SCSM2113', 'Human Computer Interaction Fundamentals', 3, 'SCSE1203', NULL),
+('PC-O-3-6', 'October', 3, 'UKQF2XX2', 'Service Learning & Community Engagement Courses', 2, NULL, NULL);
+
+-- OCTOBER INTAKE — Semester 4
+INSERT INTO planner_course_catalog (catalogID, intakeType, semesterNumber, courseCode, courseName, creditHours, prerequisiteNote, electiveGroup) VALUES
+('PC-O-4-1', 'October', 4, 'SCSM2223', 'Cross-Platform Application Development', 3, 'SCST1143', NULL),
+('PC-O-4-2', 'October', 4, 'SCSE2233', 'Software Design & Architecture', 3, 'SCSE1203', NULL),
+('PC-O-4-3', 'October', 4, 'SCSE2243', 'Application Development Project I', 3, 'SCSE1203, SCSE2123', NULL),
+('PC-O-4-4', 'October', 4, 'UHLB2122', 'Professional Communication Skills 1', 2, NULL, NULL),
+('PC-O-4-5', 'October', 4, 'ULRS1022', 'Philosophy and Current Issues', 2, NULL, NULL),
+('PC-O-4-6', 'October', 4, 'SCSB2103', 'Bioinformatics I', 3, NULL, 'Choose 1 of 3'),
+('PC-O-4-7', 'October', 4, 'SCSP2753', 'Data Mining', 3, NULL, 'Choose 1 of 3'),
+('PC-O-4-8', 'October', 4, 'SCSP3213', 'Business Intelligence', 3, NULL, 'Choose 1 of 3');
+
+-- OCTOBER INTAKE — Semester 5
+INSERT INTO planner_course_catalog (catalogID, intakeType, semesterNumber, courseCode, courseName, creditHours, prerequisiteNote, electiveGroup) VALUES
+('PC-O-5-1', 'October', 5, 'UHLB3132', 'Professional Communication Skills', 2, NULL, NULL),
+('PC-O-5-2', 'October', 5, 'FOREIGN-LANG-ELEC', 'Foreign Language Elective', 2, NULL, 'Foreign Language Elective'),
+('PC-O-5-3', 'October', 5, 'FREE-ELEC-2', 'Free Elective II', 3, NULL, 'Free Elective'),
+('PC-O-5-4', 'October', 5, 'SCST3223', 'Data Analytic Programming', 3, NULL, 'Choose 3 of 6'),
+('PC-O-5-5', 'October', 5, 'SCSE3143', 'Ubiquitous Computing', 3, NULL, 'Choose 3 of 6'),
+('PC-O-5-6', 'October', 5, 'SCSR3113', 'Cloud Computing', 3, NULL, 'Choose 3 of 6'),
+('PC-O-5-7', 'October', 5, 'SCSE3103', 'Cognitive Computing', 3, NULL, 'Choose 3 of 6'),
+('PC-O-5-8', 'October', 5, 'SCSE3203', 'Special Topics', 3, NULL, 'Choose 3 of 6'),
+('PC-O-5-9', 'October', 5, 'SCSM3113', 'Virtual and Augmented Reality Application', 3, NULL, 'Choose 3 of 6');
+
+-- OCTOBER INTAKE — Semester 6
+INSERT INTO planner_course_catalog (catalogID, intakeType, semesterNumber, courseCode, courseName, creditHours, prerequisiteNote, electiveGroup) VALUES
+('PC-O-6-1', 'October', 6, 'SCSE3242', 'Software Engineering Project I', 2, 'SCSE2243', NULL),
+('PC-O-6-2', 'October', 6, 'SCSR3133', 'Secure Software Programming', 3, 'SCSM2213', NULL),
+('PC-O-6-3', 'October', 6, 'SCSE3213', 'Software Quality & Testing', 3, 'SCSE2123, SCSE2233', NULL),
+('PC-O-6-4', 'October', 6, 'SCSE3223', 'Application Development Project II', 3, 'SCSE2243', NULL),
+('PC-O-6-5', 'October', 6, 'SCSE3233', 'Professional Practice in Software Engineering', 3, 'SCSE1203', NULL),
+('PC-O-6-6', 'October', 6, 'ULRS3032', 'Entrepreneurship and Innovation', 2, NULL, NULL);
+
+-- OCTOBER INTAKE — Semester 7
+INSERT INTO planner_course_catalog (catalogID, intakeType, semesterNumber, courseCode, courseName, creditHours, prerequisiteNote, electiveGroup) VALUES
+('PC-O-7-1', 'October', 7, 'SCSE4108', 'Industrial Training', 8, 'CGPA >= 2.00', NULL),
+('PC-O-7-2', 'October', 7, 'SCSE4114', 'Industrial Training Report', 4, 'CGPA >= 2.00', NULL);
+
+-- OCTOBER INTAKE — Semester 8
+INSERT INTO planner_course_catalog (catalogID, intakeType, semesterNumber, courseCode, courseName, creditHours, prerequisiteNote, electiveGroup) VALUES
+('PC-O-8-1', 'October', 8, 'SCSE4214', 'Software Engineering Project II', 4, 'SCSE3242', NULL),
+('PC-O-8-2', 'October', 8, 'FREE-ELEC-3', 'Free Elective III', 3, NULL, 'Free Elective'),
+('PC-O-8-3', 'October', 8, 'FREE-ELEC-4', 'Free Elective IV', 3, NULL, 'Free Elective'),
+('PC-O-8-4', 'October', 8, 'SCSR4453', 'Network Security', 3, NULL, 'Choose 2 of 6'),
+('PC-O-8-5', 'October', 8, 'SCSR4973', 'Computer Network & Security Special Topics', 3, NULL, 'Choose 2 of 6'),
+('PC-O-8-6', 'October', 8, 'SECB3133', 'Computational Biology I', 3, NULL, 'Choose 2 of 6'),
+('PC-O-8-7', 'October', 8, 'SCSB3203', 'Programming for Bioinformatics', 3, NULL, 'Choose 2 of 6'),
+('PC-O-8-8', 'October', 8, 'PRISMS-ELEC-1', 'PRISMS Elective I (PRISMS students only)', 3, NULL, 'Choose 2 of 6'),
+('PC-O-8-9', 'October', 8, 'PRISMS-ELEC-2', 'PRISMS Elective II (PRISMS students only)', 3, NULL, 'Choose 2 of 6');
+
+-- MARCH INTAKE — Semester 1
+INSERT INTO planner_course_catalog (catalogID, intakeType, semesterNumber, courseCode, courseName, creditHours, prerequisiteNote, electiveGroup) VALUES
+('PC-M-1-1', 'March', 1, 'SCSE1013', 'Fundamental Programming Concept', 3, NULL, NULL),
+('PC-M-1-2', 'March', 1, 'SCST1223', 'Probability and Statistical Data Analysis', 3, NULL, NULL),
+('PC-M-1-3', 'March', 1, 'SCSR1013', 'Digital Logic', 3, NULL, NULL),
+('PC-M-1-4', 'March', 1, 'SCSR2213', 'Network Communications', 3, NULL, NULL),
+('PC-M-1-5', 'March', 1, 'SCSE1203', 'Software Engineering Principles', 3, 'SCSE1013', NULL),
+('PC-M-1-6', 'March', 1, 'UNIV-ELEC-1', 'University Elective I', 2, NULL, 'University Elective'),
+('PC-M-1-7', 'March', 1, 'UHLM1012', 'Malaysia Language for Communication 2 (International students)', 2, NULL, 'Choose per student type'),
+('PC-M-1-8', 'March', 1, 'ULRS1182', 'Appreciation of Ethics and Civilizations (Malaysian students)', 2, NULL, 'Choose per student type');
+
+-- MARCH INTAKE — Semester 2
+INSERT INTO planner_course_catalog (catalogID, intakeType, semesterNumber, courseCode, courseName, creditHours, prerequisiteNote, electiveGroup) VALUES
+('PC-M-2-1', 'March', 2, 'SCSR1033', 'Computer Organisation and Architecture', 3, 'SCSR1013', NULL),
+('PC-M-2-2', 'March', 2, 'SCST1123', 'Mathematics for Software Engineer', 3, NULL, NULL),
+('PC-M-2-3', 'March', 2, 'SCSE1224', 'Advanced Programming', 4, 'SCSE1013', NULL),
+('PC-M-2-4', 'March', 2, 'SCST1143', 'Database Engineering', 3, NULL, NULL),
+('PC-M-2-5', 'March', 2, 'ULRS1032', 'Integrity and Anti-Corruption', 2, NULL, NULL),
+('PC-M-2-6', 'March', 2, 'FREE-ELEC-1', 'Free Elective I', 3, NULL, 'Free Elective');
+
+-- MARCH INTAKE — Semester 3
+INSERT INTO planner_course_catalog (catalogID, intakeType, semesterNumber, courseCode, courseName, creditHours, prerequisiteNote, electiveGroup) VALUES
+('PC-M-3-1', 'March', 3, 'SCSM2223', 'Cross-Platform Application Development', 3, 'SCST1143', NULL),
+('PC-M-3-2', 'March', 3, 'SCSE2233', 'Software Design & Architecture', 3, 'SCSE1203', NULL),
+('PC-M-3-3', 'March', 3, 'UHLB2122', 'Professional Communication Skills 1', 2, NULL, NULL),
+('PC-M-3-4', 'March', 3, 'ULRS1022', 'Philosophy and Current Issues', 2, NULL, NULL),
+('PC-M-3-5', 'March', 3, 'ULRF2XX2', 'Service Learning & Community Engagement Courses', 2, NULL, NULL),
+('PC-M-3-6', 'March', 3, 'SECB2103', 'Bioinformatics I', 3, NULL, 'Choose 1 of 3'),
+('PC-M-3-7', 'March', 3, 'SECP2753', 'Data Mining', 3, NULL, 'Choose 1 of 3'),
+('PC-M-3-8', 'March', 3, 'SECP3213', 'Business Intelligence', 3, NULL, 'Choose 1 of 3');
+
+-- MARCH INTAKE — Semester 4
+INSERT INTO planner_course_catalog (catalogID, intakeType, semesterNumber, courseCode, courseName, creditHours, prerequisiteNote, electiveGroup) VALUES
+('PC-M-4-1', 'March', 4, 'SCSE2133', 'Software Process and Project Management', 3, 'SCSE1203', NULL),
+('PC-M-4-2', 'March', 4, 'SCSE2123', 'Software Requirements Engineering', 3, 'SCSE1203', NULL),
+('PC-M-4-3', 'March', 4, 'SCSE2243', 'Application Development Project I', 3, 'SCSE1203, SCSE2123', NULL),
+('PC-M-4-4', 'March', 4, 'SCSE2103', 'Data Structure and Algorithm', 3, 'SCSE1013', NULL),
+('PC-M-4-5', 'March', 4, 'SCSR2043', 'Operating System', 3, NULL, NULL),
+('PC-M-4-6', 'March', 4, 'SCSM2113', 'Human Computer Interaction', 3, 'SCSE1203', NULL);
+
+-- MARCH INTAKE — Semester 5
+INSERT INTO planner_course_catalog (catalogID, intakeType, semesterNumber, courseCode, courseName, creditHours, prerequisiteNote, electiveGroup) VALUES
+('PC-M-5-1', 'March', 5, 'SCSR3133', 'Secure Software Programming', 3, 'SCSM2213', NULL),
+('PC-M-5-2', 'March', 5, 'SCSE3213', 'Software Quality & Testing', 3, 'SCSE2123, SCSE2233', NULL),
+('PC-M-5-3', 'March', 5, 'SCSE3233', 'Professional Practice in Software Engineering', 3, 'SCSE1203', NULL),
+('PC-M-5-4', 'March', 5, 'UHLB3132', 'Professional Communication Skills', 2, NULL, NULL),
+('PC-M-5-5', 'March', 5, 'ULRS3032', 'Entrepreneurship and Innovation', 2, NULL, NULL),
+('PC-M-5-6', 'March', 5, 'FOREIGN-LANG-ELEC', 'Foreign Language Elective', 2, NULL, 'Foreign Language Elective');
+
+-- MARCH INTAKE — Semester 6
+INSERT INTO planner_course_catalog (catalogID, intakeType, semesterNumber, courseCode, courseName, creditHours, prerequisiteNote, electiveGroup) VALUES
+('PC-M-6-1', 'March', 6, 'SCSE3223', 'Application Development Project II', 3, 'SCSE2243', NULL),
+('PC-M-6-2', 'March', 6, 'SCSE3242', 'Software Engineering Project I', 2, '80 credits, SCSE2243', NULL),
+('PC-M-6-3', 'March', 6, 'FREE-ELEC-2', 'Free Elective II', 3, NULL, 'Free Elective'),
+('PC-M-6-4', 'March', 6, 'SCST3223', 'Data Analytic Programming', 3, NULL, 'Choose 3 of 6'),
+('PC-M-6-5', 'March', 6, 'SCSE3143', 'Ubiquitous Computing', 3, NULL, 'Choose 3 of 6'),
+('PC-M-6-6', 'March', 6, 'SCSR3113', 'Cloud Computing', 3, NULL, 'Choose 3 of 6'),
+('PC-M-6-7', 'March', 6, 'SCSE3103', 'Cognitive Computing', 3, NULL, 'Choose 3 of 6'),
+('PC-M-6-8', 'March', 6, 'SCSE3203', 'Special Topics', 3, NULL, 'Choose 3 of 6'),
+('PC-M-6-9', 'March', 6, 'SCSM3113', 'Virtual and Augmented Reality Application', 3, NULL, 'Choose 3 of 6');
+
+-- MARCH INTAKE — Semester 7
+INSERT INTO planner_course_catalog (catalogID, intakeType, semesterNumber, courseCode, courseName, creditHours, prerequisiteNote, electiveGroup) VALUES
+('PC-M-7-1', 'March', 7, 'SCSE4214', 'Software Engineering Project II', 4, 'SCSE3242', NULL),
+('PC-M-7-2', 'March', 7, 'FREE-ELEC-3', 'Free Elective III', 3, NULL, 'Free Elective'),
+('PC-M-7-3', 'March', 7, 'FREE-ELEC-4', 'Free Elective IV', 3, NULL, 'Free Elective'),
+('PC-M-7-4', 'March', 7, 'SCSR4453', 'Network Security', 3, NULL, 'Choose 2 of 6'),
+('PC-M-7-5', 'March', 7, 'SCSR4973', 'Computer Network & Security Special Topics', 3, NULL, 'Choose 2 of 6'),
+('PC-M-7-6', 'March', 7, 'SECB3133', 'Computational Biology I', 3, NULL, 'Choose 2 of 6'),
+('PC-M-7-7', 'March', 7, 'SECB3203', 'Programming for Bioinformatics', 3, NULL, 'Choose 2 of 6'),
+('PC-M-7-8', 'March', 7, 'PRISMS-ELEC-1', 'PRISMS Elective 1 (PRISMS students only)', 3, NULL, 'Choose 2 of 6'),
+('PC-M-7-9', 'March', 7, 'PRISMS-ELEC-2', 'PRISMS Elective 2 (PRISMS students only)', 3, NULL, 'Choose 2 of 6');
+
+-- MARCH INTAKE — Semester 8
+INSERT INTO planner_course_catalog (catalogID, intakeType, semesterNumber, courseCode, courseName, creditHours, prerequisiteNote, electiveGroup) VALUES
+('PC-M-8-1', 'March', 8, 'SCSE4108', 'Industrial Training (HW)', 8, '92 credits, CGPA >= 2.0', NULL),
+('PC-M-8-2', 'March', 8, 'SCSE4114', 'Industrial Training Report', 4, '92 credits, CGPA >= 2.0', NULL);
+
+-- ============================================
+-- SUBSYSTEM 5 (Tarin) — Academic Planner demo account
+-- TEST/DEMO DATA — not a real student. Seeded so the
+-- Academic Planner feature can be exercised end-to-end.
+-- Real bcrypt hash (of 'Planner123'), unlike the placeholder
+-- hashes on the other seeded student accounts above.
+-- Sem 1 fully completed, Sem 2 mostly completed with one
+-- course in progress — 32 of 130 credits (only Sem 1/2 are
+-- populated since those are the only interactive semesters
+-- so far; later semesters will add more once extended).
+-- ============================================
+INSERT INTO users (userID, fullName, matricNumber, utmEmail, passwordHash, role) VALUES
+('USR-STU-005', 'Nur Aisyah Kamil', 'A24CS5099', 'aisyahkamil@graduate.utm.my', '$2b$10$GVyPxs/11DWC7O.OSmINnOUEsMJtPdVF.4aR5WVbies7KM7Tdz/Hq', 'student');
+
+INSERT INTO student (studentID, name, programmeID, intakeID, userID) VALUES
+('A24CS5099', 'Nur Aisyah Kamil', 'SCSEH', 'IN-2024-1', 'USR-STU-005');
+
+INSERT INTO planner_course_status (statusID, userID, courseCode, status) VALUES
+('PST-001', 'USR-STU-005', 'SCSE1013', 'completed'),
+('PST-002', 'USR-STU-005', 'SCST1123', 'completed'),
+('PST-003', 'USR-STU-005', 'SCSR1013', 'completed'),
+('PST-004', 'USR-STU-005', 'SCST1143', 'completed'),
+('PST-005', 'USR-STU-005', 'ULRS1032', 'completed'),
+('PST-006', 'USR-STU-005', 'FREE-ELEC-1', 'completed'),
+('PST-007', 'USR-STU-005', 'SCSE1203', 'completed'),
+('PST-008', 'USR-STU-005', 'SCSR1033', 'completed'),
+('PST-009', 'USR-STU-005', 'SCST1223', 'completed'),
+('PST-010', 'USR-STU-005', 'SCSE1224', 'completed'),
+('PST-011', 'USR-STU-005', 'SCSR2213', 'in_progress'),
+('PST-012', 'USR-STU-005', 'ULRS1182', 'completed');
+
+-- Explicit row matching the DEFAULT (2) so the seeded demo account's
+-- state is reproducible even if the column default ever changes.
+INSERT INTO planner_student_progress (userID, currentSemester) VALUES
+('USR-STU-005', 2);
