@@ -15,14 +15,16 @@ function ResetPreference() {
         academicSession,
         intakeID,
         patterns = [],
-        totalPatterns,
-        lecturerPreferences = {}
+        lecturerPreferences = {},
+        selectedCodes = [],
+        academicYear
     } = location.state || {}
 
-    const [status, setStatus] = useState('idle') // idle | confirm | resetting | done | error
+    const [status, setStatus] = useState('idle') // idle | confirm | resetting | error
     const [errorMessage, setErrorMessage] = useState('')
 
-    const hasPreferences = Object.values(lecturerPreferences).some(v => v !== null && v !== undefined)
+    // An unset course is stored as null/'' — those don't count as a preference.
+    const hasPreferences = Object.values(lecturerPreferences).some(v => v !== null && v !== undefined && v !== '')
 
     const handleResetClick = () => {
         if (!hasPreferences) {
@@ -32,21 +34,37 @@ function ResetPreference() {
         setStatus('confirm')
     }
 
+    // `patterns` here is the unfiltered set, so clearing the preferences just means
+    // handing it straight back with an empty preference map — no regeneration
+    // needed. Go back to the pattern list right away rather than parking the user
+    // on a page that still shows the reset warning.
     const handleConfirmReset = async () => {
         setStatus('resetting')
         try {
             await resetLecturerPreferences(studentID)
-            setStatus('done')
+            navigate('/courses/patterns', {
+                state: {
+                    patterns,
+                    totalPatterns: patterns.length,
+                    allPatterns: patterns,
+                    preferences: {},
+                    preferenceApplied: false,
+                    noPreferenceMatch: false,
+                    preferenceReset: true,
+                    studentID,
+                    semesterID,
+                    semesterNumber,
+                    intakeMonth,
+                    academicSession,
+                    intakeID,
+                    selectedCodes,
+                    academicYear
+                }
+            })
         } catch (err) {
             setStatus('error')
             setErrorMessage('Unable to reset your lecturer preferences at this time. Please try again later.')
         }
-    }
-
-    const handleViewPatterns = () => {
-        navigate('/courses/patterns', {
-            state: { patterns, totalPatterns, studentID, semesterID, semesterNumber, intakeMonth, academicSession, intakeID }
-        })
     }
 
     const handleCancel = () => {
@@ -78,21 +96,6 @@ function ResetPreference() {
                 )}
             </div>
 
-            {/* Reset warning */}
-            <div className="reset-warning-card">
-                <i className="fas fa-triangle-exclamation"></i>
-                <p>Resetting your preferences will clear all lecturer selections and regenerate clash free patterns using all available sections without any filter.</p>
-            </div>
-
-            {/* Success state */}
-            {status === 'done' && (
-                <div className="success-card">
-                    <i className="fas fa-circle-check"></i>
-                    <h3>Preferences Reset Successfully</h3>
-                    <p>Your lecturer preferences have been cleared. Patterns are now available without any lecturer preference filter.</p>
-                </div>
-            )}
-
             {/* Error state */}
             {errorMessage && (
                 <div className="error-card" style={{ display: 'flex' }}>
@@ -101,19 +104,10 @@ function ResetPreference() {
                 </div>
             )}
 
-            {status !== 'done' && (
-                <button className="btn danger" onClick={handleResetClick} disabled={status === 'resetting'}>
-                    <i className="fas fa-rotate-left"></i>
-                    {status === 'resetting' ? 'Resetting...' : 'Reset All Preferences'}
-                </button>
-            )}
-
-            {status === 'done' && (
-                <button className="btn primary" onClick={handleViewPatterns}>
-                    <i className="fas fa-list"></i>
-                    View Patterns Without Preference
-                </button>
-            )}
+            <button className="btn danger" onClick={handleResetClick} disabled={status === 'resetting'}>
+                <i className="fas fa-rotate-left"></i>
+                {status === 'resetting' ? 'Resetting...' : 'Reset All Preferences'}
+            </button>
 
             <button className="btn outline" onClick={() => navigate(-1)}>
                 <i className="fas fa-arrow-left"></i>

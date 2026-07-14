@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { saveSelectedPattern } from '../../services/courseService'
 import './courses.css'
 
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
@@ -19,11 +18,17 @@ function SelectPattern() {
         academicSession,
         intakeID,
         patterns,
-        totalPatterns
+        totalPatterns,
+        // Carried through untouched so the Back button can hand the pattern list
+        // page everything it needs to regenerate. Dropping these here is what left
+        // ViewPatterns without selectedCodes/academicYear and broke Regenerate.
+        allPatterns,
+        selectedCodes = [],
+        preferences = {},
+        academicYear,
+        preferenceApplied = false,
+        noPreferenceMatch = false
     } = location.state || {}
-
-    const [status, setStatus] = useState('idle')
-    const [errorMessage, setErrorMessage] = useState('')
 
     const totalCredits = pattern.reduce((sum, s) => sum + (s.creditHours || 0), 0)
     const uniqueDays = DAYS.filter(day => pattern.some(s => s.day === day))
@@ -34,20 +39,42 @@ function SelectPattern() {
         pattern.map(s => `${s.timeStart?.slice(0, 5)}-${s.timeEnd?.slice(0, 5)}`)
     )].sort()
 
-    const handleConfirm = async () => {
-        setStatus('saving')
-        try {
-            await saveSelectedPattern(studentID, semesterID, pattern)
-            setStatus('saved')
-        } catch (err) {
-            setStatus('error')
-            setErrorMessage('Unable to save your selected pattern. Please try again.')
-        }
+    // Hand off to the Registration Simulation subsystem. It seeds its workspace
+    // from the full pattern list plus this meta, and takes over saving routines
+    // from there — so this page no longer writes a pattern to the DB itself.
+    const handleGoToRegistration = () => {
+        navigate('/registration/filter', {
+            state: {
+                patterns,
+                totalPatterns,
+                studentID,
+                semesterID,
+                semesterNumber,
+                intakeMonth,
+                academicSession,
+                intakeID
+            }
+        })
     }
 
     const handleBack = () => {
         navigate('/courses/patterns', {
-            state: { patterns, totalPatterns, studentID, semesterID, semesterNumber, intakeMonth, academicSession, intakeID }
+            state: {
+                patterns,
+                totalPatterns,
+                allPatterns: allPatterns || patterns,
+                preferences,
+                preferenceApplied,
+                noPreferenceMatch,
+                selectedCodes,
+                academicYear,
+                studentID,
+                semesterID,
+                semesterNumber,
+                intakeMonth,
+                academicSession,
+                intakeID
+            }
         })
     }
 
@@ -217,47 +244,17 @@ function SelectPattern() {
                 </div>
             ))}
 
-            {/* Success state */}
-            {status === 'saved' && (
-                <div className="success-card">
-                    <i className="fas fa-circle-check"></i>
-                    <h3>Pattern Saved Successfully</h3>
-                    <p>Your preferred pattern has been saved. Please proceed to register on the UTM student portal based on this timetable.</p>
-                </div>
-            )}
-
-            {/* Error state */}
-            {status === 'error' && (
-                <div className="error-card" style={{ display: 'flex' }}>
-                    <i className="fas fa-circle-exclamation"></i>
-                    <span>{errorMessage}</span>
-                </div>
-            )}
-
             {/* Buttons */}
-            {status !== 'saved' && (
-                <div style={{ marginTop: '20px' }}>
-                    <button
-                        className="btn primary"
-                        onClick={handleConfirm}
-                        disabled={status === 'saving'}
-                    >
-                        <i className="fas fa-bookmark"></i>
-                        {status === 'saving' ? 'Saving...' : 'Select This Pattern'}
-                    </button>
-                    <button className="btn outline" onClick={handleBack}>
-                        <i className="fas fa-arrow-left"></i>
-                        Back to Patterns
-                    </button>
-                </div>
-            )}
-
-            {status === 'saved' && (
+            <div style={{ marginTop: '20px' }}>
+                <button className="btn primary" onClick={handleGoToRegistration}>
+                    <i className="fas fa-table-cells-large"></i>
+                    Go to Registration Simulation
+                </button>
                 <button className="btn outline" onClick={handleBack}>
                     <i className="fas fa-arrow-left"></i>
                     Back to Patterns
                 </button>
-            )}
+            </div>
         </div>
     )
 }

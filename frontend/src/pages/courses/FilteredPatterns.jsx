@@ -87,6 +87,24 @@ function FilteredPatterns() {
         })
     }
 
+    // UC012 — patterns here are the unfiltered set, so ResetPreference can show
+    // them again once the preferences are cleared.
+    const handleResetPreferences = () => {
+        navigate('/courses/reset-preference', {
+            state: {
+                studentID,
+                semesterID,
+                semesterNumber,
+                intakeMonth,
+                academicSession,
+                intakeID,
+                patterns,
+                totalPatterns,
+                lecturerPreferences
+            }
+        })
+    }
+
     const handleGoToRegistration = () => {
         navigate('/registration/filter', {
             state: {
@@ -139,6 +157,10 @@ function FilteredPatterns() {
                         <i className="fas fa-sliders"></i>
                         Adjust Preferences
                     </button>
+                    <button className="btn danger" onClick={handleResetPreferences}>
+                        <i className="fas fa-rotate-left"></i>
+                        Reset All Preferences
+                    </button>
                 </>
             ) : (
                 <>
@@ -183,6 +205,10 @@ function FilteredPatterns() {
                     <button className="btn outline" style={{ marginTop: '10px' }} onClick={handleAdjustPreferences}>
                         <i className="fas fa-sliders"></i>
                         Adjust Preferences
+                    </button>
+                    <button className="btn danger" onClick={handleResetPreferences}>
+                        <i className="fas fa-rotate-left"></i>
+                        Reset All Preferences
                     </button>
                 </>
             )}

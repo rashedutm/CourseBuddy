@@ -68,13 +68,21 @@ export const saveSelectedCourses = async (studentID, courseCodes, semesterID) =>
 }
 
 // UC005 - Generate clash free patterns
-export const generatePatterns = async (studentID, semesterID, academicYear) => {
+// lecturerPreferences ({ courseCode: lecturerID }) is applied server-side, before
+// the clash-free combinations are capped — filtering the capped result on the
+// client silently loses matching patterns.
+export const generatePatterns = async (studentID, semesterID, academicYear, lecturerPreferences = {}) => {
     const response = await fetch(`${API_BASE_URL}/patterns/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ studentID, semesterID, academicYear })
+        body: JSON.stringify({ studentID, semesterID, academicYear, lecturerPreferences })
     })
-    if (!response.ok) throw new Error('Failed to generate patterns')
+    // The backend explains *why* generation failed (no timetable data, no clash
+    // free combination, ...). Pass that through instead of a generic message.
+    if (!response.ok) {
+        const data = await response.json().catch(() => ({}))
+        throw new Error(data.message || data.error || 'Failed to generate patterns')
+    }
     return response.json()
 }
 

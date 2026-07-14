@@ -47,10 +47,10 @@ app.use('/api/admin', timetableRoutes)
 app.use('/api/admin', courseSectionRoutes)
 
 // ============================================
-// Zimly — Subsystem 4 Routes (add when ready)
+// Zimly — Subsystem 4 Routes (registration simulation / draft vault)
 // ============================================
-// const registrationRoutes = require('./routes/registrationRoutes')
-// app.use('/api', registrationRoutes)
+const registrationRoutes = require('./routes/registrationRoutes')
+app.use('/api', registrationRoutes)
 
 // In production (Railway), one service hosts everything: the API under /api,
 // and the pre-built React app for every other route. Local dev is untouched —
