@@ -4,9 +4,9 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#09090F;--sur:#0F0F1A;--line:rgba(255,255,255,0.07);--dim:rgba(255,255,255,0.04);
-  --y:#F5D138;--r:#D41535;--b:#3B7FE8;--g:#1DC97A;--p:#8B5CF6;--o:#FF6530;--pk:#F040A8;
-  --tx:#F0F0F6;--mu:#5A5A88;
+  --bg:#FBF9F6;--sur:#F5F3F0;--line:rgba(31,41,55,0.12);--dim:rgba(31,41,55,0.06);
+  --y:#D4A574;--r:#8B1919;--b:#2563EB;--g:#2E7D32;--p:#7C3AED;--o:#D97706;--pk:#DC2626;
+  --tx:#1F2937;--mu:#6B7280;
   --sans:-apple-system,BlinkMacSystemFont,'SF Pro Display',system-ui,sans-serif;
   --mono:ui-monospace,'SF Mono',monospace;
 }
@@ -48,11 +48,11 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
 .tte{border-radius:3px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.04);}
 .b{border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:7.5px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;position:relative;}
 .b::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.13) 0%,transparent 55%);border-radius:inherit;pointer-events:none;}
-.bbl{background:#1A3D7A;color:#7AABF0;border:1px solid rgba(122,171,240,.2);}
-.bpu{background:#2D1A5C;color:#B09AF0;border:1px solid rgba(176,154,240,.2);}
-.bor{background:#5C2A0A;color:#F0AA7A;border:1px solid rgba(240,170,122,.2);}
-.bgn{background:#0A4A28;color:#7AF0B0;border:1px solid rgba(122,240,176,.2);}
-.brd{background:#4A0A14;color:#F07A88;border:1px solid rgba(240,122,136,.2);}
+.bbl{background:#BFDBFE;color:#1e40af;border:1px solid rgba(30,64,175,.3);}
+.bpu{background:#DDD6FE;color:#5b21b6;border:1px solid rgba(91,33,182,.3);}
+.bor{background:#FED7AA;color:#92400e;border:1px solid rgba(146,64,14,.3);}
+.bgn{background:#BBF7D0;color:#065f46;border:1px solid rgba(6,95,70,.3);}
+.brd{background:#FECACA;color:#7f1d1d;border:1px solid rgba(127,29,29,.3);}
 .rdot{position:absolute;top:2px;right:2px;width:5px;height:5px;border-radius:50%;background:var(--g);box-shadow:0 0 5px var(--g);}
 .lb{grid-column:2/7;background:rgba(212,21,53,.07);border:1px dashed rgba(212,21,53,.2);border-radius:3px;display:flex;align-items:center;padding:0 6px;}
 .lbt{font-family:var(--mono);font-size:7px;color:rgba(212,21,53,.45);letter-spacing:.08em;}
@@ -120,7 +120,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
 
 @media print{
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
-  html,body{margin:0;padding:0;background:#09090F!important;}
+  html,body{margin:0;padding:0;background:#FBF9F6!important;}
   .poster{width:1060px;margin:0 auto;}
   .topbar{padding:5px 30px;}
   .hero-l{padding:18px 36px 16px 30px;}
@@ -269,129 +269,129 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
 </defs>
 
 <!-- LEFT: User Management (top) -->
-<rect x="8" y="8" width="222" height="152" rx="5" fill="rgba(29,201,122,0.07)" stroke="rgba(29,201,122,0.48)" stroke-width="1.5"/>
-<rect x="8" y="8" width="222" height="22" rx="5" fill="rgba(29,201,122,0.32)"/>
-<rect x="8" y="24" width="222" height="6" fill="rgba(29,201,122,0.32)"/>
-<text x="119" y="22" fill="#fff" font-size="8.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">USER MANAGEMENT · Tarin</text>
-<text x="20" y="47" fill="#1DC97A" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Pages</text>
-<text x="20" y="59" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">Register · Login · ResetPassword · Logout</text>
-<text x="20" y="70" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">Profile · Dashboard · AcademicAlerts</text>
-<text x="20" y="86" fill="#1DC97A" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Auth Flow</text>
-<text x="20" y="98" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">bcryptjs verify → JWT sign</text>
-<text x="20" y="109" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">user_session row → revocable login</text>
-<text x="20" y="120" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">password_reset tokens</text>
-<text x="20" y="136" fill="#1DC97A" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Tables</text>
-<text x="20" y="148" fill="rgba(255,255,255,0.35)" font-size="6.5" font-family="ui-monospace,monospace">users · user_session · password_reset · academic_alert</text>
+<rect x="8" y="8" width="222" height="152" rx="5" fill="rgba(46,125,50,0.08)" stroke="rgba(46,125,50,0.4)" stroke-width="1.5"/>
+<rect x="8" y="8" width="222" height="22" rx="5" fill="rgba(46,125,50,0.15)"/>
+<rect x="8" y="24" width="222" height="6" fill="rgba(46,125,50,0.15)"/>
+<text x="119" y="22" fill="#1F2937" font-size="8.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">USER MANAGEMENT · Tarin</text>
+<text x="20" y="47" fill="#2E7D32" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Pages</text>
+<text x="20" y="59" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">Register · Login · ResetPassword · Logout</text>
+<text x="20" y="70" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">Profile · Dashboard · AcademicAlerts</text>
+<text x="20" y="86" fill="#2E7D32" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Auth Flow</text>
+<text x="20" y="98" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">bcryptjs verify → JWT sign</text>
+<text x="20" y="109" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">user_session row → revocable login</text>
+<text x="20" y="120" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">password_reset tokens</text>
+<text x="20" y="136" fill="#2E7D32" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Tables</text>
+<text x="20" y="148" fill="#6B7280" font-size="6.5" font-family="ui-monospace,monospace">users · user_session · password_reset · academic_alert</text>
 
 <!-- LEFT: Pattern Generation (bottom) -->
-<rect x="8" y="240" width="222" height="204" rx="5" fill="rgba(59,127,232,0.07)" stroke="rgba(59,127,232,0.48)" stroke-width="1.5"/>
+<rect x="8" y="240" width="222" height="204" rx="5" fill="rgba(37,99,235,0.08)" stroke="rgba(37,99,235,0.4)" stroke-width="1.5"/>
 <rect x="8" y="240" width="222" height="22" rx="5" fill="rgba(59,127,232,0.32)"/>
-<rect x="8" y="256" width="222" height="6" fill="rgba(59,127,232,0.32)"/>
-<text x="119" y="254" fill="#fff" font-size="8.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">PATTERN GENERATION · Rashed</text>
-<text x="20" y="279" fill="#3B7FE8" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Pages</text>
-<text x="20" y="291" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">SelectIntakeSemester · SelectCourses</text>
-<text x="20" y="302" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">GeneratePatterns · ViewPatterns</text>
-<text x="20" y="313" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">SetLecturerPreference · FilteredPatterns</text>
-<text x="20" y="329" fill="#3B7FE8" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Clash Detection Algorithm</text>
-<text x="20" y="341" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">Recursive combination search</text>
-<text x="20" y="352" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">Prunes any combo with time overlap</text>
-<text x="20" y="363" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">Day + time interval comparison</text>
-<text x="20" y="379" fill="#3B7FE8" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Lecturer Preference</text>
-<text x="20" y="391" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">Filter patterns by preferred lecturer</text>
-<text x="20" y="402" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">Generate with / without preference</text>
-<text x="20" y="418" fill="#3B7FE8" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Tables</text>
-<text x="20" y="430" fill="rgba(255,255,255,0.35)" font-size="6.5" font-family="ui-monospace,monospace">selected_course · pattern · pattern_detail</text>
-<text x="20" y="440" fill="rgba(255,255,255,0.35)" font-size="6.5" font-family="ui-monospace,monospace">lecturer_preference · filtered_pattern (+detail)</text>
+<rect x="8" y="256" width="222" height="6" fill="rgba(37,99,235,0.15)"/>
+<text x="119" y="254" fill="#1F2937" font-size="8.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">PATTERN GENERATION · Rashed</text>
+<text x="20" y="279" fill="#2563EB" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Pages</text>
+<text x="20" y="291" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">SelectIntakeSemester · SelectCourses</text>
+<text x="20" y="302" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">GeneratePatterns · ViewPatterns</text>
+<text x="20" y="313" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">SetLecturerPreference · FilteredPatterns</text>
+<text x="20" y="329" fill="#2563EB" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Clash Detection Algorithm</text>
+<text x="20" y="341" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">Recursive combination search</text>
+<text x="20" y="352" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">Prunes any combo with time overlap</text>
+<text x="20" y="363" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">Day + time interval comparison</text>
+<text x="20" y="379" fill="#2563EB" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Lecturer Preference</text>
+<text x="20" y="391" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">Filter patterns by preferred lecturer</text>
+<text x="20" y="402" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">Generate with / without preference</text>
+<text x="20" y="418" fill="#2563EB" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Tables</text>
+<text x="20" y="430" fill="#6B7280" font-size="6.5" font-family="ui-monospace,monospace">selected_course · pattern · pattern_detail</text>
+<text x="20" y="440" fill="#6B7280" font-size="6.5" font-family="ui-monospace,monospace">lecturer_preference · filtered_pattern (+detail)</text>
 
 <!-- CENTER: Express API (top) -->
-<rect x="278" y="8" width="424" height="192" rx="5" fill="rgba(29,201,122,0.06)" stroke="rgba(29,201,122,0.4)" stroke-width="1.5"/>
-<rect x="278" y="8" width="424" height="22" rx="5" fill="rgba(29,201,122,0.24)"/>
-<rect x="278" y="24" width="424" height="6" fill="rgba(29,201,122,0.24)"/>
-<text x="490" y="22" fill="#fff" font-size="8.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">EXPRESS.JS · Node.js · REST API</text>
+<rect x="278" y="8" width="424" height="192" rx="5" fill="rgba(46,125,50,0.06)" stroke="rgba(46,125,50,0.35)" stroke-width="1.5"/>
+<rect x="278" y="8" width="424" height="22" rx="5" fill="rgba(46,125,50,0.12)"/>
+<rect x="278" y="24" width="424" height="6" fill="rgba(46,125,50,0.12)"/>
+<text x="490" y="22" fill="#1F2937" font-size="8.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">EXPRESS.JS · Node.js · REST API</text>
 <rect x="290" y="38" width="400" height="20" rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-<text x="490" y="51" fill="rgba(255,255,255,0.45)" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle">authMiddleware · JWT verify · cors · express.json · dotenv</text>
+<text x="490" y="51" fill="#4B5563" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle">authMiddleware · JWT verify · cors · express.json · dotenv</text>
 <rect x="290" y="66" width="192" height="60" rx="3" fill="rgba(29,201,122,0.07)" stroke="rgba(29,201,122,0.22)" stroke-width="1"/>
-<text x="386" y="80" fill="#1DC97A" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">authService · profileService</text>
-<text x="386" y="92" fill="#1DC97A" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">homeService</text>
-<text x="386" y="106" fill="rgba(255,255,255,0.35)" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">JWT + bcryptjs · session revocation</text>
-<text x="386" y="117" fill="rgba(255,255,255,0.35)" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">dashboard data · academic alerts</text>
+<text x="386" y="80" fill="#2E7D32" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">authService · profileService</text>
+<text x="386" y="92" fill="#2E7D32" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">homeService</text>
+<text x="386" y="106" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">JWT + bcryptjs · session revocation</text>
+<text x="386" y="117" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">dashboard data · academic alerts</text>
 <rect x="498" y="66" width="192" height="60" rx="3" fill="rgba(139,92,246,0.07)" stroke="rgba(139,92,246,0.22)" stroke-width="1"/>
-<text x="594" y="80" fill="#8B5CF6" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">handbookService · timetableService</text>
-<text x="594" y="92" fill="#8B5CF6" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">courseSectionService</text>
-<text x="594" y="106" fill="rgba(255,255,255,0.35)" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">.xlsx → SheetJS parse → batch INSERT</text>
-<text x="594" y="117" fill="rgba(255,255,255,0.35)" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">upload audit logs · course/section CRUD</text>
+<text x="594" y="80" fill="#7C3AED" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">handbookService · timetableService</text>
+<text x="594" y="92" fill="#7C3AED" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">courseSectionService</text>
+<text x="594" y="106" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">.xlsx → SheetJS parse → batch INSERT</text>
+<text x="594" y="117" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">upload audit logs · course/section CRUD</text>
 <rect x="290" y="134" width="192" height="60" rx="3" fill="rgba(59,127,232,0.07)" stroke="rgba(59,127,232,0.22)" stroke-width="1"/>
-<text x="386" y="148" fill="#3B7FE8" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">courseService · patternService</text>
-<text x="386" y="160" fill="#3B7FE8" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">clashDetectionService · lecturerService</text>
-<text x="386" y="174" fill="rgba(255,255,255,0.35)" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">recursive clash-free combinations</text>
-<text x="386" y="185" fill="rgba(255,255,255,0.35)" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">preferenceService · pattern filtering</text>
+<text x="386" y="148" fill="#2563EB" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">courseService · patternService</text>
+<text x="386" y="160" fill="#2563EB" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">clashDetectionService · lecturerService</text>
+<text x="386" y="174" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">recursive clash-free combinations</text>
+<text x="386" y="185" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">preferenceService · pattern filtering</text>
 <rect x="498" y="134" width="192" height="60" rx="3" fill="rgba(212,21,53,0.07)" stroke="rgba(212,21,53,0.22)" stroke-width="1"/>
-<text x="594" y="148" fill="#D41535" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">registrationService</text>
-<text x="594" y="162" fill="rgba(255,255,255,0.35)" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">Draft Vault · pattern compare</text>
-<text x="594" y="173" fill="rgba(255,255,255,0.35)" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">registration status · recovery</text>
-<text x="594" y="184" fill="rgba(255,255,255,0.35)" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">drop simulation support</text>
+<text x="594" y="148" fill="#991B1B" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">registrationService</text>
+<text x="594" y="162" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">Draft Vault · pattern compare</text>
+<text x="594" y="173" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">registration status · recovery</text>
+<text x="594" y="184" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">drop simulation support</text>
 
 <!-- CENTER: MySQL (bottom) -->
-<rect x="278" y="240" width="424" height="204" rx="5" fill="rgba(245,209,56,0.06)" stroke="rgba(245,209,56,0.4)" stroke-width="1.5"/>
-<rect x="278" y="240" width="424" height="22" rx="5" fill="rgba(245,209,56,0.24)"/>
-<rect x="278" y="256" width="424" height="6" fill="rgba(245,209,56,0.24)"/>
-<text x="490" y="254" fill="#fff" font-size="8.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">MySQL · 31 Tables · mysql2 pool</text>
+<rect x="278" y="240" width="424" height="204" rx="5" fill="rgba(217,119,6,0.06)" stroke="rgba(217,119,6,0.35)" stroke-width="1.5"/>
+<rect x="278" y="240" width="424" height="22" rx="5" fill="rgba(217,119,6,0.12)"/>
+<rect x="278" y="256" width="424" height="6" fill="rgba(217,119,6,0.12)"/>
+<text x="490" y="254" fill="#1F2937" font-size="8.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">MySQL · 31 Tables · mysql2 pool</text>
 <rect x="290" y="272" width="400" height="30" rx="3" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.13)" stroke-width="1"/>
-<text x="490" y="284" fill="rgba(255,255,255,0.58)" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">SHARED CATALOG — single source of truth</text>
-<text x="490" y="296" fill="rgba(255,255,255,0.32)" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">intake · semester · student · course · prerequisite · section · lecturer</text>
+<text x="490" y="284" fill="#1F2937" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">SHARED CATALOG — single source of truth</text>
+<text x="490" y="296" fill="#4B5563" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">intake · semester · student · course · prerequisite · section · lecturer</text>
 <rect x="290" y="310" width="192" height="56" rx="3" fill="rgba(29,201,122,0.07)" stroke="rgba(29,201,122,0.28)" stroke-width="1"/>
-<text x="386" y="324" fill="#1DC97A" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">User Management</text>
-<text x="386" y="337" fill="rgba(255,255,255,0.38)" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">users · user_session</text>
-<text x="386" y="348" fill="rgba(255,255,255,0.38)" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">password_reset · academic_alert</text>
+<text x="386" y="324" fill="#2E7D32" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">User Management</text>
+<text x="386" y="337" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">users · user_session</text>
+<text x="386" y="348" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">password_reset · academic_alert</text>
 <rect x="498" y="310" width="192" height="56" rx="3" fill="rgba(139,92,246,0.07)" stroke="rgba(139,92,246,0.28)" stroke-width="1"/>
-<text x="594" y="324" fill="#8B5CF6" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">Handbook &amp; Timetable</text>
-<text x="594" y="337" fill="rgba(255,255,255,0.38)" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">admins · programme · handbook_slot(+course)</text>
-<text x="594" y="348" fill="rgba(255,255,255,0.38)" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">upload logs · free_elective_offering</text>
+<text x="594" y="324" fill="#7C3AED" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">Handbook &amp; Timetable</text>
+<text x="594" y="337" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">admins · programme · handbook_slot(+course)</text>
+<text x="594" y="348" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">upload logs · free_elective_offering</text>
 <rect x="290" y="374" width="192" height="56" rx="3" fill="rgba(59,127,232,0.07)" stroke="rgba(59,127,232,0.28)" stroke-width="1"/>
-<text x="386" y="388" fill="#3B7FE8" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">Pattern Generation</text>
-<text x="386" y="401" fill="rgba(255,255,255,0.38)" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">selected_course · pattern(+detail)</text>
-<text x="386" y="412" fill="rgba(255,255,255,0.38)" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">lecturer_preference · filtered_pattern</text>
+<text x="386" y="388" fill="#2563EB" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">Pattern Generation</text>
+<text x="386" y="401" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">selected_course · pattern(+detail)</text>
+<text x="386" y="412" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">lecturer_preference · filtered_pattern</text>
 <rect x="498" y="374" width="192" height="56" rx="3" fill="rgba(212,21,53,0.07)" stroke="rgba(212,21,53,0.28)" stroke-width="1"/>
-<text x="594" y="388" fill="#D41535" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">Student Registration</text>
-<text x="594" y="399" fill="rgba(255,255,255,0.38)" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">draft_vault · course_registration_status</text>
-<text x="594" y="410" fill="rgba(255,255,255,0.38)" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">semester_status · recovery_pattern</text>
-<text x="594" y="421" fill="rgba(255,255,255,0.38)" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">academic_profile</text>
-<text x="490" y="440" fill="rgba(255,255,255,0.2)" font-size="6.5" font-family="ui-monospace,monospace" text-anchor="middle">Dev: XAMPP + phpMyAdmin · Prod: Railway MySQL — all FK constraints enforced</text>
+<text x="594" y="388" fill="#991B1B" font-size="7.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">Student Registration</text>
+<text x="594" y="399" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">draft_vault · course_registration_status</text>
+<text x="594" y="410" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">semester_status · recovery_pattern</text>
+<text x="594" y="421" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">academic_profile</text>
+<text x="490" y="440" fill="#D1D5DB" font-size="6.5" font-family="ui-monospace,monospace" text-anchor="middle">Dev: XAMPP + phpMyAdmin · Prod: Railway MySQL — all FK constraints enforced</text>
 
 <!-- RIGHT: Handbook & Timetable (top) -->
-<rect x="750" y="8" width="222" height="152" rx="5" fill="rgba(139,92,246,0.07)" stroke="rgba(139,92,246,0.48)" stroke-width="1.5"/>
-<rect x="750" y="8" width="222" height="22" rx="5" fill="rgba(139,92,246,0.32)"/>
-<rect x="750" y="24" width="222" height="6" fill="rgba(139,92,246,0.32)"/>
-<text x="861" y="22" fill="#fff" font-size="8.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">HANDBOOK &amp; TIMETABLE · Yousra</text>
-<text x="762" y="47" fill="#8B5CF6" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Pages</text>
-<text x="762" y="59" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">UploadHandbook · UploadTimetable</text>
-<text x="762" y="70" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">View / Edit / Delete Course &amp; Section</text>
-<text x="762" y="86" fill="#8B5CF6" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Upload Pipeline</text>
-<text x="762" y="98" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">.xlsx → SheetJS (xlsx) parse</text>
-<text x="762" y="109" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">structured rows → batch INSERT</text>
-<text x="762" y="120" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">every upload logged for audit</text>
-<text x="762" y="136" fill="#8B5CF6" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Tables</text>
-<text x="762" y="148" fill="rgba(255,255,255,0.35)" font-size="6.5" font-family="ui-monospace,monospace">admins · programme · handbook_slot · upload logs</text>
+<rect x="750" y="8" width="222" height="152" rx="5" fill="rgba(124,58,237,0.08)" stroke="rgba(124,58,237,0.4)" stroke-width="1.5"/>
+<rect x="750" y="8" width="222" height="22" rx="5" fill="rgba(124,58,237,0.15)"/>
+<rect x="750" y="24" width="222" height="6" fill="rgba(124,58,237,0.15)"/>
+<text x="861" y="22" fill="#1F2937" font-size="8.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">HANDBOOK &amp; TIMETABLE · Yousra</text>
+<text x="762" y="47" fill="#7C3AED" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Pages</text>
+<text x="762" y="59" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">UploadHandbook · UploadTimetable</text>
+<text x="762" y="70" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">View / Edit / Delete Course &amp; Section</text>
+<text x="762" y="86" fill="#7C3AED" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Upload Pipeline</text>
+<text x="762" y="98" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">.xlsx → SheetJS (xlsx) parse</text>
+<text x="762" y="109" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">structured rows → batch INSERT</text>
+<text x="762" y="120" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">every upload logged for audit</text>
+<text x="762" y="136" fill="#7C3AED" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Tables</text>
+<text x="762" y="148" fill="#6B7280" font-size="6.5" font-family="ui-monospace,monospace">admins · programme · handbook_slot · upload logs</text>
 
 <!-- RIGHT: Student Registration (bottom) -->
-<rect x="750" y="240" width="222" height="204" rx="5" fill="rgba(212,21,53,0.07)" stroke="rgba(212,21,53,0.48)" stroke-width="1.5"/>
-<rect x="750" y="240" width="222" height="22" rx="5" fill="rgba(212,21,53,0.32)"/>
-<rect x="750" y="256" width="222" height="6" fill="rgba(212,21,53,0.32)"/>
-<text x="861" y="254" fill="#fff" font-size="8.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">STUDENT REGISTRATION · Zimly</text>
-<text x="762" y="279" fill="#D41535" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Pages</text>
-<text x="762" y="291" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">FilterPatterns · DraftVault · ArchivedDrafts</text>
-<text x="762" y="302" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">ViewComparePatterns · SelectedRoutine</text>
-<text x="762" y="318" fill="#D41535" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Draft Vault</text>
-<text x="762" y="330" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">Save up to 30 patterns · rename · archive</text>
-<text x="762" y="341" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">Side-by-side compare · click-to-mix</text>
-<text x="762" y="357" fill="#D41535" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Workspace State</text>
-<text x="762" y="369" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">React useReducer + localStorage</text>
-<text x="762" y="380" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">survives refresh — nothing lost</text>
-<text x="762" y="396" fill="#D41535" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Recovery &amp; Simulation</text>
-<text x="762" y="408" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">Report status · partial recovery</text>
-<text x="762" y="419" fill="rgba(255,255,255,0.42)" font-size="7" font-family="ui-monospace,monospace">Drop simulation · gap filling</text>
-<text x="762" y="435" fill="#D41535" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Tables</text>
-<text x="762" y="446" fill="rgba(255,255,255,0.35)" font-size="6.5" font-family="ui-monospace,monospace">draft_vault · course_registration_status · +3 more</text>
+<rect x="750" y="240" width="222" height="204" rx="5" fill="rgba(139,29,29,0.08)" stroke="rgba(139,29,29,0.4)" stroke-width="1.5"/>
+<rect x="750" y="240" width="222" height="22" rx="5" fill="rgba(139,29,29,0.15)"/>
+<rect x="750" y="256" width="222" height="6" fill="rgba(139,29,29,0.15)"/>
+<text x="861" y="254" fill="#1F2937" font-size="8.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">STUDENT REGISTRATION · Zimly</text>
+<text x="762" y="279" fill="#991B1B" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Pages</text>
+<text x="762" y="291" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">FilterPatterns · DraftVault · ArchivedDrafts</text>
+<text x="762" y="302" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">ViewComparePatterns · SelectedRoutine</text>
+<text x="762" y="318" fill="#991B1B" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Draft Vault</text>
+<text x="762" y="330" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">Save up to 30 patterns · rename · archive</text>
+<text x="762" y="341" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">Side-by-side compare · click-to-mix</text>
+<text x="762" y="357" fill="#991B1B" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Workspace State</text>
+<text x="762" y="369" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">React useReducer + localStorage</text>
+<text x="762" y="380" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">survives refresh — nothing lost</text>
+<text x="762" y="396" fill="#991B1B" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Recovery &amp; Simulation</text>
+<text x="762" y="408" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">Report status · partial recovery</text>
+<text x="762" y="419" fill="#6B7280" font-size="7" font-family="ui-monospace,monospace">Drop simulation · gap filling</text>
+<text x="762" y="435" fill="#991B1B" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Tables</text>
+<text x="762" y="446" fill="#6B7280" font-size="6.5" font-family="ui-monospace,monospace">draft_vault · course_registration_status · +3 more</text>
 
 <!-- ARROWS (no captions — kept clear of boxes) -->
 <line x1="230" y1="76" x2="278" y2="76" stroke="rgba(29,201,122,0.6)" stroke-width="1.5" marker-end="url(#am1)"/>
