@@ -109,27 +109,15 @@ function SelectCourses() {
 
         try {
             await saveSelectedCourses(studentID, selectedCodes, semesterID)
-            const data = await generatePatterns(studentID, semesterID, academicYear)
-
-            let filteredPatterns = data.patterns
-            const hasPreferences = Object.values(preferences).some(v => v && v !== '')
-
-            if (hasPreferences) {
-                filteredPatterns = data.patterns.filter(pattern =>
-                    pattern.every(section => {
-                        const pref = preferences[section.courseCode]
-                        if (!pref) return true
-                        return section.lecturerID === pref
-                    })
-                )
-            }
+            const data = await generatePatterns(studentID, semesterID, academicYear, preferences)
 
             navigate('/courses/patterns', {
                 state: {
-                    patterns: filteredPatterns.length > 0 ? filteredPatterns : data.patterns,
-                    totalPatterns: filteredPatterns.length > 0 ? filteredPatterns.length : data.patterns.length,
-                    preferenceApplied: hasPreferences && filteredPatterns.length > 0,
-                    noPreferenceMatch: hasPreferences && filteredPatterns.length === 0,
+                    patterns: data.patterns,
+                    totalPatterns: data.totalPatterns,
+                    allPatterns: data.allPatterns,
+                    preferenceApplied: data.preferenceApplied,
+                    noPreferenceMatch: data.noPreferenceMatch,
                     studentID,
                     semesterID,
                     semesterNumber,

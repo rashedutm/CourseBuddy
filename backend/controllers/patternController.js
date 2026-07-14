@@ -3,21 +3,30 @@ const patternService = require('../services/patternService')
 // ============================================
 // UC005 — POST /api/patterns/generate
 // Generate clash free patterns for student
-// Body: { studentID, semesterID, academicYear }
+// Body: { studentID, semesterID, academicYear, lecturerPreferences? }
+// lecturerPreferences = { courseCode: lecturerID } — optional
 // ============================================
 exports.generatePatterns = async (req, res) => {
     try {
-        const { studentID, semesterID, academicYear } = req.body
+        const { studentID, semesterID, academicYear, lecturerPreferences } = req.body
         if (!studentID || !semesterID || !academicYear) {
             return res.status(400).json({
                 error: 'studentID, semesterID and academicYear are required'
             })
         }
 
-        const { patterns, studentInfo, semesterInfo } = await patternService.generatePatterns(
+        const {
+            patterns,
+            allPatterns,
+            preferenceApplied,
+            noPreferenceMatch,
+            studentInfo,
+            semesterInfo
+        } = await patternService.generatePatterns(
             studentID,
             semesterID,
-            academicYear
+            academicYear,
+            lecturerPreferences || {}
         )
 
         if (patterns.length === 0) {
@@ -29,6 +38,9 @@ exports.generatePatterns = async (req, res) => {
         res.json({
             totalPatterns: patterns.length,
             patterns,
+            allPatterns,
+            preferenceApplied,
+            noPreferenceMatch,
             semesterNumber: semesterInfo.semesterNumber,
             intakeMonth: studentInfo.intakeMonth
         })

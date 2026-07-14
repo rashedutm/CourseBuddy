@@ -1,5 +1,17 @@
 const db = require('../config/db')
 
+// Every ID column in the schema is varchar(20), and MySQL is not running in
+// strict mode — an over-long ID is silently TRUNCATED rather than rejected.
+// Embedding studentID/courseCode in the ID overflowed that limit and cut off the
+// timestamp, so repeated writes collapsed onto the same primary key and failed
+// with "Duplicate entry". Keep generated IDs short: prefix + base36 timestamp +
+// random suffix stays well inside 20 chars and is unique per row.
+const shortID = (prefix) => {
+    const stamp = Date.now().toString(36).toUpperCase()          // 8 chars
+    const rand = Math.random().toString(36).slice(2, 5).toUpperCase() // 3 chars
+    return `${prefix}-${stamp}${rand}`
+}
+
 // ============================================
 // UC009 — Save lecturer preference for a course
 // If preference already exists update it
@@ -27,7 +39,7 @@ exports.saveLecturerPreference = (studentID, courseCode, lecturerID) => {
                 })
             } else {
                 // Insert new preference
-                const preferenceID = `PREF-${studentID}-${courseCode}-${Date.now()}`
+                const preferenceID = shortID('PREF')
                 const createdDate = new Date().toISOString().split('T')[0]
                 const insertSql = `
                     INSERT INTO lecturer_preference
@@ -127,7 +139,7 @@ exports.resetPreferences = (studentID, resetReason) => {
             if (err) return reject(err)
 
             // Log the reset
-            const resetLogID = `RLOG-${studentID}-${Date.now()}`
+            const resetLogID = shortID('RLOG')
             const resetDate = new Date().toISOString().split('T')[0]
             const logSql = `
                 INSERT INTO preference_reset_log

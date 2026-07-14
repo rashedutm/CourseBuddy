@@ -161,7 +161,7 @@ exports.getSemesterByID = (semesterID) => {
 // UC005 — Run clash detection and return patterns
 // Groups sections by course then calls algorithm
 // ============================================
-exports.generatePatterns = async (studentID, semesterID, academicYear) => {
+exports.generatePatterns = async (studentID, semesterID, academicYear, lecturerPreferences = {}) => {
     const selectedCourses = await exports.getSelectedCourses(studentID, semesterID)
     if (selectedCourses.length === 0) {
         throw new Error('NO_COURSES_SELECTED')
@@ -205,9 +205,46 @@ exports.generatePatterns = async (studentID, semesterID, academicYear) => {
         throw new Error(`NO_TIMETABLE_DATA`)
     }
 
-    // Run clash detection
-    const patterns = generateClashFreePatterns(sectionsByCourse)
-    return { patterns, studentInfo, semesterInfo }
+    // Run clash detection over every section — this is the unfiltered baseline.
+    const allPatterns = generateClashFreePatterns(sectionsByCourse)
+
+    // Lecturer preferences must narrow the SECTIONS, not the finished patterns.
+    // generateClashFreePatterns() caps its result at 20 randomly chosen
+    // combinations, so filtering afterwards would discard matching patterns that
+    // simply didn't survive the cap, and wrongly report "no match".
+    const hasPreferences = Object.values(lecturerPreferences).some(v => v !== null && v !== undefined && v !== '')
+
+    if (!hasPreferences) {
+        return { patterns: allPatterns, allPatterns, preferenceApplied: false, noPreferenceMatch: false, studentInfo, semesterInfo }
+    }
+
+    const preferredByCourse = {}
+    let unsatisfiable = false
+
+    for (const [code, courseSections] of Object.entries(sectionsByCourse)) {
+        const pref = lecturerPreferences[code]
+        if (!pref) {
+            preferredByCourse[code] = courseSections
+            continue
+        }
+        const matching = courseSections.filter(s => String(s.lecturerID) === String(pref))
+        if (matching.length === 0) {
+            // That lecturer teaches no section of this course this semester.
+            unsatisfiable = true
+            break
+        }
+        preferredByCourse[code] = matching
+    }
+
+    const preferredPatterns = unsatisfiable ? [] : generateClashFreePatterns(preferredByCourse)
+
+    // Preference can't be honoured (lecturer absent, or their sections all clash)
+    // — hand back the unfiltered patterns and let the client say why.
+    if (preferredPatterns.length === 0) {
+        return { patterns: allPatterns, allPatterns, preferenceApplied: false, noPreferenceMatch: true, studentInfo, semesterInfo }
+    }
+
+    return { patterns: preferredPatterns, allPatterns, preferenceApplied: true, noPreferenceMatch: false, studentInfo, semesterInfo }
 }
 
 // ============================================

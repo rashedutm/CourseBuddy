@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { getLecturersForCourses } from '../../services/courseService'
+import { getLecturersForCourses, generatePatterns } from '../../services/courseService'
 import './courses.css'
 
 function SetLecturerPreference() {
@@ -15,18 +15,24 @@ function SetLecturerPreference() {
         academicSession,
         intakeID,
         patterns,
-        totalPatterns
+        totalPatterns,
+        preferences: existingPreferences = {},
+        selectedCodes = [],
+        academicYear: passedAcademicYear
     } = location.state || {}
 
-    const academicYear = academicSession
+    const academicYear = passedAcademicYear || (academicSession
         ? `${academicSession}-${intakeMonth === 'October' ? '1' : '2'}`
-        : null
+        : null)
 
     const [lecturersByCourse, setLecturersByCourse] = useState({})
-    const [preferences, setPreferences] = useState({})
+    // Seeded from what is already applied, so re-opening this page shows the
+    // current selection instead of a blank slate.
+    const [preferences, setPreferences] = useState(existingPreferences)
     const [courseCodes, setCourseCodes] = useState([])
     const [courseNames, setCourseNames] = useState({})
     const [loading, setLoading] = useState(true)
+    const [applying, setApplying] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
 
     useEffect(() => {
@@ -54,7 +60,7 @@ function SetLecturerPreference() {
                 setLecturersByCourse(grouped)
                 setLoading(false)
             })
-            .catch(err => {
+            .catch(() => {
                 setErrorMessage('Unable to load lecturer information at this time. Please try again later.')
                 setLoading(false)
             })
@@ -67,26 +73,56 @@ function SetLecturerPreference() {
         }))
     }
 
-    const handleApply = () => {
-        navigate('/courses/patterns/filtered', {
+    // Regenerate on the server with the preferences applied, then go straight back
+    // to the pattern list — that page is the hub of the flow. This must NOT filter
+    // `patterns` locally: that list is already capped at 20 random combinations, so
+    // a lecturer with matching patterns could still come back empty.
+    const handleApply = async () => {
+        setApplying(true)
+        setErrorMessage('')
+        try {
+            const data = await generatePatterns(studentID, semesterID, academicYear, preferences)
+
+            navigate('/courses/patterns', {
+                state: {
+                    patterns: data.patterns,
+                    totalPatterns: data.totalPatterns,
+                    allPatterns: data.allPatterns,
+                    preferenceApplied: data.preferenceApplied,
+                    noPreferenceMatch: data.noPreferenceMatch,
+                    preferences,
+                    studentID,
+                    semesterID,
+                    semesterNumber,
+                    intakeMonth,
+                    academicSession,
+                    intakeID,
+                    selectedCodes,
+                    academicYear
+                }
+            })
+        } catch (err) {
+            setErrorMessage(err.message || 'Unable to apply your lecturer preferences. Please try again.')
+            setApplying(false)
+        }
+    }
+
+    const handleSkip = () => {
+        navigate('/courses/patterns', {
             state: {
+                patterns,
+                totalPatterns,
+                allPatterns: patterns,
+                preferences: {},
                 studentID,
                 semesterID,
                 semesterNumber,
                 intakeMonth,
                 academicSession,
                 intakeID,
-                lecturerPreferences: preferences,
-                academicYear,
-                patterns,
-                totalPatterns
+                selectedCodes,
+                academicYear
             }
-        })
-    }
-
-    const handleSkip = () => {
-        navigate('/courses/patterns', {
-            state: { patterns, totalPatterns, studentID, semesterID, semesterNumber, intakeMonth, academicSession, intakeID }
         })
     }
 
@@ -170,11 +206,11 @@ function SetLecturerPreference() {
             })}
 
             <div className="sticky-bottom">
-                <button className="btn primary" onClick={handleApply}>
+                <button className="btn primary" onClick={handleApply} disabled={applying}>
                     <i className="fas fa-sliders"></i>
-                    Apply Preferences
+                    {applying ? 'Applying...' : 'Apply Preferences'}
                 </button>
-                <button className="btn outline" onClick={handleSkip}>
+                <button className="btn outline" onClick={handleSkip} disabled={applying}>
                     <i className="fas fa-forward"></i>
                     Skip — Show All Patterns
                 </button>
