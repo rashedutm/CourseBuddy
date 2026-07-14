@@ -11,27 +11,22 @@
   --mono:ui-monospace,'SF Mono',monospace;
 }
 body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:auto;}
-.poster{width:1060px;margin:0 auto;}
+.poster{width:1060px;margin:0 auto;position:relative;overflow:hidden;}
 @page{size:A3 portrait;margin:0;}
 
+/* FULL-POSTER BAUHAUS BACKGROUND */
+.canvas{position:absolute;inset:0;z-index:0;pointer-events:none;}
+.canvas svg{width:100%;height:100%;display:block;}
+.poster>.topbar,.poster>.hero,.poster>.journey,.poster>.nabc,.poster>.diagrams,.poster>.team,.poster>.bot{position:relative;z-index:1;}
+
 /* TOPBAR */
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:9px 30px;border-bottom:1px solid var(--line);}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:9px 30px;border-bottom:1px solid var(--line);background:rgba(255,251,240,0.86);}
 .tl{font-family:var(--mono);font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--mu);}
 .tr{font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--r);border:1.5px solid var(--r);padding:2px 9px;border-radius:3px;}
 
 /* HERO */
 .hero{display:grid;grid-template-columns:1fr 340px;border-bottom:1px solid var(--line);}
-.hero-l{padding:28px 36px 26px 30px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;}
-.hero-l::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
-  background-image:
-    linear-gradient(rgba(139,25,25,0.09) 1px,transparent 1px),linear-gradient(90deg,rgba(139,25,25,0.09) 1px,transparent 1px),
-    linear-gradient(rgba(139,25,25,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(139,25,25,0.05) 1px,transparent 1px);
-  background-size:150px 150px,150px 150px,30px 30px,30px 30px;
-  -webkit-mask-image:radial-gradient(ellipse 68% 72% at 20% 44%,#000 0%,rgba(0,0,0,0.4) 55%,transparent 80%);
-  mask-image:radial-gradient(ellipse 68% 72% at 20% 44%,#000 0%,rgba(0,0,0,0.4) 55%,transparent 80%);}
-.hero-l>*{position:relative;z-index:1;}
-.hero-l>.bau{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;
-  -webkit-mask-image:linear-gradient(105deg,transparent 34%,#000 52%);mask-image:linear-gradient(105deg,transparent 34%,#000 52%);}
+.hero-l{padding:28px 36px 26px 30px;display:flex;flex-direction:column;justify-content:space-between;position:relative;}
 .wm{font-size:80px;font-weight:900;line-height:.85;letter-spacing:-.045em;margin-bottom:12px;}
 .C{color:#E8B547}.o{color:#DFA130}.u{color:#D97706}.r{color:#C2410C}.s{color:#A5321A}.e{color:#8B1919}
 .wmB{color:#8B1919}.u2{color:#A5321A}.d{color:#C2410C}.d2{color:#D97706}.y{color:#E8B547}
@@ -73,7 +68,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
 .rbchip{margin-left:auto;font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--g);}
 
 /* JOURNEY */
-.journey{padding:18px 30px;border-bottom:1px solid var(--line);}
+.journey{padding:18px 30px;border-bottom:1px solid var(--line);background:rgba(255,249,230,0.76);}
 .eye{font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--mu);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
 .eye::before{content:'';display:block;width:14px;height:1px;background:currentColor;}
 .flow{display:flex;align-items:stretch;gap:0;}
@@ -89,7 +84,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
 .farr{padding:0 4px;color:var(--mu);font-size:12px;flex-shrink:0;align-self:center;}
 
 /* NABC */
-.nabc{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line);}
+.nabc{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line);background:rgba(255,249,230,0.78);}
 .nc{padding:22px 20px 26px;border-right:1px solid var(--line);position:relative;overflow:hidden;}
 .nc:last-child{border-right:none;}
 .ncg{position:absolute;bottom:-16px;right:-6px;font-size:110px;font-weight:900;line-height:1;opacity:.12;pointer-events:none;user-select:none;color:#8B7355;}
@@ -109,14 +104,14 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
 .vu{font-size:10.5px;font-weight:700;color:var(--tx);}
 
 /* DIAGRAM */
-.diagrams{border-bottom:1px solid var(--line);}
+.diagrams{border-bottom:1px solid var(--line);background:rgba(255,251,240,0.84);}
 .arch{padding:22px 26px;}
 .arch svg{width:100%;height:auto;display:block;}
 .diag-label{font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--mu);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
 .diag-label::before{content:'';display:block;width:14px;height:1px;background:currentColor;}
 
 /* TEAM */
-.team{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line);}
+.team{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line);background:rgba(255,249,230,0.76);}
 .tm{padding:16px 20px;border-right:1px solid var(--line);}
 .tm:last-child{border-right:none;}
 .tmss{font-family:var(--mono);font-size:7.5px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px;}
@@ -148,6 +143,36 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
 
 <div class="poster">
 
+<!-- FULL-POSTER BAUHAUS BACKGROUND: a giant abstract timetable of blocks -->
+<div class="canvas" aria-hidden="true">
+<svg viewBox="0 0 1060 1500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  <g class="blocks">
+    <rect x="0" y="0" width="300" height="250" fill="#E8B547"/>
+    <rect x="300" y="0" width="150" height="430" fill="#8B1919"/>
+    <rect x="450" y="0" width="610" height="150" fill="#2563EB"/>
+    <rect x="0" y="250" width="180" height="380" fill="#2E7D32"/>
+    <rect x="760" y="150" width="300" height="300" fill="#D97706"/>
+    <rect x="180" y="430" width="270" height="220" fill="#7C3AED"/>
+    <rect x="450" y="450" width="230" height="250" fill="#2563EB"/>
+    <rect x="680" y="450" width="380" height="210" fill="#8B1919"/>
+    <rect x="0" y="630" width="150" height="870" fill="#E8B547"/>
+    <rect x="150" y="900" width="300" height="300" fill="#2E7D32"/>
+    <rect x="760" y="700" width="300" height="360" fill="#D97706"/>
+    <rect x="450" y="980" width="310" height="300" fill="#7C3AED"/>
+    <rect x="760" y="1140" width="300" height="360" fill="#2563EB"/>
+    <rect x="150" y="1200" width="450" height="300" fill="#8B1919"/>
+    <circle cx="820" cy="560" r="185" fill="none" stroke="#8B1919" stroke-width="10"/>
+    <circle cx="250" cy="1070" r="140" fill="#D97706"/>
+    <circle cx="600" cy="230" r="120" fill="#E8B547"/>
+    <path d="M450 700 L680 700 L450 450 Z" fill="#2E7D32"/>
+    <line x1="0" y1="450" x2="1060" y2="450" stroke="#8B1919" stroke-width="6"/>
+    <line x1="450" y1="0" x2="450" y2="1500" stroke="#8B1919" stroke-width="4"/>
+    <line x1="760" y1="150" x2="760" y2="1500" stroke="#8B1919" stroke-width="4"/>
+  </g>
+  <rect x="0" y="0" width="1060" height="1500" fill="#FFF9E6" opacity="0.62"/>
+</svg>
+</div>
+
 <!-- TOPBAR -->
 <div class="topbar">
   <span class="tl">SCSE 2243 · Application Development · Universiti Teknologi Malaysia · 2025/26 Semester II</span>
@@ -156,18 +181,6 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
 <!-- HERO -->
 <div class="hero">
   <div class="hero-l">
-    <svg class="bau" viewBox="0 0 720 480" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <!-- Bauhaus block composition — the "mix & match sections" motif, in poster palette -->
-      <rect x="486" y="150" width="150" height="210" fill="#8B1919" opacity="0.12"/>
-      <rect x="556" y="118" width="150" height="150" fill="#E8B547" opacity="0.26"/>
-      <rect x="430" y="256" width="140" height="112" fill="#2563EB" opacity="0.13"/>
-      <rect x="628" y="300" width="74" height="74" fill="#7C3AED" opacity="0.17"/>
-      <path d="M430 368 L430 262 L512 368 Z" fill="#D97706" opacity="0.20"/>
-      <circle cx="600" cy="232" r="60" fill="#2E7D32" opacity="0.16"/>
-      <circle cx="600" cy="232" r="60" fill="none" stroke="#2E7D32" stroke-width="2" opacity="0.34"/>
-      <line x1="410" y1="150" x2="706" y2="150" stroke="#8B1919" stroke-width="2.5" opacity="0.34"/>
-      <line x1="486" y1="112" x2="486" y2="380" stroke="#8B1919" stroke-width="2" opacity="0.24"/>
-    </svg>
     <div>
       <div class="wm"><span class="C">C</span><span class="o">o</span><span class="u">u</span><span class="r">r</span><span class="s">s</span><span class="e">e</span>&thinsp;<span class="wmB">B</span><span class="u2">u</span><span class="d">d</span><span class="d2">d</span><span class="y">y</span></div>
       <div class="wm-sub">Web-Based Course Registration Assistant · UTM</div>
@@ -280,7 +293,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
 <!-- COMPONENT INTERACTION DIAGRAM -->
 <div class="diagrams">
   <div class="arch">
-    <div class="diag-label">System Architecture &amp; Data Flow — 4 Subsystems · 12 Services · 31 MySQL Tables</div>
+    <div class="diag-label">System Architecture &amp; Data Flow — React Frontend · 12 Services · 31 MySQL Tables</div>
     <svg viewBox="0 0 980 452" xmlns="http://www.w3.org/2000/svg">
 <defs>
   <marker id="am1" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="rgba(29,201,122,0.7)"/></marker>
@@ -295,7 +308,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
 <rect x="8" y="8" width="222" height="22" rx="5" fill="rgba(46,125,50,0.15)"/>
 <rect x="8" y="24" width="222" height="6" fill="rgba(46,125,50,0.15)"/>
 <text x="119" y="22" fill="#1F2937" font-size="8.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">USER MANAGEMENT · Tarin</text>
-<text x="20" y="47" fill="#2E7D32" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Pages</text>
+<text x="20" y="47" fill="#2E7D32" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">React Frontend</text>
 <text x="20" y="59" fill="#4B5563" font-size="7" font-family="ui-monospace,monospace">Register · Login · ResetPassword · Logout</text>
 <text x="20" y="70" fill="#4B5563" font-size="7" font-family="ui-monospace,monospace">Profile · Dashboard · AcademicAlerts</text>
 <text x="20" y="86" fill="#2E7D32" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Auth Flow</text>
@@ -310,7 +323,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
 <rect x="8" y="240" width="222" height="22" rx="5" fill="rgba(59,127,232,0.32)"/>
 <rect x="8" y="256" width="222" height="6" fill="rgba(37,99,235,0.15)"/>
 <text x="119" y="254" fill="#1F2937" font-size="8.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">PATTERN GENERATION · Rashed</text>
-<text x="20" y="279" fill="#2563EB" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Pages</text>
+<text x="20" y="279" fill="#2563EB" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">React Frontend</text>
 <text x="20" y="291" fill="#4B5563" font-size="7" font-family="ui-monospace,monospace">SelectIntakeSemester · SelectCourses</text>
 <text x="20" y="302" fill="#4B5563" font-size="7" font-family="ui-monospace,monospace">GeneratePatterns · ViewPatterns</text>
 <text x="20" y="313" fill="#4B5563" font-size="7" font-family="ui-monospace,monospace">SetLecturerPreference · FilteredPatterns</text>
@@ -378,14 +391,14 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
 <text x="594" y="399" fill="#4B5563" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">draft_vault · course_registration_status</text>
 <text x="594" y="410" fill="#4B5563" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">semester_status · recovery_pattern</text>
 <text x="594" y="421" fill="#4B5563" font-size="7" font-family="ui-monospace,monospace" text-anchor="middle">academic_profile</text>
-<text x="490" y="440" fill="#9CA3AF" font-size="6.5" font-family="ui-monospace,monospace" text-anchor="middle">Dev: XAMPP + phpMyAdmin · Prod: Railway MySQL — all FK constraints enforced</text>
+<text x="490" y="440" fill="#9CA3AF" font-size="6.5" font-family="ui-monospace,monospace" text-anchor="middle">Runs on XAMPP + phpMyAdmin (MySQL) — all FK constraints enforced</text>
 
 <!-- RIGHT: Handbook & Timetable (top) -->
 <rect x="750" y="8" width="222" height="152" rx="5" fill="rgba(124,58,237,0.08)" stroke="rgba(124,58,237,0.4)" stroke-width="1.5"/>
 <rect x="750" y="8" width="222" height="22" rx="5" fill="rgba(124,58,237,0.15)"/>
 <rect x="750" y="24" width="222" height="6" fill="rgba(124,58,237,0.15)"/>
 <text x="861" y="22" fill="#1F2937" font-size="8.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">HANDBOOK &amp; TIMETABLE · Yousra</text>
-<text x="762" y="47" fill="#7C3AED" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Pages</text>
+<text x="762" y="47" fill="#7C3AED" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">React Frontend</text>
 <text x="762" y="59" fill="#4B5563" font-size="7" font-family="ui-monospace,monospace">UploadHandbook · UploadTimetable</text>
 <text x="762" y="70" fill="#4B5563" font-size="7" font-family="ui-monospace,monospace">View / Edit / Delete Course &amp; Section</text>
 <text x="762" y="86" fill="#7C3AED" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Upload Pipeline</text>
@@ -400,7 +413,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
 <rect x="750" y="240" width="222" height="22" rx="5" fill="rgba(139,29,29,0.15)"/>
 <rect x="750" y="256" width="222" height="6" fill="rgba(139,29,29,0.15)"/>
 <text x="861" y="254" fill="#1F2937" font-size="8.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">STUDENT REGISTRATION · Zimly</text>
-<text x="762" y="279" fill="#991B1B" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Pages</text>
+<text x="762" y="279" fill="#991B1B" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">React Frontend</text>
 <text x="762" y="291" fill="#4B5563" font-size="7" font-family="ui-monospace,monospace">FilterPatterns · DraftVault · ArchivedDrafts</text>
 <text x="762" y="302" fill="#4B5563" font-size="7" font-family="ui-monospace,monospace">ViewComparePatterns · SelectedRoutine</text>
 <text x="762" y="318" fill="#991B1B" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Draft Vault</text>
@@ -461,7 +474,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
 <!-- BOTTOM -->
 <div class="bot">
   <span class="ghb">github.com/rashedutm/CourseBuddy</span>
-  <span>React · Express.js · MySQL · JWT · bcryptjs · xlsx (SheetJS) · XAMPP · Railway</span>
+  <span>React · React Router · Express.js · Node.js · MySQL · JWT · bcryptjs · xlsx (SheetJS) · XAMPP</span>
 </div>
 
 </div>
