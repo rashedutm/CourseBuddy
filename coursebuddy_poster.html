@@ -171,7 +171,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
     <line x1="450" y1="0" x2="450" y2="1500" stroke="#8B1919" stroke-width="4"/>
     <line x1="760" y1="150" x2="760" y2="1500" stroke="#8B1919" stroke-width="4"/>
   </g>
-  <rect x="0" y="0" width="1060" height="1500" fill="#FFF9E6" opacity="0.62"/>
+  <rect x="0" y="0" width="1060" height="1500" fill="#FFF9E6" opacity="0.73"/>
 </svg>
 </div>
 
@@ -295,8 +295,8 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
 <!-- COMPONENT INTERACTION DIAGRAM -->
 <div class="diagrams">
   <div class="arch">
-    <div class="diag-label">System Architecture &amp; Data Flow — React Frontend · 12 Services · 31 MySQL Tables</div>
-    <svg viewBox="0 0 980 452" xmlns="http://www.w3.org/2000/svg">
+    <div class="diag-label">System Architecture — React SPA (Frontend) → Express REST API → MySQL</div>
+    <svg viewBox="0 0 980 576" xmlns="http://www.w3.org/2000/svg">
 <defs>
   <marker id="am1" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="rgba(29,201,122,0.7)"/></marker>
   <marker id="am2" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="rgba(139,92,246,0.7)"/></marker>
@@ -305,12 +305,48 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
   <marker id="am5" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="rgba(245,209,56,0.55)"/></marker>
 </defs>
 
+<!-- ===== REACT FRONTEND LAYER (band) ===== -->
+<rect x="8" y="4" width="964" height="104" rx="6" fill="rgba(37,99,235,0.06)" stroke="rgba(37,99,235,0.45)" stroke-width="1.5"/>
+<rect x="8" y="4" width="964" height="20" rx="6" fill="rgba(37,99,235,0.14)"/>
+<rect x="8" y="18" width="964" height="6" fill="rgba(37,99,235,0.14)"/>
+<text x="490" y="18" fill="#1F2937" font-size="8.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">REACT SPA · FRONTEND LAYER — routing, components, state &amp; API client</text>
+<rect x="18" y="30" width="228" height="72" rx="4" fill="rgba(255,255,255,0.4)"/>
+<text x="30" y="44" fill="#2563EB" font-size="7.5" font-weight="700" font-family="ui-monospace,monospace">Routing · React Router</text>
+<text x="30" y="55" fill="#4B5563" font-size="6.5" font-family="ui-monospace,monospace">BrowserRouter · 40+ routes</text>
+<text x="30" y="65" fill="#4B5563" font-size="6.5" font-family="ui-monospace,monospace">/auth /home /profile /courses/*</text>
+<text x="30" y="75" fill="#4B5563" font-size="6.5" font-family="ui-monospace,monospace">/admin/* · /registration/* nested</text>
+<text x="30" y="90" fill="#4B5563" font-size="6.5" font-family="ui-monospace,monospace">persistent workspace shell (Outlet)</text>
+<rect x="256" y="30" width="228" height="72" rx="4" fill="rgba(255,255,255,0.4)"/>
+<text x="268" y="44" fill="#2563EB" font-size="7.5" font-weight="700" font-family="ui-monospace,monospace">Components · Screens</text>
+<text x="268" y="55" fill="#4B5563" font-size="6.5" font-family="ui-monospace,monospace">Navbar · Button · PatternCard</text>
+<text x="268" y="65" fill="#4B5563" font-size="6.5" font-family="ui-monospace,monospace">AlertBadge · Full/MiniTimetableGrid</text>
+<text x="268" y="75" fill="#4B5563" font-size="6.5" font-family="ui-monospace,monospace">40+ screens · 4 subsystems</text>
+<text x="268" y="90" fill="#4B5563" font-size="6.5" font-family="ui-monospace,monospace">click-to-mix · side-by-side compare</text>
+<rect x="494" y="30" width="228" height="72" rx="4" fill="rgba(255,255,255,0.4)"/>
+<text x="506" y="44" fill="#2563EB" font-size="7.5" font-weight="700" font-family="ui-monospace,monospace">State · Workspace</text>
+<text x="506" y="55" fill="#4B5563" font-size="6.5" font-family="ui-monospace,monospace">React Context + useReducer</text>
+<text x="506" y="65" fill="#4B5563" font-size="6.5" font-family="ui-monospace,monospace">persisted to localStorage</text>
+<text x="506" y="75" fill="#4B5563" font-size="6.5" font-family="ui-monospace,monospace">survives refresh · ~20 actions</text>
+<text x="506" y="90" fill="#4B5563" font-size="6.5" font-family="ui-monospace,monospace">save · load · compare · mix · archive</text>
+<rect x="732" y="30" width="228" height="72" rx="4" fill="rgba(255,255,255,0.4)"/>
+<text x="744" y="44" fill="#2563EB" font-size="7.5" font-weight="700" font-family="ui-monospace,monospace">API Client · services/*.js</text>
+<text x="744" y="55" fill="#4B5563" font-size="6.5" font-family="ui-monospace,monospace">fetch(API_BASE/…) · JSON</text>
+<text x="744" y="65" fill="#4B5563" font-size="6.5" font-family="ui-monospace,monospace">9 service modules · async/await</text>
+<text x="744" y="75" fill="#4B5563" font-size="6.5" font-family="ui-monospace,monospace">dev :5000/api → Express</text>
+<text x="744" y="90" fill="#4B5563" font-size="6.5" font-family="ui-monospace,monospace">JWT sent on protected calls</text>
+
+<!-- user action → API flow into the backend -->
+<line x1="490" y1="109" x2="490" y2="129" stroke="#2563EB" stroke-width="1.6" marker-end="url(#am3)"/>
+<text x="498" y="123" fill="#2563EB" font-size="6.5" font-family="ui-monospace,monospace">user action → fetch · HTTP JSON</text>
+
+<g transform="translate(0,124)">
+
 <!-- LEFT: User Management (top) -->
 <rect x="8" y="8" width="222" height="152" rx="5" fill="rgba(46,125,50,0.08)" stroke="rgba(46,125,50,0.4)" stroke-width="1.5"/>
 <rect x="8" y="8" width="222" height="22" rx="5" fill="rgba(46,125,50,0.15)"/>
 <rect x="8" y="24" width="222" height="6" fill="rgba(46,125,50,0.15)"/>
 <text x="119" y="22" fill="#1F2937" font-size="8.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">USER MANAGEMENT · Tarin</text>
-<text x="20" y="47" fill="#2E7D32" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">React Frontend</text>
+<text x="20" y="47" fill="#2E7D32" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Screens</text>
 <text x="20" y="59" fill="#4B5563" font-size="7" font-family="ui-monospace,monospace">Register · Login · ResetPassword · Logout</text>
 <text x="20" y="70" fill="#4B5563" font-size="7" font-family="ui-monospace,monospace">Profile · Dashboard · AcademicAlerts</text>
 <text x="20" y="86" fill="#2E7D32" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Auth Flow</text>
@@ -325,7 +361,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
 <rect x="8" y="240" width="222" height="22" rx="5" fill="rgba(59,127,232,0.32)"/>
 <rect x="8" y="256" width="222" height="6" fill="rgba(37,99,235,0.15)"/>
 <text x="119" y="254" fill="#1F2937" font-size="8.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">PATTERN GENERATION · Rashed</text>
-<text x="20" y="279" fill="#2563EB" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">React Frontend</text>
+<text x="20" y="279" fill="#2563EB" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Screens</text>
 <text x="20" y="291" fill="#4B5563" font-size="7" font-family="ui-monospace,monospace">SelectIntakeSemester · SelectCourses</text>
 <text x="20" y="302" fill="#4B5563" font-size="7" font-family="ui-monospace,monospace">GeneratePatterns · ViewPatterns</text>
 <text x="20" y="313" fill="#4B5563" font-size="7" font-family="ui-monospace,monospace">SetLecturerPreference · FilteredPatterns</text>
@@ -400,7 +436,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
 <rect x="750" y="8" width="222" height="22" rx="5" fill="rgba(124,58,237,0.15)"/>
 <rect x="750" y="24" width="222" height="6" fill="rgba(124,58,237,0.15)"/>
 <text x="861" y="22" fill="#1F2937" font-size="8.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">HANDBOOK &amp; TIMETABLE · Yousra</text>
-<text x="762" y="47" fill="#7C3AED" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">React Frontend</text>
+<text x="762" y="47" fill="#7C3AED" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Screens</text>
 <text x="762" y="59" fill="#4B5563" font-size="7" font-family="ui-monospace,monospace">UploadHandbook · UploadTimetable</text>
 <text x="762" y="70" fill="#4B5563" font-size="7" font-family="ui-monospace,monospace">View / Edit / Delete Course &amp; Section</text>
 <text x="762" y="86" fill="#7C3AED" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Upload Pipeline</text>
@@ -415,7 +451,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
 <rect x="750" y="240" width="222" height="22" rx="5" fill="rgba(139,29,29,0.15)"/>
 <rect x="750" y="256" width="222" height="6" fill="rgba(139,29,29,0.15)"/>
 <text x="861" y="254" fill="#1F2937" font-size="8.5" font-family="ui-monospace,monospace" text-anchor="middle" font-weight="700">STUDENT REGISTRATION · Zimly</text>
-<text x="762" y="279" fill="#991B1B" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">React Frontend</text>
+<text x="762" y="279" fill="#991B1B" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Screens</text>
 <text x="762" y="291" fill="#4B5563" font-size="7" font-family="ui-monospace,monospace">FilterPatterns · DraftVault · ArchivedDrafts</text>
 <text x="762" y="302" fill="#4B5563" font-size="7" font-family="ui-monospace,monospace">ViewComparePatterns · SelectedRoutine</text>
 <text x="762" y="318" fill="#991B1B" font-size="7.5" font-family="ui-monospace,monospace" font-weight="700">Draft Vault</text>
@@ -441,6 +477,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
 <line x1="702" y1="348" x2="750" y2="348" stroke="rgba(212,21,53,0.4)" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#am4)"/>
 <line x1="480" y1="200" x2="480" y2="240" stroke="rgba(245,209,56,0.45)" stroke-width="1.5" marker-end="url(#am5)"/>
 <line x1="500" y1="240" x2="500" y2="200" stroke="rgba(245,209,56,0.3)" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#am5)"/>
+</g>
     </svg>
   </div>
 </div>
