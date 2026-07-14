@@ -114,8 +114,9 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
 .tmr{font-size:10.5px;line-height:1.4;color:var(--mu);}
 
 /* BOTTOM */
-.bot{display:flex;align-items:center;justify-content:space-between;padding:9px 30px;background:var(--sur);}
+.bot{display:flex;align-items:center;justify-content:space-between;padding:12px 30px;background:var(--sur);border-top:2px solid var(--r);}
 .bot span{font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);}
+.bot .ghb{font-size:11px;color:var(--r);font-weight:700;letter-spacing:.08em;}
 .bot .ghb{color:var(--g);}
 
 @media print{
@@ -149,7 +150,6 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
       <div class="wm"><span class="C">C</span><span class="o">o</span><span class="u">u</span><span class="r">r</span><span class="s">s</span><span class="e">e</span>&thinsp;<span class="wmB">B</span><span class="u2">u</span><span class="d">d</span><span class="d2">d</span><span class="y">y</span></div>
       <div class="wm-sub">Web-Based Course Registration Assistant · UTM</div>
       <p class="tl2">Clash-free timetable patterns, generated automatically —<br>with a <em>recovery plan</em> for when registration doesn't go to plan.</p>
-      <div class="gh">github.com/rashedutm/CourseBuddy</div>
     </div>
     <div class="stats">
       <div class="hs"><span class="hn" style="color:var(--b)">4</span><span class="hl">Members</span></div>
@@ -180,21 +180,21 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
 <div class="journey">
   <div class="eye">End-to-End Student Journey · 40 Use Cases · 4 Subsystems</div>
   <div class="flow">
-    <div class="fb c1"><span class="fuc">UC021–024</span><span class="fn">Register &amp; Login</span><span class="fo">Tarin</span></div>
+    <div class="fb c1"><span class="fuc">UC021–024</span><span class="fn">Register &amp; Login</span></div>
     <div class="farr">→</div>
-    <div class="fb c1"><span class="fuc">UC025–030</span><span class="fn">Profile &amp; Dashboard</span><span class="fo">Tarin</span></div>
+    <div class="fb c1"><span class="fuc">UC025–030</span><span class="fn">Profile &amp; Dashboard</span></div>
     <div class="farr">→</div>
-    <div class="fb c2"><span class="fuc">UC031–036</span><span class="fn">Handbook &amp; Timetable Upload</span><span class="fo">Yousra</span></div>
+    <div class="fb c2"><span class="fuc">UC031–036</span><span class="fn">Handbook &amp; Timetable Upload</span></div>
     <div class="farr">→</div>
-    <div class="fb c2"><span class="fuc">UC037–040</span><span class="fn">Course &amp; Section Management</span><span class="fo">Yousra</span></div>
+    <div class="fb c2"><span class="fuc">UC037–040</span><span class="fn">Course &amp; Section Management</span></div>
     <div class="farr">→</div>
-    <div class="fb c3"><span class="fuc">UC001–004</span><span class="fn">Select Courses</span><span class="fo">Rashed</span></div>
+    <div class="fb c3"><span class="fuc">UC001–004</span><span class="fn">Select Courses</span></div>
     <div class="farr">→</div>
-    <div class="fb c3"><span class="fuc">UC005–012</span><span class="fn">Generate &amp; Filter Patterns</span><span class="fo">Rashed</span></div>
+    <div class="fb c3"><span class="fuc">UC005–012</span><span class="fn">Generate &amp; Filter Patterns</span></div>
     <div class="farr">→</div>
-    <div class="fb c4"><span class="fuc">UC013–016</span><span class="fn">Draft Vault &amp; Compare</span><span class="fo">Zimly</span></div>
+    <div class="fb c4"><span class="fuc">UC013–016</span><span class="fn">Draft Vault &amp; Compare</span></div>
     <div class="farr">→</div>
-    <div class="fb c4"><span class="fuc">UC017–020</span><span class="fn">Recovery &amp; Drop Simulation</span><span class="fo">Zimly</span></div>
+    <div class="fb c4"><span class="fuc">UC017–020</span><span class="fn">Recovery &amp; Drop Simulation</span></div>
   </div>
 </div>
 
@@ -220,10 +220,10 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-s
     <div class="nct">Four subsystems. One pipeline.</div>
     <p class="ncb">React SPA → Express.js REST API → MySQL (31 tables). JWT + bcryptjs auth with DB session revocation. Recursive clash-free pattern engine.</p>
     <ul class="ncul">
-      <li><strong>User Management</strong> (Tarin) — auth, profile, dashboard, alerts</li>
-      <li><strong>Handbook &amp; Timetable</strong> (Yousra) — Excel upload, course/section CRUD</li>
-      <li><strong>Pattern Generation</strong> (Rashed) — clash detection, lecturer preference</li>
-      <li><strong>Student Registration</strong> (Zimly) — Draft Vault, compare, recovery</li>
+      <li><strong>User Management</strong> — auth, profile, dashboard, alerts</li>
+      <li><strong>Handbook &amp; Timetable</strong> — Excel upload, course/section CRUD</li>
+      <li><strong>Pattern Generation</strong> — clash detection, lecturer preference</li>
+      <li><strong>Student Registration</strong> — Draft Vault, compare, recovery</li>
     </ul>
   </div>
   <div class="nc">
