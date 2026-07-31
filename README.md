@@ -233,7 +233,7 @@ CourseBuddy/
     <td>
       <a href="frontend/src/pages/registration/SelectedRoutine.jsx">SelectedRoutine.jsx</a>
     </td>
-    <td>Not yet connected to a database</td>
+    <td>Runs in-app; not yet saved to the database</td>
   </tr>
   <tr>
     <td>Add/Drop Sandbox & Impact Simulation Module<br><br>UC019: Simulate Course Drop<br>UC020: Execute Gap Filling</td>
@@ -241,7 +241,7 @@ CourseBuddy/
       <a href="frontend/src/pages/registration/SelectedRoutine.jsx">SelectedRoutine.jsx</a><br>
       <a href="frontend/src/pages/registration/workspace/scheduleUtils.js">workspace/scheduleUtils.js</a>
     </td>
-    <td>Not yet connected to a database</td>
+    <td>Live what-if preview — not meant to be saved</td>
   </tr>
   <tr>
     <td>Supporting Files<br><br>Shared by the modules above</td>
