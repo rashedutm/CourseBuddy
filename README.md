@@ -212,61 +212,49 @@ CourseBuddy/
 
   <!-- Subsystem 4: Student Registration — Shahtaj -->
   <tr>
-    <td colspan="3">
-      <strong>Student Registration Subsystem (Shahtaj)</strong><br>
-      All eight use cases (UC013–UC020) are implemented and demonstrated end-to-end: filtering generated patterns, saving and comparing Draft Vault routines, selecting a final routine, live registration-status tracking with recovery suggestions, and add/drop simulation with gap-filling. Draft Vault is fully persisted to the database; Recovery and Sandbox run live in the app, with database persistence for those two as a planned next step.
-    </td>
+    <td colspan="3"><strong>Student Registration Subsystem (Shahtaj)</strong></td>
   </tr>
   <tr>
     <td>Pattern Selection & Draft Vault Module<br><br>UC013: Filter Generated Patterns<br>UC014: Save Pattern to Draft Vault<br>UC015: View and Compare Saved Patterns<br>UC016: Select Final Blueprint</td>
     <td>
-      <a href="frontend/src/pages/registration/FilterPatterns.jsx">FilterPatterns.jsx</a> (UC013)<br>
-      <a href="frontend/src/pages/registration/DraftVault.jsx">DraftVault.jsx</a> (UC014)<br>
-      <a href="frontend/src/pages/registration/ViewComparePatterns.jsx">ViewComparePatterns.jsx</a> (UC015)<br>
-      <a href="frontend/src/pages/registration/SelectedRoutine.jsx">SelectedRoutine.jsx</a> (UC016)
+      <a href="frontend/src/pages/registration/FilterPatterns.jsx">FilterPatterns.jsx</a><br>
+      <a href="frontend/src/pages/registration/DraftVault.jsx">DraftVault.jsx</a><br>
+      <a href="frontend/src/pages/registration/ViewComparePatterns.jsx">ViewComparePatterns.jsx</a><br>
+      <a href="frontend/src/pages/registration/SelectedRoutine.jsx">SelectedRoutine.jsx</a>
     </td>
     <td>
       <a href="backend/controllers/registrationController.js">registrationController.js</a><br>
       <a href="backend/services/registrationService.js">registrationService.js</a><br>
-      <a href="backend/routes/registrationRoutes.js">registrationRoutes.js</a><br>
-      Fully implemented, including database persistence.
+      <a href="backend/routes/registrationRoutes.js">registrationRoutes.js</a>
     </td>
   </tr>
   <tr>
     <td>Partial Registration Recovery Module<br><br>UC017: Report Registration Status<br>UC018: Execute Partial Recovery</td>
     <td>
-      <a href="frontend/src/pages/registration/SelectedRoutine.jsx">SelectedRoutine.jsx</a> (UC017, UC018)
+      <a href="frontend/src/pages/registration/SelectedRoutine.jsx">SelectedRoutine.jsx</a>
     </td>
-    <td>
-      Implemented and working in <a href="frontend/src/pages/registration/SelectedRoutine.jsx">SelectedRoutine.jsx</a> — registration status tracking and recovery suggestions. Database persistence for this module is a planned follow-up.
-    </td>
+    <td>Not yet connected to a database</td>
   </tr>
   <tr>
     <td>Add/Drop Sandbox & Impact Simulation Module<br><br>UC019: Simulate Course Drop<br>UC020: Execute Gap Filling</td>
     <td>
-      <a href="frontend/src/pages/registration/SelectedRoutine.jsx">SelectedRoutine.jsx</a> (UC019, UC020)<br>
-      <a href="frontend/src/pages/registration/workspace/scheduleUtils.js">workspace/scheduleUtils.js</a> (shared drop-impact / gap-filling calculations)
+      <a href="frontend/src/pages/registration/SelectedRoutine.jsx">SelectedRoutine.jsx</a><br>
+      <a href="frontend/src/pages/registration/workspace/scheduleUtils.js">workspace/scheduleUtils.js</a>
     </td>
-    <td>
-      Implemented and working in <a href="frontend/src/pages/registration/SelectedRoutine.jsx">SelectedRoutine.jsx</a> — drop-impact analysis and gap-filling suggestions. Database persistence for this module is a planned follow-up.
-    </td>
+    <td>Not yet connected to a database</td>
   </tr>
   <tr>
-    <td>Supporting Infrastructure<br><br>Shared by all three modules above — state management, navigation, and the timetable grid components every screen renders into.</td>
+    <td>Supporting Files<br><br>Shared by the modules above</td>
     <td>
-      <a href="frontend/src/pages/registration/workspace/RegistrationWorkspaceContext.jsx">workspace/RegistrationWorkspaceContext.jsx</a> — persistent workspace state (312 lines)<br>
-      <a href="frontend/src/pages/registration/workspace/WorkspaceSidebar.jsx">workspace/WorkspaceSidebar.jsx</a> — Draft Vault sidebar (77 lines)<br>
-      <a href="frontend/src/pages/registration/workspace/RegistrationShell.jsx">workspace/RegistrationShell.jsx</a> — layout shell (20 lines)<br>
-      <a href="frontend/src/pages/registration/FullTimetableGrid.jsx">FullTimetableGrid.jsx</a> (85 lines) &amp; <a href="frontend/src/pages/registration/MiniTimetableGrid.jsx">MiniTimetableGrid.jsx</a> (91 lines) — shared timetable rendering<br>
-      <a href="frontend/src/pages/registration/ArchivedDrafts.jsx">ArchivedDrafts.jsx</a> (77 lines)<br>
-      <a href="frontend/src/pages/registration/ConfirmDeleteButton.jsx">ConfirmDeleteButton.jsx</a> (16 lines)
+      <a href="frontend/src/pages/registration/workspace/RegistrationWorkspaceContext.jsx">workspace/RegistrationWorkspaceContext.jsx</a><br>
+      <a href="frontend/src/pages/registration/workspace/WorkspaceSidebar.jsx">workspace/WorkspaceSidebar.jsx</a><br>
+      <a href="frontend/src/pages/registration/workspace/RegistrationShell.jsx">workspace/RegistrationShell.jsx</a><br>
+      <a href="frontend/src/pages/registration/FullTimetableGrid.jsx">FullTimetableGrid.jsx</a><br>
+      <a href="frontend/src/pages/registration/MiniTimetableGrid.jsx">MiniTimetableGrid.jsx</a><br>
+      <a href="frontend/src/pages/registration/ArchivedDrafts.jsx">ArchivedDrafts.jsx</a><br>
+      <a href="frontend/src/pages/registration/ConfirmDeleteButton.jsx">ConfirmDeleteButton.jsx</a>
     </td>
     <td>—</td>
-  </tr>
-  <tr>
-    <td colspan="3">
-      <strong>Subsystem total:</strong> 13 frontend files / ~2,256 lines + 3 backend files / 242 lines of production code.
-    </td>
   </tr>
 
 </table>
