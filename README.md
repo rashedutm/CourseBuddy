@@ -217,10 +217,10 @@ CourseBuddy/
   <tr>
     <td>Pattern Selection & Draft Vault Module<br><br>UC013: Filter Generated Patterns<br>UC014: Save Pattern to Draft Vault<br>UC015: View and Compare Saved Patterns<br>UC016: Select Final Blueprint</td>
     <td>
-      <a href="frontend/src/pages/registration/FilterPatterns.jsx">FilterPatterns.jsx</a><br>
-      <a href="frontend/src/pages/registration/SaveDraftVault.jsx">SaveDraftVault.jsx</a><br>
-      <a href="frontend/src/pages/registration/ViewComparePatterns.jsx">ViewComparePatterns.jsx</a><br>
-      <a href="frontend/src/pages/registration/SelectFinalBlueprint.jsx">SelectFinalBlueprint.jsx</a>
+      <a href="frontend/src/pages/registration/FilterPatterns.jsx">FilterPatterns.jsx</a> (UC013)<br>
+      <a href="frontend/src/pages/registration/DraftVault.jsx">DraftVault.jsx</a> (UC014)<br>
+      <a href="frontend/src/pages/registration/ViewComparePatterns.jsx">ViewComparePatterns.jsx</a> (UC015)<br>
+      <a href="frontend/src/pages/registration/SelectedRoutine.jsx">SelectedRoutine.jsx</a> (UC016)
     </td>
     <td>
       <a href="backend/controllers/registrationController.js">registrationController.js</a><br>
@@ -231,25 +231,20 @@ CourseBuddy/
   <tr>
     <td>Partial Registration Recovery Module<br><br>UC017: Report Registration Status<br>UC018: Execute Partial Recovery</td>
     <td>
-      <a href="frontend/src/pages/registration/ReportRegistration.jsx">ReportRegistration.jsx</a><br>
-      <a href="frontend/src/pages/registration/PartialRecovery.jsx">PartialRecovery.jsx</a>
+      <a href="frontend/src/pages/registration/SelectedRoutine.jsx">SelectedRoutine.jsx</a> (UC017, UC018)
     </td>
     <td>
-      <a href="backend/controllers/recoveryController.js">recoveryController.js</a><br>
-      <a href="backend/services/recoveryService.js">recoveryService.js</a><br>
-      <a href="backend/routes/recoveryRoutes.js">recoveryRoutes.js</a>
+      Not yet implemented — UC017/UC018 currently run as frontend-only logic (no database persistence)
     </td>
   </tr>
   <tr>
     <td>Add/Drop Sandbox & Impact Simulation Module<br><br>UC019: Simulate Course Drop<br>UC020: Execute Gap Filling</td>
     <td>
-      <a href="frontend/src/pages/registration/SimulateCourseDrop.jsx">SimulateCourseDrop.jsx</a><br>
-      <a href="frontend/src/pages/registration/GapFilling.jsx">GapFilling.jsx</a>
+      <a href="frontend/src/pages/registration/SelectedRoutine.jsx">SelectedRoutine.jsx</a> (UC019, UC020)<br>
+      <a href="frontend/src/pages/registration/workspace/scheduleUtils.js">workspace/scheduleUtils.js</a> (shared drop-impact / gap-filling calculations)
     </td>
     <td>
-      <a href="backend/controllers/sandboxController.js">sandboxController.js</a><br>
-      <a href="backend/services/sandboxService.js">sandboxService.js</a><br>
-      <a href="backend/routes/sandboxRoutes.js">sandboxRoutes.js</a>
+      Not yet implemented — UC019/UC020 currently run as frontend-only logic (no database persistence)
     </td>
   </tr>
 
