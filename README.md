@@ -218,9 +218,9 @@ CourseBuddy/
     <td>Pattern Selection & Draft Vault Module<br><br>UC013: Filter Generated Patterns<br>UC014: Save Pattern to Draft Vault<br>UC015: View and Compare Saved Patterns<br>UC016: Select Final Blueprint</td>
     <td>
       <a href="frontend/src/pages/registration/FilterPatterns.jsx">FilterPatterns.jsx</a><br>
-      <a href="frontend/src/pages/registration/SaveDraftVault.jsx">SaveDraftVault.jsx</a><br>
+      <a href="frontend/src/pages/registration/DraftVault.jsx">DraftVault.jsx</a><br>
       <a href="frontend/src/pages/registration/ViewComparePatterns.jsx">ViewComparePatterns.jsx</a><br>
-      <a href="frontend/src/pages/registration/SelectFinalBlueprint.jsx">SelectFinalBlueprint.jsx</a>
+      <a href="frontend/src/pages/registration/SelectedRoutine.jsx">SelectedRoutine.jsx</a>
     </td>
     <td>
       <a href="backend/controllers/registrationController.js">registrationController.js</a><br>
@@ -231,26 +231,30 @@ CourseBuddy/
   <tr>
     <td>Partial Registration Recovery Module<br><br>UC017: Report Registration Status<br>UC018: Execute Partial Recovery</td>
     <td>
-      <a href="frontend/src/pages/registration/ReportRegistration.jsx">ReportRegistration.jsx</a><br>
-      <a href="frontend/src/pages/registration/PartialRecovery.jsx">PartialRecovery.jsx</a>
+      <a href="frontend/src/pages/registration/SelectedRoutine.jsx">SelectedRoutine.jsx</a>
     </td>
-    <td>
-      <a href="backend/controllers/recoveryController.js">recoveryController.js</a><br>
-      <a href="backend/services/recoveryService.js">recoveryService.js</a><br>
-      <a href="backend/routes/recoveryRoutes.js">recoveryRoutes.js</a>
-    </td>
+    <td>Runs in-app; not yet saved to the database</td>
   </tr>
   <tr>
     <td>Add/Drop Sandbox & Impact Simulation Module<br><br>UC019: Simulate Course Drop<br>UC020: Execute Gap Filling</td>
     <td>
-      <a href="frontend/src/pages/registration/SimulateCourseDrop.jsx">SimulateCourseDrop.jsx</a><br>
-      <a href="frontend/src/pages/registration/GapFilling.jsx">GapFilling.jsx</a>
+      <a href="frontend/src/pages/registration/SelectedRoutine.jsx">SelectedRoutine.jsx</a><br>
+      <a href="frontend/src/pages/registration/workspace/scheduleUtils.js">workspace/scheduleUtils.js</a>
     </td>
+    <td>Live what-if preview — not meant to be saved</td>
+  </tr>
+  <tr>
+    <td>Supporting Files<br><br>Shared by the modules above</td>
     <td>
-      <a href="backend/controllers/sandboxController.js">sandboxController.js</a><br>
-      <a href="backend/services/sandboxService.js">sandboxService.js</a><br>
-      <a href="backend/routes/sandboxRoutes.js">sandboxRoutes.js</a>
+      <a href="frontend/src/pages/registration/workspace/RegistrationWorkspaceContext.jsx">workspace/RegistrationWorkspaceContext.jsx</a><br>
+      <a href="frontend/src/pages/registration/workspace/WorkspaceSidebar.jsx">workspace/WorkspaceSidebar.jsx</a><br>
+      <a href="frontend/src/pages/registration/workspace/RegistrationShell.jsx">workspace/RegistrationShell.jsx</a><br>
+      <a href="frontend/src/pages/registration/FullTimetableGrid.jsx">FullTimetableGrid.jsx</a><br>
+      <a href="frontend/src/pages/registration/MiniTimetableGrid.jsx">MiniTimetableGrid.jsx</a><br>
+      <a href="frontend/src/pages/registration/ArchivedDrafts.jsx">ArchivedDrafts.jsx</a><br>
+      <a href="frontend/src/pages/registration/ConfirmDeleteButton.jsx">ConfirmDeleteButton.jsx</a>
     </td>
+    <td>—</td>
   </tr>
 
 </table>
